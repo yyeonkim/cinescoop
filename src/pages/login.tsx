@@ -11,7 +11,9 @@ import {
   Flex,
   Button,
   Input,
+  Icon,
 } from "@chakra-ui/react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 interface IForm {
   id: string;
@@ -42,7 +44,7 @@ const Login: NextPage = () => {
         로그인
       </Heading>
 
-      <StyledForm onSubmit={handleSubmit(onSubmit)}>
+      <StyledForm method="post" onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
           <Text mt="1.2rem">아이디</Text>
           <Input
@@ -61,10 +63,16 @@ const Login: NextPage = () => {
               })}
               type={show ? "text" : "password"}
             />
-            <InputRightElement width="4.5rem">
-              <Button h="1.75rem" size="sm" onClick={clickShow}>
-                {show ? "숨기기" : "보기"}
-              </Button>
+            <InputRightElement width="3rem">
+              {show ? (
+                <Icon boxSize="1.5rem" as={AiFillEye} onClick={clickShow} />
+              ) : (
+                <Icon
+                  boxSize="1.5rem"
+                  as={AiFillEyeInvisible}
+                  onClick={clickShow}
+                />
+              )}
             </InputRightElement>
           </InputGroup>
           <Text fontSize="xs" color="tomato">
