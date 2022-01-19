@@ -1,10 +1,11 @@
 import React from "react";
 import { Flex, Text, Button, Box, useDisclosure } from "@chakra-ui/react";
-
+import Withdrawal from "./Withdrawal";
 import ChangePassword from "./ChangePassword";
 
 function Account() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const disclosure1 = useDisclosure();
+  const disclosure2 = useDisclosure();
   return (
     <Flex
       bgColor="#3843CD"
@@ -19,11 +20,20 @@ function Account() {
       <Flex flexDir="column" ml="2rem">
         <Text>아이디</Text>
         <Text>이메일</Text>
-        <Text onClick={onOpen}>
+        <Text onClick={disclosure1.onOpen}>
           비밀번호 변경하기 {">"}
-          <ChangePassword isOpen={isOpen} onClose={onClose} />
+          <ChangePassword
+            isOpen={disclosure1.isOpen}
+            onClose={disclosure1.onClose}
+          />
         </Text>
-        <Text>탈퇴하기 {">"}</Text>
+        <Text onClick={disclosure2.onOpen}>
+          탈퇴하기 {">"}
+          <Withdrawal
+            isOpen={disclosure2.isOpen}
+            onClose={disclosure2.onClose}
+          />
+        </Text>
       </Flex>
     </Flex>
   );

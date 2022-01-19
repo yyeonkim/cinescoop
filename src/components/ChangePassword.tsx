@@ -31,7 +31,6 @@ function Account({ isOpen, onClose }: any) {
         <ModalBody>
           <Flex justify="center" flexDir="column">
             <Text m="1rem">아이디</Text>
-            <Text></Text>
             <Input size="lg" placeholder="현재 비밀번호" mb="1rem" />
             <InputGroup>
               <Input
