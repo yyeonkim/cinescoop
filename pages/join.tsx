@@ -84,7 +84,6 @@ const Join: NextPage = () => {
           <Text fontSize="xs" color="tomato">
             {errors?.password?.message}
           </Text>
-
           <Text mt="1.2rem">비밀번호 확인 *</Text>
           <InputGroup size="md">
             <Input
@@ -111,7 +110,6 @@ const Join: NextPage = () => {
               watch("confirmation").length !== 0 &&
               "비밀번호가 다릅니다"}
           </Text>
-
           <Text mt="1.2rem">이메일</Text>
           <Input {...register("email")} type="email" />
           <Text fontSize="xs" color="tomato">

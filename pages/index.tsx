@@ -1,7 +1,9 @@
 import type { NextPage } from "next";
 
+import SwipeList from "../src/components/SwipeList";
+
 const Home: NextPage = () => {
-  return <div>Home</div>;
+  return <SwipeList />;
 };
 
 export default Home;
