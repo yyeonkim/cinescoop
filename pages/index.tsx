@@ -1,12 +1,12 @@
 import type { NextPage } from "next";
 import Footer from "../src/components/Footer";
-import Account from "../src/components/Account";
+import AccountBox from "../src/components/Account/AccountBox";
 
 const Home: NextPage = () => {
   return (
     <div>
+      <AccountBox />
       <Footer />
-      <Account />
     </div>
   );
 };

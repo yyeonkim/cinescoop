@@ -3,7 +3,7 @@ import { Flex, Text, Button, Box, useDisclosure } from "@chakra-ui/react";
 import Withdrawal from "./Withdrawal";
 import ChangePassword from "./ChangePassword";
 
-function Account() {
+function AccountBox() {
   const disclosure1 = useDisclosure();
   const disclosure2 = useDisclosure();
   return (
@@ -39,4 +39,4 @@ function Account() {
   );
 }
 
-export default Account;
+export default AccountBox;
