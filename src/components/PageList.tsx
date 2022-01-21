@@ -1,42 +1,49 @@
 import React from "react";
-import { Image } from "@chakra-ui/react";
+import { Box, Heading, Image } from "@chakra-ui/react";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
-import SwiperCore, { Autoplay, Pagination } from "swiper";
-SwiperCore.use([Autoplay, Pagination]);
+import SwiperCore, { Parallax, Pagination, Autoplay } from "swiper";
 
 import { IMAGE_URL, ITrending } from "../atom";
+import { url } from "inspector";
+
+SwiperCore.use([Parallax, Pagination, Autoplay]);
 
 interface IPageProps {
   data: ITrending[];
 }
 
-function PageList({ data }: IPageProps) {
+export default function PageList({ data }: IPageProps) {
   return (
     <>
       <Swiper
-        spaceBetween={30}
-        centeredSlides={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
+        speed={600}
+        autoplay={{ delay: 2500, disableOnInteraction: false }}
+        parallax={true}
         pagination={{
           clickable: true,
         }}
         className="swiper__pagination"
       >
         {data.map((movie) => (
-          <SwiperSlide>
-            <Image src={`${IMAGE_URL}/w300/${movie.poster_path}`} />
+          <SwiperSlide className="slide__pagination">
+            <Image src={`${IMAGE_URL}/w500/${movie.backdrop_path}`} />
+            <Heading
+              color="white"
+              size="md"
+              pos="absolute"
+              top={5}
+              className="title"
+              data-swiper-parallax="-300"
+            >
+              {movie.title}
+            </Heading>
           </SwiperSlide>
         ))}
       </Swiper>
     </>
   );
 }
-
-export default PageList;

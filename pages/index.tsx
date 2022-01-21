@@ -20,7 +20,9 @@ const Home: NextPage<IHomeProps> = ({ trending }) => {
 export async function getServerSideProps() {
   // Trending movies
   const trendingData = await (
-    await fetch(`${BASE_URL}/trending/movie/day?api_key=${process.env.API_KEY}`)
+    await fetch(
+      `${BASE_URL}/trending/movie/day?api_key=${process.env.API_KEY}&language=ko`
+    )
   ).json();
   const trending = trendingData.results;
 

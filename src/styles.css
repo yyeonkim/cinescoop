@@ -1,3 +1,14 @@
+:root {
+  --swiper-pagination-bullet-inactive-color: white;
+}
+
+.slide__pagination {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
+
 .swiper-button-prev,
 .swiper-button-next {
   top: 0;
