@@ -6,10 +6,15 @@ import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 import SwiperCore, { Autoplay, Pagination } from "swiper";
-
 SwiperCore.use([Autoplay, Pagination]);
 
-function PageList() {
+import { IMAGE_URL, ITrending } from "../atom";
+
+interface IPageProps {
+  data: ITrending[];
+}
+
+function PageList({ data }: IPageProps) {
   return (
     <>
       <Swiper
@@ -24,11 +29,11 @@ function PageList() {
         }}
         className="swiper__pagination"
       >
-        <SwiperSlide>Movie 1</SwiperSlide>
-        <SwiperSlide>Movie 2</SwiperSlide>
-        <SwiperSlide>Movie 3</SwiperSlide>
-        <SwiperSlide>Movie 4</SwiperSlide>
-        <SwiperSlide>Movie 5</SwiperSlide>
+        {data.map((movie) => (
+          <SwiperSlide>
+            <Image src={`${IMAGE_URL}/w300/${movie.poster_path}`} />
+          </SwiperSlide>
+        ))}
       </Swiper>
     </>
   );
