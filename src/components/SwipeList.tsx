@@ -33,10 +33,10 @@ function SwipeList() {
         slidesPerGroup={5}
         loop={true}
         navigation={true}
-        className="mySwiper"
+        className="swiper__navigation"
       >
         {movies.map((movie) => (
-          <SwiperSlide>
+          <SwiperSlide className="wrapper__navigation">
             <Image src={movie} alt="Movie Title" />
           </SwiperSlide>
         ))}

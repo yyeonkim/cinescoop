@@ -1,0 +1,19 @@
+.swiper-button-prev,
+.swiper-button-next {
+  top: 0;
+  bottom: 0;
+  width: 5%;
+}
+
+.swiper-button-prev {
+  left: 0;
+}
+
+.swiper-button-next {
+  right: 0;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+  color: white;
+}
