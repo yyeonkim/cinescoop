@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Heading, Image } from "@chakra-ui/react";
+import { Heading, Image } from "@chakra-ui/react";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -8,7 +8,6 @@ import "swiper/css/navigation";
 import SwiperCore, { Parallax, Pagination, Autoplay } from "swiper";
 
 import { IMAGE_URL, ITrending } from "../atom";
-import { url } from "inspector";
 
 SwiperCore.use([Parallax, Pagination, Autoplay]);
 
@@ -16,7 +15,7 @@ interface IPageProps {
   data: ITrending[];
 }
 
-export default function PageList({ data }: IPageProps) {
+function PageList({ data }: IPageProps) {
   return (
     <>
       <Swiper
@@ -29,7 +28,7 @@ export default function PageList({ data }: IPageProps) {
         className="swiper__pagination"
       >
         {data.map((movie) => (
-          <SwiperSlide className="slide__pagination">
+          <SwiperSlide className="slide__pagination" key={movie.id}>
             <Image src={`${IMAGE_URL}/w500/${movie.backdrop_path}`} />
             <Heading
               color="white"
@@ -47,3 +46,5 @@ export default function PageList({ data }: IPageProps) {
     </>
   );
 }
+
+export default PageList;
