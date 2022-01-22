@@ -6,12 +6,12 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
-import { IMAGE_URL, INowPlaying } from "../atom";
+import { IMAGE_URL, IMovie } from "../atom";
 SwiperCore.use([Navigation]);
 
 interface ISwipeProps {
   title: string;
-  data: INowPlaying[];
+  data: IMovie[];
 }
 
 function SwipeList({ title, data }: ISwipeProps) {

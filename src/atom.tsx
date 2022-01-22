@@ -21,7 +21,7 @@ export interface ITrending {
   media_type: string;
 }
 
-export interface INowPlaying {
+export interface IMovie {
   adult: boolean;
   backdrop_path: string;
   genre_ids: object;
@@ -38,19 +38,7 @@ export interface INowPlaying {
   vote_count: number;
 }
 
-export interface ITopRated {
-  adult: boolean;
-  backdrop_path: string;
-  genre_ids: object;
+export interface IGenre {
   id: number;
-  original_language: string;
-  original_title: string;
-  overview: string;
-  popularity: number;
-  poster_path: string;
-  release_date: string;
-  title: string;
-  video: boolean;
-  vote_average: number;
-  vote_coun: number;
+  name: string;
 }
