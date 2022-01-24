@@ -1,12 +1,12 @@
-import { useState } from "react";
 // Import Chakra
-import { Heading, Image, Text } from "@chakra-ui/react";
+import { Heading, Image, Text, Select } from "@chakra-ui/react";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
-import { IMAGE_URL, IMovie } from "../atom";
+import { IMovie } from "../atom";
+import { IMAGE_URL } from "../../pages/api/api";
 SwiperCore.use([Navigation]);
 
 interface ISwipeProps {

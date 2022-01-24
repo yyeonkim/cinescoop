@@ -1,8 +1,5 @@
 import { atom } from "recoil";
 
-export const BASE_URL = "https://api.themoviedb.org/3";
-export const IMAGE_URL = "https://image.tmdb.org/t/p";
-
 export interface ITrending {
   poster_path: string;
   overview: string;
@@ -39,6 +36,14 @@ export interface IMovie {
 }
 
 export interface IGenre {
-  id: number;
+  id: string;
   name: string;
 }
+
+export const genreState = atom({
+  key: "genre",
+  default: {
+    id: "27",
+    name: "액션",
+  },
+});
