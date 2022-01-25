@@ -10,3 +10,10 @@ const movieDataState = atom({
 });
 
 export { inputState, movieDataState };
+export const genreState = atom({
+  key: "genre",
+  default: {
+    id: "27",
+    name: "액션",
+  },
+});
