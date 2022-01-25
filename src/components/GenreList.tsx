@@ -8,8 +8,9 @@ import SwiperCore, { Navigation } from "swiper";
 import { useRecoilState } from "recoil";
 import { useQuery } from "react-query";
 
-import { IMovie, IGenre, genreState } from "../atom";
-import { fetchGenre, IMAGE_URL } from "../../pages/api/api";
+import { IMovie, IGenre } from "../interfaces";
+import { genreState } from "../atom";
+import { fetchGenre, IMAGE_URL } from "../../pages/api/useFetchGenre";
 SwiperCore.use([Navigation]);
 
 interface IGenreProps {

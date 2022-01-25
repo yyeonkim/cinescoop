@@ -5,8 +5,8 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
-import { IMovie } from "../atom";
-import { IMAGE_URL } from "../../pages/api/api";
+import { IMovie } from "../interfaces";
+import { IMAGE_URL } from "../../pages/api/useFetchGenre";
 SwiperCore.use([Navigation]);
 
 interface ISwipeProps {

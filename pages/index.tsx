@@ -3,8 +3,8 @@ import type { NextPage } from "next";
 import PageList from "../src/components/PageList";
 import SwipeList from "../src/components/SwipeList";
 import GenreList from "../src/components/GenreList";
-import { IMovie, ITrending, IGenre } from "../src/atom";
-import { BASE_URL } from "./api/api";
+import { IMovie, ITrending, IGenre } from "../src/interfaces";
+import { BASE_URL } from "./api/useFetchGenre";
 import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 
 interface IHomeProps {
