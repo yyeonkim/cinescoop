@@ -17,3 +17,8 @@ export const genreState = atom({
     name: "액션",
   },
 });
+
+export const selectMovie = atom({
+  key: "selectMovie",
+  default: "",
+});

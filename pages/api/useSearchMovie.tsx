@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import axios from "axios";
-import { movieDataState } from "./atom";
+import { movieDataState } from "../../src/atom";
 
 const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
