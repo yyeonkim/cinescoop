@@ -1,5 +1,5 @@
 // Import Chakra
-import { Heading, Image, Text, Select } from "@chakra-ui/react";
+import { Heading, Image, Text, Select, Flex } from "@chakra-ui/react";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -34,23 +34,18 @@ function GenreList({ genres }: IGenreProps) {
 
   return (
     <>
-      <Heading size="lg" mb={5}>
-        장르별 영화
-      </Heading>
-      <Select
-        size="sm"
-        w="7rem"
-        onInput={(event) => {
-          selectGenre(event);
-          refetch();
-        }}
-      >
-        {genres.map((item) => (
-          <option key={item.id} value={item.id}>
-            {item.name}
-          </option>
-        ))}
-      </Select>
+      <Flex>
+        <Heading size="lg" mb={5} mr={5}>
+          장르별 영화
+        </Heading>
+        <Select size="sm" w="7rem" onInput={selectGenre}>
+          {genres.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
+        </Select>
+      </Flex>
       {isLoading ? (
         <Text>...Loading</Text>
       ) : (
@@ -58,7 +53,7 @@ function GenreList({ genres }: IGenreProps) {
           slidesPerView={8}
           spaceBetween={10}
           slidesPerGroup={8}
-          loop={true}
+          loop={false}
           navigation={true}
           className="swiper__navigation"
         >

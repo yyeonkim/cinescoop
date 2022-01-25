@@ -10,16 +10,12 @@ import { IMAGE_URL } from "../../pages/api/api";
 SwiperCore.use([Navigation]);
 
 interface ISwipeProps {
-  title: string;
   data: IMovie[];
 }
 
-function SwipeList({ title, data }: ISwipeProps) {
+function SwipeList({ data }: ISwipeProps) {
   return (
     <>
-      <Heading size="lg" mb={5}>
-        {title}
-      </Heading>
       <Swiper
         slidesPerView={8}
         spaceBetween={10}

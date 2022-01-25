@@ -1,5 +1,5 @@
 import React from "react";
-import { Heading, Image } from "@chakra-ui/react";
+import { Box, Heading, Image } from "@chakra-ui/react";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -18,7 +18,7 @@ interface IPageProps {
 
 function PageList({ data }: IPageProps) {
   return (
-    <>
+    <Box mb={10}>
       <Swiper
         speed={600}
         autoplay={{ delay: 2500, disableOnInteraction: false }}
@@ -44,7 +44,7 @@ function PageList({ data }: IPageProps) {
           </SwiperSlide>
         ))}
       </Swiper>
-    </>
+    </Box>
   );
 }
 
