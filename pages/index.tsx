@@ -5,6 +5,7 @@ import SwipeList from "../src/components/SwipeList";
 import GenreList from "../src/components/GenreList";
 import { IMovie, ITrending, IGenre } from "../src/atom";
 import { BASE_URL } from "./api/api";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -22,8 +23,24 @@ const Home: NextPage<IHomeProps> = ({
   return (
     <>
       <PageList data={trending} />
-      <SwipeList title="상영 중인 영화" data={nowPlaying} />
-      <SwipeList title="영화 순위" data={topRated} />
+
+      <Box mb={10}>
+        <Flex>
+          <Heading size="lg" mb={5} mr={5}>
+            상영 중인 영화
+          </Heading>
+          <Button variant="outline">예매하기</Button>
+        </Flex>
+        <SwipeList data={nowPlaying} />
+      </Box>
+
+      <Box mb={10}>
+        <Heading size="lg" mb={5}>
+          영화 순위
+        </Heading>
+        <SwipeList data={topRated} />
+      </Box>
+
       <GenreList genres={genres} />
     </>
   );
