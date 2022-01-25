@@ -5,10 +5,10 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
-import { IMovie, IGenre, genreState } from "../atom";
 import { useRecoilState } from "recoil";
 import { useQuery } from "react-query";
 
+import { IMovie, IGenre, genreState } from "../atom";
 import { fetchGenre, IMAGE_URL } from "../../pages/api/api";
 SwiperCore.use([Navigation]);
 
@@ -18,7 +18,7 @@ interface IGenreProps {
 
 function GenreList({ genres }: IGenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
-  const { data, isLoading } = useQuery<IMovie[]>("withGenre", () =>
+  const { data, isLoading, refetch } = useQuery<IMovie[]>("withGenre", () =>
     fetchGenre(genre.id)
   );
 
@@ -29,6 +29,7 @@ function GenreList({ genres }: IGenreProps) {
       name: event.currentTarget.options[selectedIndex].text,
     };
     setGenre(selectedGenre);
+    refetch();
   };
 
   return (
@@ -36,7 +37,14 @@ function GenreList({ genres }: IGenreProps) {
       <Heading size="lg" mb={5}>
         장르별 영화
       </Heading>
-      <Select size="sm" w="7rem" placeholder={genre.name} onInput={selectGenre}>
+      <Select
+        size="sm"
+        w="7rem"
+        onInput={(event) => {
+          selectGenre(event);
+          refetch();
+        }}
+      >
         {genres.map((item) => (
           <option key={item.id} value={item.id}>
             {item.name}
