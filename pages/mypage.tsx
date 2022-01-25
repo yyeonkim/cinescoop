@@ -1,10 +1,15 @@
 import type { NextPage } from "next";
-import Account from "../src/components/Account";
+import AccountBox from "../src/components/Account/AccountBox";
+import Footer from "../src/components/Footer";
+import { Flex } from "@chakra-ui/react";
 
 const MyPage: NextPage = () => {
   return (
     <div>
-      <Account />
+      <Flex justifyContent="center">
+        <AccountBox />
+      </Flex>
+      <Footer />
     </div>
   );
 };
