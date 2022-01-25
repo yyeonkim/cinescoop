@@ -1,7 +1,7 @@
 import { Flex, Spacer, Link } from "@chakra-ui/react";
 import NextLink from "next/link";
 
-import AccountBox from "./AccountBox";
+import AccountBox from "./Profile";
 import Search from "./Search";
 
 export interface SearchProps {

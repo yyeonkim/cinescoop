@@ -12,7 +12,7 @@ import { AiOutlineUser } from "react-icons/ai";
 
 import { AccountBoxProps } from "./Navigation";
 
-function AccountBox({ login, name }: AccountBoxProps) {
+function Profile({ login, name }: AccountBoxProps) {
   return (
     <Flex>
       <Avatar
@@ -41,4 +41,4 @@ function AccountBox({ login, name }: AccountBoxProps) {
   );
 }
 
-export default AccountBox;
+export default Profile;
