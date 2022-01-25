@@ -11,9 +11,8 @@
 
 .swiper-button-prev,
 .swiper-button-next {
-  top: 0;
-  bottom: 0;
   width: 5%;
+  height: 100%;
 }
 
 .swiper-button-prev {
