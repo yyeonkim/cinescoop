@@ -7,10 +7,6 @@ const theme = extendTheme({
         backgroundColor: "#0E0A48",
         color: "#FFFFFF",
       },
-      body: {
-        paddingRight: "1rem",
-        paddingLeft: "1rem",
-      },
       option: {
         color: "black",
       },
