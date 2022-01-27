@@ -1,6 +1,27 @@
 import { extendTheme } from "@chakra-ui/react";
 
 const theme = extendTheme({
+  styles: {
+    global: {
+      "html, body": {
+        backgroundColor: "#0E0A48",
+        color: "#FFFFFF",
+      },
+      body: {
+        paddingRight: "1rem",
+        paddingLeft: "1rem",
+      },
+      option: {
+        color: "black",
+      },
+    },
+  },
+
+  fonts: {
+    body: "Nanum Gothic",
+    heading: "Nanum Gothic",
+  },
+
   colors: {
     pink: "#FF5AF1",
     darkBlue: "#0E0A48",
