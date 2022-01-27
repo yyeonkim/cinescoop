@@ -1,11 +1,14 @@
 import type { NextPage } from "next";
+import { Box, Button, Flex, Heading } from "@chakra-ui/react";
 
+import { BASE_URL } from "./api/useFetchGenre";
+import { IMovie, ITrending, IGenre } from "../src/interfaces";
+import theme from "../src/theme/theme";
 import PageList from "../src/components/PageList";
 import SwipeList from "../src/components/SwipeList";
 import GenreList from "../src/components/GenreList";
-import { IMovie, ITrending, IGenre } from "../src/interfaces";
-import { BASE_URL } from "./api/useFetchGenre";
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import Navigation from "../src/components/Navigation/Navigation";
+import HomeText from "../src/components/HomeText";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -22,9 +25,12 @@ const Home: NextPage<IHomeProps> = ({
 }) => {
   return (
     <>
+      <Navigation />
       <PageList data={trending} />
 
-      <Box mb={10}>
+      <HomeText />
+
+      <Box mb={10} bgColor={theme.colors.brightBlue} p={5}>
         <Flex>
           <Heading size="lg" mb={5} mr={5}>
             상영 중인 영화

@@ -1,5 +1,5 @@
 // Import Chakra
-import { Heading, Image, Text, Select } from "@chakra-ui/react";
+import { Image, Text } from "@chakra-ui/react";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
