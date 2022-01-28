@@ -1,14 +1,24 @@
 import type { NextPage } from "next";
-import { Box, Button, Flex, Heading } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Divider,
+  Flex,
+  Heading,
+  Img,
+  Text,
+} from "@chakra-ui/react";
 
 import { BASE_URL } from "./api/useFetchGenre";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import theme from "../src/theme/theme";
-import PageList from "../src/components/PageList";
-import SwipeList from "../src/components/SwipeList";
-import GenreList from "../src/components/GenreList";
+import PageList from "../src/components/lists/PageList";
+import SwipeList from "../src/components/lists/SwipeList";
+import GenreList from "../src/components/lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
+import Cinema from "../src/components/Cinema";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -27,7 +37,6 @@ const Home: NextPage<IHomeProps> = ({
     <>
       <Navigation />
       <PageList data={trending} />
-
       <HomeText />
 
       <Box mb={10} bgColor={theme.colors.brightBlue} p={5}>
@@ -37,6 +46,7 @@ const Home: NextPage<IHomeProps> = ({
           </Heading>
           <Button variant="outline">예매하기</Button>
         </Flex>
+        <Divider borderColor="gray.50" mb={5} />
         <SwipeList data={nowPlaying} />
       </Box>
 
@@ -48,6 +58,7 @@ const Home: NextPage<IHomeProps> = ({
       </Box>
 
       <GenreList genres={genres} />
+      <Cinema />
     </>
   );
 };
