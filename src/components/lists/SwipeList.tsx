@@ -1,3 +1,4 @@
+import { useState } from "react";
 // Import Chakra
 import { Image, Text } from "@chakra-ui/react";
 // Import Swiper
@@ -5,15 +6,19 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
+
 import { IMovie } from "../../interfaces";
 import { IMAGE_URL } from "../../../pages/api/useFetchGenre";
 SwiperCore.use([Navigation]);
 
 interface ISwipeProps {
   data: IMovie[];
+  poster: boolean;
 }
 
-function SwipeList({ data }: ISwipeProps) {
+function SwipeList({ data, poster }: ISwipeProps) {
+  const [isPoster, setIsPoster] = useState(poster);
+
   return (
     <>
       <Swiper
@@ -27,7 +32,9 @@ function SwipeList({ data }: ISwipeProps) {
         {data.map((movie) => (
           <SwiperSlide key={movie.id} className="wrapper__navigation">
             <Image
-              src={`${IMAGE_URL}/w200/${movie.backdrop_path}`}
+              src={`${IMAGE_URL}/w200/${
+                isPoster ? movie.poster_path : movie.backdrop_path
+              }`}
               alt={movie.title}
             />
             <Text fontSize="md">{movie.title}</Text>
