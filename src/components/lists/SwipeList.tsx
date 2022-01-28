@@ -14,17 +14,18 @@ SwiperCore.use([Navigation]);
 interface ISwipeProps {
   data: IMovie[];
   poster: boolean;
+  slidesNumber: number;
 }
 
-function SwipeList({ data, poster }: ISwipeProps) {
+function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
   const [isPoster, setIsPoster] = useState(poster);
 
   return (
     <>
       <Swiper
-        slidesPerView={8}
+        slidesPerView={slidesNumber}
         spaceBetween={10}
-        slidesPerGroup={8}
+        slidesPerGroup={slidesNumber}
         loop={true}
         navigation={true}
         className="swiper__navigation"
@@ -32,12 +33,14 @@ function SwipeList({ data, poster }: ISwipeProps) {
         {data.map((movie) => (
           <SwiperSlide key={movie.id} className="wrapper__navigation">
             <Image
-              src={`${IMAGE_URL}/w200/${
+              src={`${IMAGE_URL}/w300/${
                 isPoster ? movie.poster_path : movie.backdrop_path
               }`}
               alt={movie.title}
             />
-            <Text fontSize="md">{movie.title}</Text>
+            <Text fontSize="md" align="center" mt={1}>
+              {movie.title}
+            </Text>
           </SwiperSlide>
         ))}
       </Swiper>

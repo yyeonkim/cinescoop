@@ -4,7 +4,7 @@ import theme from "../theme/theme";
 
 function Cinema() {
   return (
-    <Center mt={10}>
+    <Center my={20}>
       <Flex direction="column" bg={theme.colors.white} color="black" p={10}>
         <Heading size="lg" textAlign="center">
           영화상영관

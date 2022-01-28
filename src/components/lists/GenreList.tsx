@@ -1,5 +1,5 @@
 // Import Chakra
-import { Heading, Image, Text, Select, Flex } from "@chakra-ui/react";
+import { Heading, Image, Text, Select, Flex, Box } from "@chakra-ui/react";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -34,9 +34,9 @@ function GenreList({ genres }: IGenreProps) {
   };
 
   return (
-    <>
+    <Box px={10}>
       <Flex>
-        <Heading size="lg" mb={5} mr={5}>
+        <Heading size="lg" mb={10} mr={10}>
           장르별 영화
         </Heading>
         <Select size="sm" w="7rem" onInput={selectGenre}>
@@ -51,9 +51,9 @@ function GenreList({ genres }: IGenreProps) {
         <Text>...Loading</Text>
       ) : (
         <Swiper
-          slidesPerView={8}
+          slidesPerView={6}
           spaceBetween={10}
-          slidesPerGroup={8}
+          slidesPerGroup={6}
           loop={false}
           navigation={true}
           className="swiper__navigation"
@@ -61,15 +61,17 @@ function GenreList({ genres }: IGenreProps) {
           {data?.map((movie: IMovie) => (
             <SwiperSlide key={movie.id} className="wrapper__navigation">
               <Image
-                src={`${IMAGE_URL}/w200/${movie.backdrop_path}`}
+                src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
                 alt={movie.title}
               />
-              <Text fontSize="md">{movie.title}</Text>
+              <Text fontSize="md" align="center" mt={1}>
+                {movie.title}
+              </Text>
             </SwiperSlide>
           ))}
         </Swiper>
       )}
-    </>
+    </Box>
   );
 }
 export default GenreList;

@@ -1,14 +1,5 @@
 import type { NextPage } from "next";
-import {
-  Box,
-  Button,
-  Center,
-  Divider,
-  Flex,
-  Heading,
-  Img,
-  Text,
-} from "@chakra-ui/react";
+import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
 
 import { BASE_URL } from "./api/useFetchGenre";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
@@ -19,6 +10,7 @@ import GenreList from "../src/components/lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
+import Footer from "../src/components/Footer";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -39,26 +31,29 @@ const Home: NextPage<IHomeProps> = ({
       <PageList data={trending} />
       <HomeText />
 
-      <Box mb={10} bgColor={theme.colors.brightBlue} p={5}>
+      <Box bgColor={theme.colors.brightBlue} p={10} py={20}>
         <Flex>
-          <Heading size="lg" mb={5} mr={5}>
+          <Heading size="lg" mb={10} mr={8}>
             상영 중인 영화
           </Heading>
-          <Button variant="outline">예매하기</Button>
+          <Button bg={theme.colors.pink} color={theme.colors.darkBlue} px={5}>
+            예매하기
+          </Button>
         </Flex>
-        <Divider borderColor="gray.50" mb={5} />
-        <SwipeList data={nowPlaying} />
+        <Divider borderColor="gray.50" mb={10} />
+        <SwipeList data={nowPlaying} poster={true} slidesNumber={5} />
       </Box>
 
-      <Box mb={10}>
-        <Heading size="lg" mb={5}>
+      <Box my={20} px={10}>
+        <Heading size="lg" mb={10}>
           영화 순위
         </Heading>
-        <SwipeList data={topRated} />
+        <SwipeList data={topRated} poster={false} slidesNumber={6} />
       </Box>
 
       <GenreList genres={genres} />
       <Cinema />
+      <Footer />
     </>
   );
 };
