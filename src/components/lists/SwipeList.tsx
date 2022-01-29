@@ -26,7 +26,6 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
         slidesPerView={slidesNumber}
         spaceBetween={10}
         slidesPerGroup={slidesNumber}
-        loop={true}
         navigation={true}
         className="swiper__navigation"
       >
