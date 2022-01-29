@@ -1,5 +1,15 @@
 // Import Chakra
-import { Heading, Image, Text, Select, Flex, Box } from "@chakra-ui/react";
+import {
+  Heading,
+  Image,
+  Text,
+  Select,
+  Flex,
+  Box,
+  Spacer,
+  Link,
+} from "@chakra-ui/react";
+import { ChevronRightIcon } from "@chakra-ui/icons";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -35,8 +45,8 @@ function GenreList({ genres }: IGenreProps) {
 
   return (
     <Box px={10}>
-      <Flex>
-        <Heading size="lg" mb={10} mr={10}>
+      <Flex alignItems="center" mb={10}>
+        <Heading size="lg" mr={10}>
           장르별 영화
         </Heading>
         <Select size="sm" w="7rem" onInput={selectGenre}>
@@ -46,6 +56,16 @@ function GenreList({ genres }: IGenreProps) {
             </option>
           ))}
         </Select>
+        <Spacer />
+        <Link
+          align="right"
+          onClick={() => {
+            console.log("click");
+          }}
+        >
+          더보기
+          <ChevronRightIcon />
+        </Link>
       </Flex>
       {isLoading ? (
         <Text>...Loading</Text>
