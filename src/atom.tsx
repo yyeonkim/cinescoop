@@ -10,6 +10,7 @@ const movieDataState = atom({
 });
 
 export { inputState, movieDataState };
+
 export const genreState = atom({
   key: "genre",
   default: {

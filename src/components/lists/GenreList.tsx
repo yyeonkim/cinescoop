@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 // Import Chakra
 import {
   Heading,
@@ -16,7 +17,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
 import { useRecoilState } from "recoil";
-import { useQuery } from "react-query";
+import { useQuery, QueryClient } from "react-query";
 
 import { IMovie, IGenre } from "../../interfaces";
 import { genreState } from "../../atom";
@@ -29,18 +30,18 @@ interface IGenreProps {
 
 function GenreList({ genres }: IGenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
-  const { data, isLoading, refetch } = useQuery<IMovie[]>("withGenre", () =>
-    fetchGenre(genre.id)
+  const { data, isLoading, refetch } = useQuery<IMovie[]>(
+    ["withGenre", genre],
+    () => fetchGenre(genre.id)
   );
 
-  const selectGenre = (event: React.FormEvent<HTMLSelectElement>) => {
+  const selectGenre = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { selectedIndex } = event.currentTarget.options;
     const selectedGenre = {
       id: event.currentTarget.options[selectedIndex].value,
       name: event.currentTarget.options[selectedIndex].text,
     };
     setGenre(selectedGenre);
-    refetch();
   };
 
   return (
@@ -49,7 +50,7 @@ function GenreList({ genres }: IGenreProps) {
         <Heading size="lg" mr={10}>
           장르별 영화
         </Heading>
-        <Select size="sm" w="7rem" onInput={selectGenre}>
+        <Select size="sm" w="7rem" onChange={selectGenre}>
           {genres.map((item) => (
             <option key={item.id} value={item.id}>
               {item.name}
