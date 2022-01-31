@@ -10,7 +10,7 @@ import { useQuery } from "react-query";
 
 import { IMovie, IGenre } from "../interfaces";
 import { genreState } from "../atom";
-import { fetchGenre, IMAGE_URL } from "../../pages/API/useFetchGenre";
+import { fetchGenre, IMAGE_URL } from "../../pages/api/useFetchGenre";
 SwiperCore.use([Navigation]);
 
 interface IGenreProps {
