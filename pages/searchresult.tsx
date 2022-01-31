@@ -12,7 +12,7 @@ const SearchResultPage: NextPage = () => {
         <Flex mb="3rem">
           <SearchBar handleChange={handleChange} />
         </Flex>
-        <GridList data={movieData} columnNum={4} rowNum={4} width={30} />
+        <GridList data={movieData} columnNum={4} rowNum={4} width={"30rem"} />
       </Flex>
     </div>
   );
