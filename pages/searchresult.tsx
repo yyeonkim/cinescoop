@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import useSearchMovie from "./API/useSearchMovie";
+import useSearchMovie from "./api/useFetchMovie";
 import SearchBar from "../src/components/SearchBar";
 import GridList from "../src/components/GridList";
 import { Flex, Text, Button } from "@chakra-ui/react";
