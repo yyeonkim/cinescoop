@@ -33,12 +33,12 @@ const Join: NextPage = () => {
   } = useForm<IForm>();
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
-    console.log(data);
+    // console.log(data)
   };
 
   const clickShow = () => setShow(!show);
 
-  console.log(errors);
+  // console.log(errors);
 
   return (
     <Flex h="100vh" direction="column" justify="center" alignItems="center">

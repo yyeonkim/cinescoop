@@ -40,11 +40,12 @@ function GenreList({ genres }: IGenreProps) {
           장르별 영화
         </Heading>
         <Select size="sm" w="7rem" onInput={selectGenre}>
-          {genres.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
+          {genres &&
+            genres.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
         </Select>
       </Flex>
       {isLoading ? (

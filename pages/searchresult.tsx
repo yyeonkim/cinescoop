@@ -1,13 +1,20 @@
 import type { NextPage } from "next";
+import useSearchMovie from "./api/useFetchMovie";
 import SearchBar from "../src/components/SearchBar";
-import AccountBox from "../src/components/Account/AccountBox";
+import GridList from "../src/components/lists/GridList";
 import { Flex, Text, Button } from "@chakra-ui/react";
 
 const SearchResultPage: NextPage = () => {
+  const { movieData, handleChange } = useSearchMovie();
   return (
-    <Flex justifyContent="center">
-      <SearchBar />
-    </Flex>
+    <div>
+      <Flex align="center" justifyContent="center" direction="column">
+        <Flex mb="3rem">
+          <SearchBar handleChange={handleChange} />
+        </Flex>
+        <GridList data={movieData} columnNum={4} rowNum={4} width={"30rem"} />
+      </Flex>
+    </div>
   );
 };
 

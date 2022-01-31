@@ -1,7 +1,7 @@
 import { Grid } from "@chakra-ui/react";
 
-import VerCard from "./VerCard";
-import type { Movie } from "./VerCard";
+import VerCard from "../VerCard";
+import type { Movie } from "../VerCard";
 
 interface MovieListProps {
   data: Movie[];
@@ -19,9 +19,10 @@ function GridList({ data, width, columnNum, rowNum }: MovieListProps) {
       marginX={"auto"}
       w={width}
     >
-      {data.map((item: Movie, index: number) => (
-        <VerCard key={item.id} info={item} />
-      ))}
+      {data &&
+        data.map((item: Movie, index: number) => (
+          <VerCard key={item.id} info={item} />
+        ))}
     </Grid>
   );
 }

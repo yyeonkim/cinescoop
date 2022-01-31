@@ -1,39 +1,41 @@
 import React from "react";
 import {
-  Flex,
-  Text,
   Input,
-  Button,
   IconButton,
   FormControl,
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
 import { HiOutlineSearch } from "react-icons/hi";
-import { useRecoilState } from "recoil";
-import { inputState } from "../atom";
+import { SearchingProps } from "../../pages/api/useFetchMovie";
 
-function SearchBar() {
-  const [inputText, setInputText] = useRecoilState(inputState);
-
-  const onChange = (e: any) => {
-    const { value } = e.target;
-    setInputText(value);
+function SearchBar({ handleChange }: SearchingProps) {
+  /*const onSubmit = () => {
+    getMovieList();
   };
 
-  const onSubmit = (e: any) => {
-    e.preventDefault();
+  const onKeyPress = (e: any) => {
+    if (e.key === "Enter") getMovieList();
   };
+*/
+
   return (
     <FormControl>
       <InputGroup width="30rem">
-        <Input onChange={onChange} variant="flushed" placeholder="search" />
+        <Input
+          onChange={handleChange}
+          //onKeyPress={onKeyPress}
+          variant="flushed"
+          placeholder="search"
+        />
+
         <InputRightElement>
           <IconButton
             icon={<HiOutlineSearch />}
             aria-label="search"
             size="lg"
             background="none"
+            //onClick={onSubmit}
           />
         </InputRightElement>
       </InputGroup>
