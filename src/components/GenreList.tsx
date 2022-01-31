@@ -10,7 +10,7 @@ import { useQuery } from "react-query";
 
 import { IMovie, IGenre } from "../interfaces";
 import { genreState } from "../atom";
-import { fetchGenre, IMAGE_URL } from "../../pages/api/useFetchGenre";
+import { fetchGenre, IMAGE_URL } from "../../pages/API/useFetchGenre";
 SwiperCore.use([Navigation]);
 
 interface IGenreProps {
@@ -40,11 +40,12 @@ function GenreList({ genres }: IGenreProps) {
           장르별 영화
         </Heading>
         <Select size="sm" w="7rem" onInput={selectGenre}>
-          {genres.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
+          {genres &&
+            genres.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
         </Select>
       </Flex>
       {isLoading ? (

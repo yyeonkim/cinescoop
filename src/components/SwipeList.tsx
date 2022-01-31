@@ -6,7 +6,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
 import { IMovie } from "../interfaces";
-import { IMAGE_URL } from "../../pages/api/useFetchGenre";
+import { IMAGE_URL } from "../../pages/API/useFetchGenre";
 SwiperCore.use([Navigation]);
 
 interface ISwipeProps {
