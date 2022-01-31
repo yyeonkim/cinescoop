@@ -58,12 +58,7 @@ function GenreList({ genres }: IGenreProps) {
           ))}
         </Select>
         <Spacer />
-        <Link
-          align="right"
-          onClick={() => {
-            console.log("click");
-          }}
-        >
+        <Link align="right" onClick={() => {}}>
           더보기
           <ChevronRightIcon />
         </Link>
