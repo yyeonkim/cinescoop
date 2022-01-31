@@ -1,11 +1,9 @@
 import { Center, Flex, Heading, Divider, Img, Text } from "@chakra-ui/react";
 
-import theme from "../theme/theme";
-
 function Cinema() {
   return (
     <Center my={20}>
-      <Flex direction="column" bg={theme.colors.white} color="black" p={10}>
+      <Flex direction="column" bg="white" color="black" p={10}>
         <Heading size="lg" textAlign="center">
           영화상영관
         </Heading>

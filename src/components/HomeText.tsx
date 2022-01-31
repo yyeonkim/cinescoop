@@ -1,11 +1,9 @@
 import { VStack, Heading, Box, Center } from "@chakra-ui/react";
 
-import theme from "../theme/theme";
-
 function HomeText() {
   return (
     <VStack m={20}>
-      <Heading color={theme.colors.pink}>분산된 영화 정보를 한 번에</Heading>
+      <Heading color="pink">분산된 영화 정보를 한 번에</Heading>
       <Box>
         <Center fontSize="xl" m={2}>
           인기 있는 영화,

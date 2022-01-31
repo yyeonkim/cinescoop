@@ -2,7 +2,6 @@ import { Flex, Image } from "@chakra-ui/react";
 import { AspectRatio } from "@chakra-ui/layout";
 
 import useFetchMovieDetails from "./api/useFetchMovieDetails";
-import useFetchMovieImages from "./api/useFetchMovieImages";
 import {
   VideosTest,
   MovieDetails,

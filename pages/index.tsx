@@ -3,7 +3,6 @@ import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
 
 import { BASE_URL } from "./api/useFetchGenre";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
-import theme from "../src/theme/theme";
 import PageList from "../src/components/lists/PageList";
 import SwipeList from "../src/components/lists/SwipeList";
 import GenreList from "../src/components/lists/GenreList";
@@ -31,12 +30,12 @@ const Home: NextPage<IHomeProps> = ({
       <PageList data={trending} />
       <HomeText />
 
-      <Box bgColor={theme.colors.brightBlue} p={10} py={20}>
+      <Box bgColor="brightBlue" p={10} py={20}>
         <Flex>
           <Heading size="lg" mb={10} mr={8}>
             상영 중인 영화
           </Heading>
-          <Button bg={theme.colors.pink} color={theme.colors.darkBlue} px={5}>
+          <Button bg="pink" color="darkBlue" px={5}>
             예매하기
           </Button>
         </Flex>
@@ -87,7 +86,7 @@ export async function getStaticProps() {
     )
   ).json();
 
-  return { props: { trending, nowPlaying, topRated, genres } };
+  return { props: { , nowPlaying, topRated, genres } };
 }
 
 export default Home;
