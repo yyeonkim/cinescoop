@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import useSearchMovie from "./API/useSearchMovie";
 import SearchBar from "../src/components/SearchBar";
-import GridList from "../src/components/GridList";
+import GridList from "../src/components/lists/GridList";
 import { Flex, Text, Button } from "@chakra-ui/react";
 import GenreList from "../src/components/GenreList";
 

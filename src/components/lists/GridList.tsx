@@ -1,7 +1,7 @@
 import { Grid } from "@chakra-ui/react";
 
-import VerCard from "./VerCard";
-import type { Movie } from "./VerCard";
+import VerCard from "../VerCard";
+import type { Movie } from "../VerCard";
 
 interface MovieListProps {
   data: Movie[];
