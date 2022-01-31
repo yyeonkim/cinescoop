@@ -24,7 +24,7 @@ function Profile({ login, name }: AccountBoxProps) {
         <MenuButton
           as={Button}
           rightIcon={<ChevronDownIcon />}
-          _hover={{ color: "#FF5AF1" }}
+          _hover={{ color: "pink" }}
           _focus={{ outline: "none" }}
           _active={{ background: "none" }}
           background="none"
