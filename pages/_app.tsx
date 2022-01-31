@@ -5,13 +5,14 @@ import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 import "../src/styles.css";
+import customTheme from "../src/theme/customeTheme";
 
 const queryClient = new QueryClient();
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <RecoilRoot>
-      <ChakraProvider>
+      <ChakraProvider theme={customTheme}>
         <QueryClientProvider client={queryClient}>
           <Component {...pageProps} />
         </QueryClientProvider>

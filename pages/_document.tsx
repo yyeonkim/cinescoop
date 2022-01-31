@@ -1,5 +1,6 @@
 import Document, { DocumentContext, DocumentInitialProps } from "next/document";
 import { ServerStyleSheet } from "styled-components";
+import { ColorModeScript } from "@chakra-ui/react";
 
 export default class MyDocument extends Document {
   static async getInitialProps(
@@ -12,7 +13,12 @@ export default class MyDocument extends Document {
       ctx.renderPage = () =>
         originalRenderPage({
           enhanceApp: (App) => (props) =>
-            sheet.collectStyles(<App {...props} />),
+            sheet.collectStyles(
+              <>
+                <ColorModeScript initialColorMode="dark" />
+                <App {...props} />
+              </>
+            ),
         });
 
       const initialProps = await Document.getInitialProps(ctx);
