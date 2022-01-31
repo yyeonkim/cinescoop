@@ -1,15 +1,10 @@
 import { atom } from "recoil";
 
-const inputState = atom({
+export const inputState = atom({
   key: "inputState",
-  default: [],
-});
-const movieDataState = atom({
-  key: "movieDataState",
-  default: [],
+  default: "",
 });
 
-export { inputState, movieDataState };
 export const genreState = atom({
   key: "genre",
   default: {
