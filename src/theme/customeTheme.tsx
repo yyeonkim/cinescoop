@@ -3,13 +3,17 @@ import { extendTheme, ThemeConfig } from "@chakra-ui/react";
 import { styles } from "./styles";
 
 const config: ThemeConfig = {
-  useSystemColorMode: false, 
+  useSystemColorMode: false,
   initialColorMode: "dark",
-}
+};
 
 const customTheme = extendTheme({
-  config, 
+  config,
   styles,
+  fonts: {
+    body: "Nanum Gothic",
+    heading: "Nanum Gothic",
+  },
   colors: {
     pink: "#FF5AF1",
     darkBlue: "#0E0A48",
