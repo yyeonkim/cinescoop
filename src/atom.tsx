@@ -1,4 +1,5 @@
-import { atom } from "recoil";
+import { atom, selector } from "recoil";
+import useFetchMovieDetails from "../pages/api/useFetchMovieDetails";
 
 const inputState = atom({
   key: "inputState",
@@ -18,7 +19,18 @@ export const genreState = atom({
   },
 });
 
-export const selectMovie = atom({
-  key: "selectMovie",
-  default: "",
+export const movieIDState = atom({
+  key: "movieIDState",
+  default: 568124,
+});
+
+export const movieInfoState = atom({
+  key: "movieInfoState",
+  default: {
+    details: {}, 
+    videos: {},
+  
+    credits: {},
+
+  }
 });
