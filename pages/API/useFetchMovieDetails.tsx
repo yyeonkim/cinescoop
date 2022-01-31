@@ -1,8 +1,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useRecoilValue } from "recoil";
 
-function useFetchMovieDetails(movieID: number) {
-  const [movieDetails, setMovieDetails] = useState({});
+import { movieIDState } from "../../src/atom";
+
+function useFetchMovieDetails() {
+  const movieID = useRecoilValue(movieIDState);
+  // const
+
+  const [details, setDetails] = useState({});
+  const [images, setImages] = useState({});
+  const [videos, setVideos] = useState({});
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -12,14 +20,25 @@ function useFetchMovieDetails(movieID: number) {
       setIsError(false);
 
       try {
-        const res = await axios.get(
+        const detailResponse = await axios.get(
           `https://api.themoviedb.org/3/movie/${movieID}?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`
         );
-        setMovieDetails(res.data);
+        console.log(detailResponse.data);
+
+        const imageResponse = await axios.get(
+          `https://api.themoviedb.org/3/movie/${movieID}/images?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US&include_image_language=en`
+        );
+        const videoResponse = await axios.get(
+          `https://api.themoviedb.org/3/movie/${movieID}/videos?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=en-US`
+        );
+        setImages(imageResponse.data);
+        setVideos(videoResponse.data);
         setIsLoading(false);
 
         //console
-        console.log(movieDetails);
+        console.log(details);
+        console.log(images);
+        console.log(videos);
       } catch (error) {
         setIsError(true);
         console.log(error);
@@ -27,9 +46,9 @@ function useFetchMovieDetails(movieID: number) {
     };
 
     getMovieDetails();
-  }, []);
+  }, [movieID]);
 
-  return { movieDetails, setMovieDetails, isLoading, isError };
+  return { details, images, videos, isLoading, isError };
 }
 
 export default useFetchMovieDetails;
