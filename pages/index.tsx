@@ -86,7 +86,7 @@ export async function getStaticProps() {
     )
   ).json();
 
-  return { props: { , nowPlaying, topRated, genres } };
+  return { props: { trending, nowPlaying, topRated, genres } };
 }
 
 export default Home;
