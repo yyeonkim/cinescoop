@@ -1,8 +1,8 @@
-import { Flex, Spacer, Link } from "@chakra-ui/react";
-import NextLink from "next/link";
+import { Flex, Spacer } from "@chakra-ui/react";
 
 import AccountBox from "./Profile";
 import Search from "./Search";
+import PageLink from "./PageLink";
 
 export interface SearchProps {
   version: string;
@@ -10,25 +10,6 @@ export interface SearchProps {
 export interface AccountBoxProps {
   login: boolean;
   name: string;
-}
-interface PageLinkProps {
-  path: string;
-  name: string;
-}
-
-function PageLink({ path, name }: PageLinkProps) {
-  return (
-    <NextLink href={path} passHref>
-      <Link
-        _hover={{ color: "pink" }}
-        textDecoration="none"
-        transitionDuration="0.2s"
-        _focus={{ outline: 0 }}
-      >
-        {name}
-      </Link>
-    </NextLink>
-  );
 }
 
 function Navigation() {
