@@ -16,7 +16,15 @@ function Navigation() {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Flex gap={30} paddingX={100} paddingY={10} alignItems="center">
+    <Flex
+      gap={30}
+      paddingX={70}
+      paddingY={7}
+      alignItems="center"
+      position="relative"
+      w="100vw"
+      zIndex={1}
+    >
       <p>Logo</p>
       <PageLink path="/" name="Home" />
       <PageLink path="/about" name="About" />

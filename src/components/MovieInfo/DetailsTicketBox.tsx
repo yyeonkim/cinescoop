@@ -11,9 +11,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
-import { MovieDetails, MovieImages, MovieCredits } from "../../TestCase";
 import { IMovieDetails, IMovieCredits, ICast, ICrew } from "../../interfaces";
-import { useEffect } from "react";
 
 interface detailsTicketBoxProps {
   details: IMovieDetails;
@@ -32,6 +30,8 @@ function DetailsTicketBox({ details, cast, crew }: detailsTicketBoxProps) {
       bgColor="white"
       padding="2rem 5rem 5rem 5rem"
       color={color}
+      display="relative"
+      zIndex={2}
     >
       <Heading size="2xl">{details.original_title}</Heading>
       <Flex w="100%" padding="2rem 0 5rem 0">
@@ -54,17 +54,16 @@ function DetailsTicketBox({ details, cast, crew }: detailsTicketBoxProps) {
           <GridItem>Genres</GridItem>
           <GridItem textAlign="right">
             <List textAlign="right">
-              {details.genres.map((genre, index) => (
-                <ListItem key={index}>{genre.name}</ListItem>
+              {details.genres.map((genre) => (
+                <ListItem key={genre.id}>{genre.name}</ListItem>
               ))}
             </List>
           </GridItem>
           <GridItem>Director</GridItem>
           <GridItem textAlign="right">
             {
-              crew.filter(
-                (crewMember, index) => crewMember.job === "Director"
-              )[0].original_name
+              crew.filter((crewMember) => crewMember.job === "Director")[0]
+                .original_name
             }
           </GridItem>
           <GridItem>Cast</GridItem>
@@ -72,8 +71,12 @@ function DetailsTicketBox({ details, cast, crew }: detailsTicketBoxProps) {
             <List gap={2}>
               {cast.map(
                 (castMember, index) =>
-                  index < 10 && (
-                    <Flex flexDir="column" alignItems="right" key={index}>
+                  index < 1 && (
+                    <Flex
+                      flexDir="column"
+                      alignItems="right"
+                      key={castMember.id}
+                    >
                       <p>{castMember.original_name}</p>
                       <p color="darkGrey !important">{castMember.character}</p>
                     </Flex>

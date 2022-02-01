@@ -40,6 +40,8 @@ function RelatedVideos({ videos }: relatedVideosProps) {
       bgColor="white"
       padding="2rem 5rem 5rem 5rem"
       color={color}
+      position="relative"
+      zIndex={2}
     >
       <Heading size="xl" marginBottom="2rem">
         Related Videos
