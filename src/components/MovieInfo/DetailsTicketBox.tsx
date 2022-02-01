@@ -12,14 +12,16 @@ import {
 } from "@chakra-ui/react";
 
 import { MovieDetails, MovieImages, MovieCredits } from "../../TestCase";
-import { IMovieDetails, IMovieCredits } from "../../interfaces";
+import { IMovieDetails, IMovieCredits, ICast, ICrew } from "../../interfaces";
+import { useEffect } from "react";
 
 interface detailsTicketBoxProps {
   details: IMovieDetails;
-  credits: IMovieCredits;
+  cast: ICast[];
+  crew: ICrew[];
 }
 
-function DetailsTicketBox({ details, credits }: detailsTicketBoxProps) {
+function DetailsTicketBox({ details, cast, crew }: detailsTicketBoxProps) {
   const color = useColorModeValue("darkBlue", "black");
 
   return (
@@ -36,7 +38,7 @@ function DetailsTicketBox({ details, credits }: detailsTicketBoxProps) {
         <Image
           src={`https://www.themoviedb.org/t/p/w1280/${details.poster_path} `}
           w="40%"
-          maxH="sm"
+          h="xs"
         />
 
         <Grid
@@ -60,22 +62,23 @@ function DetailsTicketBox({ details, credits }: detailsTicketBoxProps) {
           <GridItem>Director</GridItem>
           <GridItem textAlign="right">
             {
-              credits.crew.filter(
-                (crewMember) => crewMember.job === "Director"
+              crew.filter(
+                (crewMember, index) => crewMember.job === "Director"
               )[0].original_name
             }
           </GridItem>
           <GridItem>Cast</GridItem>
           <GridItem textAlign="right">
             <List gap={2}>
-              {credits.cast.map((castMember, index) => {
-                index < 10 && (
-                  <Flex flexDir="column" alignItems="right" key={index}>
-                    <Text>{castMember.original_name}</Text>
-                    <p color="darkGrey !important">{castMember.character}</p>
-                  </Flex>
-                );
-              })}
+              {cast.map(
+                (castMember, index) =>
+                  index < 10 && (
+                    <Flex flexDir="column" alignItems="right" key={index}>
+                      <p>{castMember.original_name}</p>
+                      <p color="darkGrey !important">{castMember.character}</p>
+                    </Flex>
+                  )
+              )}
             </List>
           </GridItem>
         </Grid>
