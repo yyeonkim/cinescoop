@@ -9,6 +9,9 @@ import SwiperCore, { Navigation } from "swiper";
 
 import { IMovie } from "../../interfaces";
 import { IMAGE_URL } from "../../../pages/api/useFetchGenre";
+import { useRecoilState } from "recoil";
+import { movieIDState } from "../../atom";
+import { useRouter } from "next/router";
 SwiperCore.use([Navigation]);
 
 interface ISwipeProps {
@@ -18,32 +21,42 @@ interface ISwipeProps {
 }
 
 function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
+  const router = useRouter();
+
   const [isPoster, setIsPoster] = useState(poster);
+  const [movieID, setMovieID] = useRecoilState(movieIDState);
+
+  const seeMovieInfo = (id: number) => {
+    setMovieID(id);
+    router.push("/movieInfoPage");
+  };
 
   return (
-    <>
-      <Swiper
-        slidesPerView={slidesNumber}
-        spaceBetween={10}
-        slidesPerGroup={slidesNumber}
-        navigation={true}
-        className="swiper__navigation"
-      >
-        {data.map((movie) => (
-          <SwiperSlide key={movie.id} className="wrapper__navigation">
-            <Image
-              src={`${IMAGE_URL}/w300/${
-                isPoster ? movie.poster_path : movie.backdrop_path
-              }`}
-              alt={movie.title}
-            />
-            <Text fontSize="md" align="center" mt={1}>
-              {movie.title}
-            </Text>
-          </SwiperSlide>
-        ))}
-      </Swiper>
-    </>
+    <Swiper
+      slidesPerView={slidesNumber}
+      spaceBetween={10}
+      slidesPerGroup={slidesNumber}
+      navigation={true}
+      className="swiper__navigation"
+    >
+      {data.map((movie) => (
+        <SwiperSlide
+          key={movie.id}
+          className="wrapper__navigation"
+          onClick={() => seeMovieInfo(movie.id)}
+        >
+          <Image
+            src={`${IMAGE_URL}/w300/${
+              isPoster ? movie.poster_path : movie.backdrop_path
+            }`}
+            alt={movie.title}
+          />
+          <Text fontSize="md" align="center" mt={1}>
+            {movie.title}
+          </Text>
+        </SwiperSlide>
+      ))}
+    </Swiper>
   );
 }
 
