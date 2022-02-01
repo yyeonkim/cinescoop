@@ -10,15 +10,15 @@ function SimilarMovies({ data }: similarMoviesProps) {
   return (
     <Flex
       bgColor="brightBlue"
-      w="80%"
+      w="70%"
       minH="10rem"
       position="relative"
       zIndex={1}
-      top="-5rem"
-      padding="8rem 5rem"
+      top="-8rem"
+      padding="13rem 5rem"
       flexDir="column"
     >
-      <Heading>Similar Movies</Heading>
+      <Heading marginBottom="1.5rem">Similar Movies</Heading>
       <SwipeList data={data} poster={true} slidesNumber={4} />
     </Flex>
   );

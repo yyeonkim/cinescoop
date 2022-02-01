@@ -1,5 +1,4 @@
 import {
-  AspectRatio,
   Flex,
   Grid,
   GridItem,
@@ -8,32 +7,19 @@ import {
   List,
   ListItem,
   Text,
-  useColorModeValue,
 } from "@chakra-ui/react";
 
-import { IMovieDetails, IMovieCredits, ICast, ICrew } from "../../interfaces";
+import { ICast, ICrew, IMovieDetails } from "../../../interfaces";
 
-interface detailsTicketBoxProps {
+interface infoBoxprops {
   details: IMovieDetails;
   cast: ICast[];
   crew: ICrew[];
 }
 
-function DetailsTicketBox({ details, cast, crew }: detailsTicketBoxProps) {
-  const color = useColorModeValue("darkBlue", "black");
-
+function InfoBox({ details, cast, crew }: infoBoxprops) {
   return (
-    <Flex
-      w="50vw"
-      flexDir="column"
-      alignItems="center"
-      bgColor="white"
-      padding="2rem 5rem 5rem 5rem"
-      color={color}
-      display="relative"
-      zIndex={2}
-      fontSize="0.8rem"
-    >
+    <Flex padding="2rem 5rem 5rem 5rem" flexDir="column">
       <Heading size="2xl" textAlign="center">
         {details.original_title}
       </Heading>
@@ -79,14 +65,14 @@ function DetailsTicketBox({ details, cast, crew }: detailsTicketBoxProps) {
           <GridItem
             textAlign="right"
             fontWeight="normal"
-            h="12rem"
+            h="13rem"
             overflow="scroll"
           >
             <List gap={2}>
               {cast.map((castMember, index) => (
                 <Flex flexDir="column" alignItems="right" key={castMember.id}>
                   {castMember.original_name}
-                  <Text as="i" color="lightBlue" marginBottom="1">
+                  <Text as="i" color="lightPurple" marginBottom="1">
                     {castMember.character}
                   </Text>
                 </Flex>
@@ -95,9 +81,11 @@ function DetailsTicketBox({ details, cast, crew }: detailsTicketBoxProps) {
           </GridItem>
         </Grid>
       </Flex>
-      <Text textAlign="justify">{details.overview}</Text>
+      <Text textAlign="justify" fontSize="1rem">
+        {details.overview}
+      </Text>
     </Flex>
   );
 }
 
-export default DetailsTicketBox;
+export default InfoBox;
