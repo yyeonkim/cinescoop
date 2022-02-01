@@ -58,31 +58,31 @@ const Home: NextPage<IHomeProps> = ({
 };
 
 export async function getStaticProps() {
-  // Trending movies
+  //Trending movies
   const { results: trending } = await (
     await fetch(
-      `${BASE_URL}/trending/movie/day?api_key=${process.env.API_KEY}&language=ko&include_adult=true`
+      `${BASE_URL}/trending/movie/day?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=ko&include_adult=true`
     )
   ).json();
 
-  // Now playing movies
+  //Now playing movies
   const { results: nowPlaying } = await (
     await fetch(
-      `${BASE_URL}/movie/now_playing?api_key=${process.env.API_KEY}&language=ko&include_adult=true&page=1`
+      `${BASE_URL}/movie/now_playing?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=ko&include_adult=true&page=1`
     )
   ).json();
 
   // Top rated movies
   const { results: topRated } = await (
     await fetch(
-      `${BASE_URL}/movie/top_rated?api_key=${process.env.API_KEY}&language=ko&include_adult=true&page=1`
+      `${BASE_URL}/movie/top_rated?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=ko&include_adult=true&page=1`
     )
   ).json();
 
   // Genre ids
   const { genres } = await (
     await fetch(
-      `${BASE_URL}/genre/movie/list?api_key=${process.env.API_KEY}&language=ko`
+      `${BASE_URL}/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=ko`
     )
   ).json();
 
