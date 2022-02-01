@@ -1,3 +1,4 @@
+import { useRecoilValue } from "recoil";
 import { Flex } from "@chakra-ui/react";
 
 import useFetchMovieDetails from "./api/useFetchMovieInfo";
@@ -5,7 +6,7 @@ import Navigation from "../src/components/Navigation/Navigation";
 import MainImageSection from "../src/components/MovieInfo/MainImageSection";
 import DetailsTicketBox from "../src/components/MovieInfo/DetailsTicketBox";
 import RelatedVideos from "../src/components/MovieInfo/RelatedVides";
-import { useRecoilValue } from "recoil";
+import SimilarMovies from "../src/components/MovieInfo/SimilarMovies";
 import { movieInfoState } from "../src/atom";
 
 function MovieInfoPage() {
@@ -26,9 +27,7 @@ function MovieInfoPage() {
             crew={movieInfo.crew}
           />
           <RelatedVideos videos={movieInfo.videos} />
-          <Flex bgColor="brightBlue" w="80%" minW="10rem">
-            Hello
-          </Flex>
+          <SimilarMovies data={movieInfo.similarMovies} />
         </Flex>
       )}
     </>
