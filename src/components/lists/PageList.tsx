@@ -35,9 +35,11 @@ function PageList({ data }: IPageProps) {
               color="white"
               size="md"
               pos="absolute"
-              top={5}
+              bottom={5}
               className="title"
               data-swiper-parallax="-300"
+              backgroundColor="rgba(0, 0, 0, 0.5)"
+              boxShadow="dark-lg"
             >
               {movie.title}
             </Heading>
