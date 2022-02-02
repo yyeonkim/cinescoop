@@ -19,7 +19,7 @@ interface IGenreProps {
 
 function GenreList({ genres }: IGenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
-  const { data, isLoading, refetch } = useQuery<IMovie[]>("withGenre", () =>
+  const { data, isLoading } = useQuery<IMovie[]>(["withGenre", genre], () =>
     fetchGenre(genre.id)
   );
 
@@ -30,7 +30,6 @@ function GenreList({ genres }: IGenreProps) {
       name: event.currentTarget.options[selectedIndex].text,
     };
     setGenre(selectedGenre);
-    refetch();
   };
 
   return (
@@ -40,14 +39,14 @@ function GenreList({ genres }: IGenreProps) {
           장르별 영화
         </Heading>
         <Select size="sm" w="7rem" onInput={selectGenre}>
-          {genres &&
-            genres.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
+          {genres.map((item) => (
+            <option key={item.id} value={item.id}>
+              {item.name}
+            </option>
+          ))}
         </Select>
       </Flex>
+
       {isLoading ? (
         <Text>...Loading</Text>
       ) : (

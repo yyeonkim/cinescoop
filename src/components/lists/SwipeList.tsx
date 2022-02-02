@@ -1,6 +1,7 @@
 import { useState } from "react";
 // Import Chakra
-import { Image, Text } from "@chakra-ui/react";
+import { Image, Link, Text } from "@chakra-ui/react";
+import NextLink from "next/link";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -31,15 +32,19 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
       >
         {data.map((movie) => (
           <SwiperSlide key={movie.id} className="wrapper__navigation">
-            <Image
-              src={`${IMAGE_URL}/w300/${
-                isPoster ? movie.poster_path : movie.backdrop_path
-              }`}
-              alt={movie.title}
-            />
-            <Text fontSize="md" align="center" mt={1}>
-              {movie.title}
-            </Text>
+            <NextLink href={`movieinfo/${movie.id}`} passHref>
+              <Link>
+                <Image
+                  src={`${IMAGE_URL}/w300/${
+                    isPoster ? movie.poster_path : movie.backdrop_path
+                  }`}
+                  alt={movie.title}
+                />
+                <Text fontSize="md" align="center" mt={1}>
+                  {movie.title}
+                </Text>
+              </Link>
+            </NextLink>
           </SwiperSlide>
         ))}
       </Swiper>

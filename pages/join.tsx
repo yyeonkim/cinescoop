@@ -117,7 +117,7 @@ const Join: NextPage = () => {
           </Text>
         </FormControl>
 
-        <Button type="submit" mt="1.5rem">
+        <Button type="submit" mt="1.5rem" bg="pink" color="darkBlue" px={5}>
           가입하기
         </Button>
       </StyledForm>

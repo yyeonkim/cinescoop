@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
 
-import { BASE_URL } from "./api/useFetchGenre";
+import { BASE_QUERY, BASE_URL } from "./api/useFetchGenre";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/lists/PageList";
 import SwipeList from "../src/components/lists/SwipeList";
@@ -57,32 +57,24 @@ const Home: NextPage<IHomeProps> = ({
 };
 
 export async function getStaticProps() {
-  // Trending movies
+  //Trending movies
   const { results: trending } = await (
-    await fetch(
-      `${BASE_URL}/trending/movie/day?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=ko&include_adult=true`
-    )
+    await fetch(`${BASE_URL}/trending/movie/day?${BASE_QUERY}`)
   ).json();
 
-  // Now playing movies
+  //Now playing movies
   const { results: nowPlaying } = await (
-    await fetch(
-      `${BASE_URL}/movie/now_playing?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=ko&include_adult=true&page=1`
-    )
+    await fetch(`${BASE_URL}/movie/now_playing?${BASE_QUERY}&page=1`)
   ).json();
 
   // Top rated movies
   const { results: topRated } = await (
-    await fetch(
-      `${BASE_URL}/movie/top_rated?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=ko&include_adult=true&page=1`
-    )
+    await fetch(`${BASE_URL}/movie/top_rated?${BASE_QUERY}&page=1`)
   ).json();
 
   // Genre ids
   const { genres } = await (
-    await fetch(
-      `${BASE_URL}/genre/movie/list?api_key=${process.env.NEXT_PUBLIC_API_KEY}&language=ko`
-    )
+    await fetch(`${BASE_URL}/genre/movie/list?${BASE_QUERY}`)
   ).json();
 
   return { props: { trending, nowPlaying, topRated, genres } };
