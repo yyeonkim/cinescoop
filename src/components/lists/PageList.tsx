@@ -12,7 +12,7 @@ import { IMAGE_URL } from "../../../pages/api/useFetchGenre";
 
 SwiperCore.use([Parallax, Pagination, Autoplay]);
 
-interface IPageProps {
+export interface IPageProps {
   data: ITrending[];
 }
 
@@ -28,21 +28,22 @@ function PageList({ data }: IPageProps) {
         }}
         className="swiper__pagination"
       >
-        {data.map((movie) => (
-          <SwiperSlide className="slide__pagination" key={movie.id}>
-            <Image src={`${IMAGE_URL}/w500/${movie.backdrop_path}`} />
-            <Heading
-              color="white"
-              size="md"
-              pos="absolute"
-              top={5}
-              className="title"
-              data-swiper-parallax="-300"
-            >
-              {movie.title}
-            </Heading>
-          </SwiperSlide>
-        ))}
+        {data &&
+          data.map((movie) => (
+            <SwiperSlide className="slide__pagination" key={movie.id}>
+              <Image src={`${IMAGE_URL}/w500/${movie.backdrop_path}`} />
+              <Heading
+                color="white"
+                size="md"
+                pos="absolute"
+                top={5}
+                className="title"
+                data-swiper-parallax="-300"
+              >
+                {movie.title}
+              </Heading>
+            </SwiperSlide>
+          ))}
       </Swiper>
     </Box>
   );
