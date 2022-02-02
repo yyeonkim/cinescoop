@@ -11,12 +11,6 @@
   position: static !important;
 }
 
-.slide__pagination {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
 .swiper-button-prev,
 .swiper-button-next {
   background-color: rgba(0, 0, 0, 0.5);
