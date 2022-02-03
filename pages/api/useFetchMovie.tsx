@@ -9,10 +9,10 @@ export interface SearchingProps {
 }
 
 function useSearchMovie() {
+  const [inputText, setInputText] = useRecoilState(inputState);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [movieData, setMovieData] = useState([]);
-  const [inputText, setInputText] = useRecoilState(inputState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -29,6 +29,7 @@ function useSearchMovie() {
           );
           setIsLoading(false);
           setMovieData(response.data.results);
+          setInputText("");
         } catch (error) {
           setIsError(true);
         }
