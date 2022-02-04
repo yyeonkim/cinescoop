@@ -25,7 +25,7 @@ function useSearchMovie() {
       if (inputText) {
         try {
           const response = await axios.get(
-            `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${inputText}`
+            `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&region=KR&language=ko&query=${inputText}`
           );
           setIsLoading(false);
           setMovieData(response.data.results);
