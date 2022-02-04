@@ -19,6 +19,7 @@ interface IProps {
 const Genre: NextPage<IProps> = ({ genres }) => {
   return (
     <>
+      <Navigation num={0} />
       <GenrePlusList genres={genres} />
     </>
   );

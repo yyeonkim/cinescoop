@@ -1,42 +1,27 @@
 import React from "react";
 import {
   Input,
-  IconButton,
+  Icon,
   FormControl,
   InputGroup,
   InputRightElement,
 } from "@chakra-ui/react";
+import { SearchIcon } from "@chakra-ui/icons";
 import { HiOutlineSearch } from "react-icons/hi";
 import { SearchingProps } from "../../pages/api/useFetchMovie";
 
 function SearchBar({ handleChange }: SearchingProps) {
-  /*const onSubmit = () => {
-    getMovieList();
-  };
-
-  const onKeyPress = (e: any) => {
-    if (e.key === "Enter") getMovieList();
-  };
-*/
-
   return (
     <FormControl>
       <InputGroup width="30rem">
         <Input
           onChange={handleChange}
-          //onKeyPress={onKeyPress}
           variant="flushed"
-          placeholder="search"
+          placeholder="영화 제목, 감독 등을 입력해주세요"
+          focusBorderColor="pink"
         />
-
         <InputRightElement>
-          <IconButton
-            icon={<HiOutlineSearch />}
-            aria-label="search"
-            size="lg"
-            background="none"
-            //onClick={onSubmit}
-          />
+          <Icon as={SearchIcon} w={5} h={5} />
         </InputRightElement>
       </InputGroup>
     </FormControl>
