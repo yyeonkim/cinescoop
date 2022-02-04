@@ -1,4 +1,5 @@
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import Link from "next/link";
 import {
   Avatar,
   Button,
@@ -9,7 +10,6 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
-
 import { AccountBoxProps } from "./Navigation";
 
 function Profile({ login, name }: AccountBoxProps) {
@@ -33,7 +33,9 @@ function Profile({ login, name }: AccountBoxProps) {
           {name}
         </MenuButton>
         <MenuList>
-          <MenuItem>마이페이지</MenuItem>
+          <Link href={`/mypage`}>
+            <MenuItem>마이페이지</MenuItem>
+          </Link>
           <MenuItem>로그아웃하기</MenuItem>
         </MenuList>
       </Menu>
