@@ -9,7 +9,6 @@ import GenreList from "../src/components/Lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
-import Footer from "../src/components/Footer";
 import GenrePlusList from "../src/components/Lists/GenrePlusList";
 
 interface IProps {
@@ -19,7 +18,7 @@ interface IProps {
 const Genre: NextPage<IProps> = ({ genres }) => {
   return (
     <>
-      <Navigation num={0} />
+      <Navigation search={true} />
       <GenrePlusList genres={genres} />
     </>
   );
