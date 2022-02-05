@@ -3,13 +3,13 @@ import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
 
 import { BASE_QUERY, BASE_URL } from "./api/useFetchGenre";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
-import PageList from "../src/components/lists/PageList";
-import SwipeList from "../src/components/lists/SwipeList";
-import GenreList from "../src/components/lists/GenreList";
+import PageList from "../src/components/Lists/PageList";
+import SwipeList from "../src/components/Lists/SwipeList";
+import GenreList from "../src/components/Lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
-import Footer from "../src/components/Footer";
+import Footer from "../src/components/Layout/Footer";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -26,7 +26,7 @@ const Home: NextPage<IHomeProps> = ({
 }) => {
   return (
     <>
-      <Navigation num={1} />
+      <Navigation search={true} />
       <PageList data={trending} />
       <HomeText />
       <Box bgColor="brightBlue" p={10} py={20}>
@@ -51,7 +51,6 @@ const Home: NextPage<IHomeProps> = ({
 
       <GenreList genres={genres} />
       <Cinema />
-      <Footer />
     </>
   );
 };

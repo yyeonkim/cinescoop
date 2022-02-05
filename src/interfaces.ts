@@ -34,7 +34,7 @@ export interface IMovie {
 }
 
 export interface IGenre {
-  id: string;
+  id: number;
   name: string;
 }
 
@@ -46,7 +46,7 @@ export interface ICast {
   name: string;
   original_name: string;
   popularity: number;
-  profile_path: string;
+  profile_path: string | null;
   cast_id: number;
   character: string;
   credit_id: string;
@@ -61,7 +61,7 @@ export interface ICrew {
   name: string;
   original_name: string;
   popularity: number;
-  profile_path: string;
+  profile_path: string | null;
   credit_id: string;
   department: string;
   job: string;

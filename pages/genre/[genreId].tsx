@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { BASE_URL } from "../api/useFetchGenre";
 import { IMovie, ITrending, IGenre } from "../../src/interfaces";
 import Navigation from "../../src/components/Navigation/Navigation";
-import GenrePlusList from "../../src/components/lists/GenrePlusList";
+import GenrePlusList from "../../src/components/Lists/GenrePlusList";
 import { Query } from "react-query";
 
 export interface IProps {
@@ -17,7 +17,7 @@ export default function genreMovies({ genres }: IProps) {
 
   return (
     <>
-      <Navigation num={false} />
+      <Navigation />
       <GenrePlusList genres={genres} />
     </>
   );
