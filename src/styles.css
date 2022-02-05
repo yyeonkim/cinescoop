@@ -11,6 +11,10 @@
   position: static !important;
 }
 
+.swiper__navigation {
+  width: 100%;
+}
+
 .swiper-button-prev,
 .swiper-button-next {
   background-color: rgba(0, 0, 0, 0.8);
