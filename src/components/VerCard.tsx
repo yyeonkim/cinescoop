@@ -1,4 +1,8 @@
 import { Flex, Img, Text } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+
+import { movieIDState } from "../atom";
 
 interface Movie {
   adult: boolean;
@@ -20,8 +24,17 @@ interface CardProps {
 }
 
 function VerCard({ info }: CardProps) {
+  const router = useRouter();
+
+  const [movieID, setMovieID] = useRecoilState(movieIDState);
+
+  const seeMovieInfo = (id: number) => {
+    setMovieID(id);
+    router.push(`/movieinfo/${id}`);
+  };
+
   return (
-    <Flex flexDir="column">
+    <Flex flexDir="column" onClick={() => seeMovieInfo(info.id)}>
       <Img
         objectFit="cover"
         src={`https:www.themoviedb.org/t/p/w1280${info.poster_path}`}
