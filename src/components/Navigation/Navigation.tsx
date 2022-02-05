@@ -48,6 +48,7 @@ function Navigation({ num }: IsSearch) {
           onClick={toggleColorMode}
           variant="outline"
           size="md"
+          minWidth="6rem"
           _focus={{ outline: "none" }}
           _hover={{ borderColor: "pink" }}
         >
