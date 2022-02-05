@@ -9,7 +9,6 @@ import GenreList from "../src/components/Lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
-import Footer from "../src/components/Layout/Footer";
 
 interface IHomeProps {
   trending: ITrending[];
