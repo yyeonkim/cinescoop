@@ -26,7 +26,7 @@ const Home: NextPage<IHomeProps> = ({
 }) => {
   return (
     <>
-      <Navigation num={1} />
+      <Navigation search={true} />
       <PageList data={trending} />
       <HomeText />
       <Box bgColor="brightBlue" p={10} py={20}>
