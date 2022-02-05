@@ -24,7 +24,7 @@ import { genreState } from "../../atom";
 import { fetchGenre, IMAGE_URL } from "../../../pages/api/useFetchGenre";
 SwiperCore.use([Navigation]);
 
-interface IGenreProps {
+export interface IGenreProps {
   genres: IGenre[];
 }
 
@@ -57,7 +57,7 @@ function GenreList({ genres }: IGenreProps) {
           ))}
         </Select>
         <Spacer />
-        <NextLink href={`/genre/${genre.id}`} passHref>
+        <NextLink href={`/genre`} passHref>
           <Link align="right">
             더보기
             <ChevronRightIcon />

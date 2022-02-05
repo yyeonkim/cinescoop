@@ -35,7 +35,16 @@ function Account({ isOpen, onClose }: any) {
               <Text>id</Text>
             </Flex>
             <Input size="lg" placeholder="비밀번호" mb="3rem" />
-            <Button mb="2rem">회원탈퇴</Button>
+            <Button
+              mb="2rem"
+              color="black"
+              bgColor="pink"
+              background="none"
+              _focus={{ outline: "none" }}
+              _hover={{ backgroundColor: "white" }}
+            >
+              회원탈퇴
+            </Button>
           </Flex>
         </ModalBody>
       </ModalContent>

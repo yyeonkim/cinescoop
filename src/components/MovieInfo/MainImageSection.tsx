@@ -6,7 +6,7 @@ interface MainImageSectionProps {
 
 function MainImageSection({ filePath }: MainImageSectionProps) {
   return (
-    <Flex marginBottom="1rem">
+    <Flex marginBottom="1rem" position="relative">
       <Image
         src={`https://www.themoviedb.org/t/p/w1280/${filePath} `}
         w="25vw"

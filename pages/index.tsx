@@ -26,10 +26,9 @@ const Home: NextPage<IHomeProps> = ({
 }) => {
   return (
     <>
-      <Navigation />
+      <Navigation num={1} />
       <PageList data={trending} />
       <HomeText />
-
       <Box bgColor="brightBlue" p={10} py={20}>
         <Flex>
           <Heading size="lg" mb={10} mr={8}>

@@ -67,6 +67,19 @@ export interface ICrew {
   job: string;
 }
 
+export interface IVideo {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+}
+
 export interface IMovieDetails {
   adult: boolean;
   backdrop_path: string;
@@ -100,3 +113,22 @@ export interface IMovieCredits {
   cast: ICast[];
   crew: ICrew[];
 }
+
+export interface IVideo {
+  iso_639_1: string;
+  iso_3166_1: string;
+  name: string;
+  key: string;
+  site: string;
+  size: number;
+  type: string;
+  official: boolean;
+  published_at: string;
+  id: string;
+}
+
+// export interface IMovieInfo {
+//   details: IMovieDetails;
+//   credits: IMovieCredits;
+//   videos: IMovie
+// }

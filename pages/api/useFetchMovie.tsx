@@ -9,10 +9,10 @@ export interface SearchingProps {
 }
 
 function useSearchMovie() {
+  const [inputText, setInputText] = useRecoilState(inputState);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [movieData, setMovieData] = useState([]);
-  const [inputText, setInputText] = useRecoilState(inputState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -25,10 +25,11 @@ function useSearchMovie() {
       if (inputText) {
         try {
           const response = await axios.get(
-            `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${inputText}`
+            `https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&region=KR&language=ko&query=${inputText}`
           );
           setIsLoading(false);
           setMovieData(response.data.results);
+          setInputText("");
         } catch (error) {
           setIsError(true);
         }
