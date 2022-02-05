@@ -50,14 +50,14 @@ function GenreList({ genres }: IGenreProps) {
           장르별 영화
         </Heading>
         <Select size="sm" w="7rem" onChange={selectGenre}>
-          {genres.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
+          {genres.map((genre) => (
+            <option key={genre.id} value={genre.id}>
+              {genre.name}
             </option>
           ))}
         </Select>
         <Spacer />
-        <NextLink href={`/genre`} passHref>
+        <NextLink href={`/genre/${genre.id}`} passHref>
           <Link align="right">
             더보기
             <ChevronRightIcon />
