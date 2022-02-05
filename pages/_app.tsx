@@ -8,6 +8,7 @@ import "@fontsource/nanum-gothic/700.css";
 
 import "../src/styles.css";
 import customTheme from "../src/theme/customeTheme";
+import Layout from "../src/components/Layout/Layout";
 
 const queryClient = new QueryClient();
 
@@ -16,7 +17,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     <RecoilRoot>
       <ChakraProvider theme={customTheme}>
         <QueryClientProvider client={queryClient}>
-          <Component {...pageProps} />
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
         </QueryClientProvider>
       </ChakraProvider>
     </RecoilRoot>
