@@ -1,13 +1,16 @@
 import type { NextPage } from "next";
+import { Flex } from "@chakra-ui/react";
+
 import useSearchMovie from "./api/useFetchMovie";
 import SearchBar from "../src/components/SearchBar";
 import GridList from "../src/components/lists/GridList";
-import { Flex, Text, Button } from "@chakra-ui/react";
+import Navigation from "../src/components/Navigation/Navigation";
 
 const SearchResultPage: NextPage = () => {
   const { movieData, handleChange } = useSearchMovie();
   return (
     <div>
+      <Navigation num={0} />
       <Flex align="center" justifyContent="center" direction="column">
         <Flex mb="3rem">
           <SearchBar handleChange={handleChange} />

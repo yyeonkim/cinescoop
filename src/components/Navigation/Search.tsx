@@ -13,6 +13,7 @@ function Search({ version }: SearchProps) {
   const [inputText, setInputText] = useRecoilState(inputState);
 
   const handleToggle = () => setVisible(!visible);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
@@ -27,6 +28,8 @@ function Search({ version }: SearchProps) {
     <Flex w="40%" justifyContent="right">
       <SlideFade in={visible} offsetX={5} unmountOnExit={true} reverse={true}>
         <Input
+          onKeyPress={onKeyPress}
+          onChange={handleChange}
           variant="flushed"
           placeholder="영화 제목, 감독 등을 입력해주세요"
           focusBorderColor="pink"

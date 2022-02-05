@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 // Import Chakra
 import {
   Heading,
@@ -11,28 +10,28 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+import NextLink from "next/link";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
 import { useRecoilState } from "recoil";
-import { useQuery, QueryClient } from "react-query";
+import { useQuery } from "react-query";
 
 import { IMovie, IGenre } from "../../interfaces";
 import { genreState } from "../../atom";
 import { fetchGenre, IMAGE_URL } from "../../../pages/api/useFetchGenre";
 SwiperCore.use([Navigation]);
 
-interface IGenreProps {
+export interface IGenreProps {
   genres: IGenre[];
 }
 
 function GenreList({ genres }: IGenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
-  const { data, isLoading, refetch } = useQuery<IMovie[]>(
-    ["withGenre", genre],
-    () => fetchGenre(genre.id)
+  const { data, isLoading } = useQuery<IMovie[]>(["withGenre", genre], () =>
+    fetchGenre(genre.id)
   );
 
   const selectGenre = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -58,10 +57,12 @@ function GenreList({ genres }: IGenreProps) {
           ))}
         </Select>
         <Spacer />
-        <Link align="right" onClick={() => {}}>
-          더보기
-          <ChevronRightIcon />
-        </Link>
+        <NextLink href={`/genre/${genre.id}`} passHref>
+          <Link align="right">
+            더보기
+            <ChevronRightIcon />
+          </Link>
+        </NextLink>
       </Flex>
       {isLoading ? (
         <Text>...Loading</Text>
@@ -76,13 +77,17 @@ function GenreList({ genres }: IGenreProps) {
         >
           {data?.map((movie: IMovie) => (
             <SwiperSlide key={movie.id} className="wrapper__navigation">
-              <Image
-                src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
-                alt={movie.title}
-              />
-              <Text fontSize="md" align="center" mt={1}>
-                {movie.title}
-              </Text>
+              <NextLink href={`movieinfo/${movie.id}`} passHref>
+                <Link>
+                  <Image
+                    src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
+                    alt={movie.title}
+                  />
+                  <Text fontSize="md" align="center" mt={1}>
+                    {movie.title}
+                  </Text>
+                </Link>
+              </NextLink>
             </SwiperSlide>
           ))}
         </Swiper>

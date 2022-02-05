@@ -79,7 +79,7 @@ const Login: NextPage = () => {
           </Text>
         </FormControl>
 
-        <Button type="submit" mt="1.5rem">
+        <Button type="submit" mt="1.5rem" bg="pink" color="darkBlue" px={5}>
           로그인
         </Button>
       </StyledForm>
