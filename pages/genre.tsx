@@ -9,7 +9,7 @@ import GenreList from "../src/components/Lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
-import Footer from "../src/components/Footer";
+import Footer from "../src/components/Layout/Footer";
 import GenrePlusList from "../src/components/Lists/GenrePlusList";
 
 interface IProps {

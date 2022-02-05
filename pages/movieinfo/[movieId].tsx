@@ -9,7 +9,7 @@ import DetailsTicketBox from "../../src/components/MovieInfo/Ticket";
 import RelatedVideos from "../../src/components/MovieInfo/Ticket/RelatedVidesBox";
 import SimilarMovies from "../../src/components/MovieInfo/SimilarMovies";
 import { movieInfoState } from "../../src/atom";
-import Footer from "../../src/components/Footer";
+import Footer from "../../src/components/Layout/Footer";
 import Ticket from "../../src/components/MovieInfo/Ticket";
 import { NextPage } from "next";
 
@@ -39,6 +39,6 @@ const MovieInfoPage: NextPage = () => {
       <Footer />
     </div>
   );
-}
+};
 
 export default MovieInfoPage;
