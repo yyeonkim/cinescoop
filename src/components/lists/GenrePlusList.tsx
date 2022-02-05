@@ -1,19 +1,17 @@
-import { Heading, Text, Select, Flex, Box, Spacer } from "@chakra-ui/react";
+import axios from "axios";
 import { useRecoilState } from "recoil";
-import { useQuery } from "react-query";
-
-import { IMovie, IGenre } from "../../interfaces";
+import { useState, useEffect, useCallback } from "react";
+import { Heading, Select, Flex, Box, Spacer, Spinner } from "@chakra-ui/react";
 import { genreState } from "../../atom";
-import { fetchGenre, IMAGE_URL } from "../../../pages/api/useFetchGenre";
+import { BASE_URL, BASE_QUERY } from "../../../pages/api/useFetchGenre";
 import GridList from "./GridList";
 import { IGenreProps } from "./GenreList";
 
 function GenrePlusList({ genres }: IGenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
-  const { data, isLoading, refetch } = useQuery<IMovie[]>(
-    ["withGenre", genre],
-    () => fetchGenre(genre.id)
-  );
+  const [genreItems, setGenreItems] = useState([]);
+  const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const selectGenre = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { selectedIndex } = event.currentTarget.options;
@@ -24,10 +22,58 @@ function GenrePlusList({ genres }: IGenreProps) {
     setGenre(selectedGenre);
   };
 
+  useEffect(() => {
+    const useFetchFirstData = async (id: string) => {
+      setIsLoading(true);
+      await axios
+        .get(
+          `${BASE_URL}/discover/movie?${BASE_QUERY}&with_genres=${id}&page=${page}`
+        )
+        .then((res) => {
+          setGenreItems(res.data.results);
+        });
+      setIsLoading(false);
+    };
+    useFetchFirstData(genre.id);
+  }, [genre]);
+
+  const useFetchMoreData = useCallback(
+    async (id: string) => {
+      setIsLoading(true);
+      await axios
+        .get(
+          `${BASE_URL}/discover/movie?${BASE_QUERY}&with_genres=${id}&page=${page}`
+        )
+        .then((response) => {
+          const fetchedData = response.data.results;
+          const mergedData = genreItems.concat(...fetchedData);
+          setGenreItems(mergedData);
+        });
+      setPage(page + 1);
+      setIsLoading(false);
+    },
+    [page]
+  );
+
+  const handleScroll = () => {
+    const scrollHeight = document.documentElement.scrollHeight;
+    const scrollTop = document.documentElement.scrollTop;
+    const clientHeight = document.documentElement.clientHeight;
+    if (scrollTop + clientHeight >= scrollHeight && isLoading == false) {
+      useFetchMoreData(genre.id);
+    }
+  };
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll, true);
+    return () => {
+      window.removeEventListener("scroll", handleScroll, true);
+    };
+  }, [handleScroll]);
+
   return (
-    <Box px={10}>
-      <Flex alignItems="center" mb={10}>
-        <Heading size="lg" mr={10}>
+    <Box>
+      <Flex mb={10} direction="column">
+        <Heading size="lg" mb={5}>
           장르별 영화
         </Heading>
         <Select size="sm" w="7rem" onChange={selectGenre}>
@@ -37,13 +83,9 @@ function GenrePlusList({ genres }: IGenreProps) {
             </option>
           ))}
         </Select>
-        <Spacer />
       </Flex>
-      {isLoading ? (
-        <Text>...Loading</Text>
-      ) : (
-        <GridList data={data} columnNum={4} />
-      )}
+      <GridList data={genreItems} columnNum={4} rowNum={4} width={"50rem"} />
+      <Flex justifyContent="center">{isLoading ? <Spinner /> : ""}</Flex>
     </Box>
   );
 }

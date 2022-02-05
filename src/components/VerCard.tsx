@@ -28,8 +28,9 @@ function VerCard({ info }: CardProps) {
         maxW="100%"
         minH="75%"
         maxH="75%"
+        borderRadius={5}
       />
-      <Text textAlign="center" mb="0">
+      <Text textAlign="center" mb="0" fontSize="0.9rem">
         {info.title}
       </Text>
     </Flex>

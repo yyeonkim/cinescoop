@@ -12,8 +12,6 @@ function Search({ version }: SearchProps) {
   const [visible, setVisible] = useState(false);
   const [inputText, setInputText] = useRecoilState(inputState);
 
-  const handleToggle = () => setVisible(!visible);
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
   };
@@ -21,6 +19,14 @@ function Search({ version }: SearchProps) {
   const onKeyPress = (e: any) => {
     if (e.key === "Enter") {
       Router.push({ pathname: "/searchresult" });
+    }
+  };
+
+  const handleToggle = () => {
+    if (inputText) {
+      Router.push({ pathname: "/searchresult" });
+    } else {
+      setVisible(!visible);
     }
   };
 
