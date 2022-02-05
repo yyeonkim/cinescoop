@@ -29,7 +29,7 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
 
   const seeMovieInfo = (id: number) => {
     setMovieID(id);
-    router.push("/movieInfoPage");
+    router.push(`/movieinfo/${id}`);
   };
 
   return (
@@ -42,20 +42,20 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
         className="swiper__navigation"
       >
         {data.map((movie) => (
-          <SwiperSlide key={movie.id} className="wrapper__navigation">
-            <NextLink href={`movieinfo/${movie.id}`} passHref>
-              <Link>
-                <Image
-                  src={`${IMAGE_URL}/w300/${
-                    isPoster ? movie.poster_path : movie.backdrop_path
-                  }`}
-                  alt={movie.title}
-                />
-                <Text fontSize="md" align="center" mt={1}>
-                  {movie.title}
-                </Text>
-              </Link>
-            </NextLink>
+          <SwiperSlide
+            key={movie.id}
+            className="wrapper__navigation"
+            onClick={() => seeMovieInfo(movie.id)}
+          >
+            <Image
+              src={`${IMAGE_URL}/w300/${
+                isPoster ? movie.poster_path : movie.backdrop_path
+              }`}
+              alt={movie.title}
+            />
+            <Text fontSize="md" align="center" mt={1}>
+              {movie.title}
+            </Text>
           </SwiperSlide>
         ))}
       </Swiper>
