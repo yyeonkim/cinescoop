@@ -3,9 +3,9 @@ import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
 
 import { BASE_QUERY, BASE_URL } from "./api/useFetchGenre";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
-import PageList from "../src/components/lists/PageList";
-import SwipeList from "../src/components/lists/SwipeList";
-import GenreList from "../src/components/lists/GenreList";
+import PageList from "../src/components/Lists/PageList";
+import SwipeList from "../src/components/Lists/SwipeList";
+import GenreList from "../src/components/Lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
