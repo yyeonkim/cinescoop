@@ -36,9 +36,10 @@ function GenreList({ genres }: IGenreProps) {
 
   const selectGenre = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { selectedIndex } = event.currentTarget.options;
+    const currentOption = event.currentTarget.options[selectedIndex];
     const selectedGenre = {
-      id: event.currentTarget.options[selectedIndex].value,
-      name: event.currentTarget.options[selectedIndex].text,
+      id: currentOption.value,
+      name: currentOption.text,
     };
     setGenre(selectedGenre);
   };
@@ -49,7 +50,7 @@ function GenreList({ genres }: IGenreProps) {
         <Heading size="lg" mr={10}>
           장르별 영화
         </Heading>
-        <Select size="sm" w="7rem" onChange={selectGenre}>
+        <Select size="sm" w="7rem" value={genre.id} onChange={selectGenre}>
           {genres.map((genre) => (
             <option key={genre.id} value={genre.id}>
               {genre.name}
@@ -65,7 +66,7 @@ function GenreList({ genres }: IGenreProps) {
         </NextLink>
       </Flex>
       {isLoading ? (
-        <Text>...Loading</Text>
+        <Text>Loading...</Text>
       ) : (
         <Swiper
           slidesPerView={6}
