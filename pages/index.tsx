@@ -9,6 +9,7 @@ import GenreList from "../src/components/Lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
+import { useRouter } from "next/router";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -23,6 +24,12 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
+  const router = useRouter();
+
+  const onClick = () => {
+    router.push("/now-in-theaters");
+  };
+
   return (
     <>
       <Navigation search={true} />
@@ -33,7 +40,7 @@ const Home: NextPage<IHomeProps> = ({
           <Heading size="lg" mb={10} mr={8}>
             상영 중인 영화
           </Heading>
-          <Button bg="pink" color="darkBlue" px={5}>
+          <Button bg="pink" color="darkBlue" px={5} onClick={onClick}>
             예매하기
           </Button>
         </Flex>
