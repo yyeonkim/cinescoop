@@ -35,11 +35,12 @@ function GenreList({ genres }: IGenreProps) {
   );
 
   const selectGenre = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { selectedIndex } = event.currentTarget.options;
-    const currentOption = event.currentTarget.options[selectedIndex];
+    const {
+      currentTarget: { value, selectedOptions },
+    } = event;
     const selectedGenre = {
-      id: currentOption.value,
-      name: currentOption.text,
+      id: value,
+      name: selectedOptions[0].text,
     };
     setGenre(selectedGenre);
   };
