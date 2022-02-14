@@ -1,24 +1,24 @@
 import { NextPage } from "next";
-import { useState } from "react";
 import { useQuery } from "react-query";
+import { useRecoilValue } from "recoil";
+import { Flex } from "@chakra-ui/react";
 
 import Navigation from "../../src/components/Navigation/Navigation";
 import { fetchCredit, fetchDetail } from "../api/useFetchGenre";
 import { ICast, IMovieDetails } from "../../src/interfaces";
 import MovieDetail from "../../src/components/MovieDetail";
+import ShowTime from "../../src/components/ShowTime";
+import { movieIDState } from "../../src/atom";
 
 const Reserve: NextPage = () => {
-  //   const {
-  //     query: { movieId },
-  //   } = useRouter();
-  const [movieId, setMovieId] = useState("438695");
+  const movieID = useRecoilValue(movieIDState);
 
   const { data: detailData, isLoading: detailLoading } =
-    useQuery<IMovieDetails>(["detail", movieId], () => fetchDetail(movieId));
+    useQuery<IMovieDetails>(["detail", movieID], () => fetchDetail(movieID));
 
   const { data: creditData, isLoading: creditLoading } = useQuery<ICast[]>(
-    ["credit", movieId],
-    () => fetchCredit(movieId)
+    ["credit", movieID],
+    () => fetchCredit(movieID)
   );
 
   const isLoading = detailLoading || creditLoading;
@@ -29,11 +29,10 @@ const Reserve: NextPage = () => {
       {isLoading ? (
         <span>Loading...</span>
       ) : (
-        <MovieDetail
-          movieId={movieId}
-          detailData={detailData}
-          creditData={creditData}
-        />
+        <Flex direction="column" alignItems="center" px={20}>
+          <MovieDetail detailData={detailData} creditData={creditData} />
+          <ShowTime />
+        </Flex>
       )}
     </>
   );

@@ -10,7 +10,7 @@ export const fetchGenre = async (id: string) => {
   return results;
 };
 
-export const fetchDetail = async (id: string) => {
+export const fetchDetail = async (id: number) => {
   const data = await (
     await fetch(`${BASE_URL}/movie/${id}?${BASE_QUERY}`)
   ).json();
@@ -18,7 +18,7 @@ export const fetchDetail = async (id: string) => {
   return data;
 };
 
-export const fetchCredit = async (id: string) => {
+export const fetchCredit = async (id: number) => {
   const { cast } = await (
     await fetch(`${BASE_URL}/movie/${id}/credits?${BASE_QUERY}`)
   ).json();
