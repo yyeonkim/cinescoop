@@ -2,7 +2,7 @@
   "name": "cinescoop-web",
   "private": true,
   "scripts": {
-    "dev": "node server.js",
+    "dev": "node src/server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js"
   },
