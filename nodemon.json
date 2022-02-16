@@ -1,6 +1,5 @@
 {
     "verbose": true,
     "ignore": ["node_modules", ".next"],
-    "watch": ["src/***/**/*", "pages/**/*"],
-    "ext": "js json"
+    "watch": ["src/***/**/*", "pages/**/*"]
   }
