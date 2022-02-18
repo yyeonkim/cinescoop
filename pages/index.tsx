@@ -68,13 +68,17 @@ export async function getStaticProps() {
   ).json();
 
   //Now playing movies
-  const { results: nowPlaying } = await (
-    await fetch(`${BASE_URL}/movie/now_playing?${BASE_QUERY}&page=1`)
-  ).json();
+  let nowPlaying = [];
+  for (let i = 1; i <= 3; i++) {
+    const { results } = await (
+      await fetch(`${BASE_URL}/movie/now_playing?${BASE_QUERY}&page=${i}`)
+    ).json();
+    nowPlaying.push(...results);
+  }
 
   // Top rated movies
   const { results: topRated } = await (
-    await fetch(`${BASE_URL}/movie/top_rated?${BASE_QUERY}&page=1`)
+    await fetch(`${BASE_URL}/movie/top_rated?${BASE_QUERY}`)
   ).json();
 
   // Genre ids
