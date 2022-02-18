@@ -1,6 +1,6 @@
 import { Stack, Flex, Image, Text, Button, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 import { IMAGE_URL } from "../../pages/api/useFetchGenre";
 import { movieIDState } from "../atom";
@@ -13,8 +13,7 @@ interface IDetailProps {
 
 const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
   const router = useRouter();
-
-  const [movieID, setMovieID] = useRecoilState(movieIDState);
+  const movieID = useRecoilValue(movieIDState);
 
   const onClick = () => {
     router.push(`/movieinfo/${movieID}`);

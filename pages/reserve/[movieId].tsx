@@ -1,24 +1,34 @@
 import { NextPage } from "next";
 import { useQuery } from "react-query";
-import { useRecoilValue } from "recoil";
 import { Flex } from "@chakra-ui/react";
 
 import { fetchCredit, fetchDetail } from "../api/useFetchGenre";
 import { ICast, IMovieDetails } from "../../src/interfaces";
-import { movieIDState } from "../../src/atom";
 import Navigation from "../../src/components/Navigation/Navigation";
 import MovieDetail from "../../src/components/MovieDetail";
 import ShowTime from "../../src/components/ShowTime";
+import { useRouter } from "next/router";
+import { useSetRecoilState } from "recoil";
+import { movieIDState } from "../../src/atom";
+import { useEffect } from "react";
 
 const Reserve: NextPage = () => {
-  const movieID = useRecoilValue(movieIDState);
+  const {
+    query: { movieId },
+  } = useRouter();
+
+  const setMovieId = useSetRecoilState(movieIDState);
+
+  useEffect(() => {
+    const id = parseInt(movieId, 10);
+    setMovieId(id);
+  });
 
   const { data: detailData, isLoading: detailLoading } =
-    useQuery<IMovieDetails>(["detail", movieID], () => fetchDetail(movieID));
-
+    useQuery<IMovieDetails>(["detail", movieId], () => fetchDetail(movieId));
   const { data: creditData, isLoading: creditLoading } = useQuery<ICast[]>(
-    ["credit", movieID],
-    () => fetchCredit(movieID)
+    ["credit", movieId],
+    () => fetchCredit(movieId)
   );
 
   const isLoading = detailLoading || creditLoading;
@@ -52,7 +62,6 @@ export async function getServerSideProps() {
   const lists = await page.$$eval("#movie_list > ul > li", (lists) =>
     lists.map((list) => list)
   );
-  console.log(lists);
 
   return {
     props: {},
