@@ -2971,3 +2971,13 @@ export const movieInfoState = atom({
     ],
   },
 });
+
+export const loginState = atom({
+  key: "loginState",
+  default: false,
+})
+
+export const userState = atom({
+  key: "userState",
+  default:"Login/Sign up",
+})
