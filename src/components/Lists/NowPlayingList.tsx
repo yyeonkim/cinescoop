@@ -14,13 +14,17 @@ function NowPlayingList() {
             상영중인 영화
           </Heading>
         </Flex>
-        <Grid gap={10} marginX={"auto"}>
-          {items &&
-            items.map((item: Movie, index: number) => (
-              <NowPlayingCard key={item.id} info={item} page={page} />
-            ))}
-        </Grid>
-        <Flex justifyContent="center">{isLoading ? <Spinner /> : ""}</Flex>
+        <Box borderWidth="0.1rem" borderColor="pink" maxW="70rem">
+          <Grid gap={10} marginX={"auto"}>
+            {items &&
+              items.map((item: Movie, index: number) => (
+                <>
+                  <NowPlayingCard key={item.id} info={item} page={page} />
+                </>
+              ))}
+          </Grid>
+          <Flex justifyContent="center">{isLoading ? <Spinner /> : ""}</Flex>
+        </Box>
       </Box>
     </Flex>
   );
