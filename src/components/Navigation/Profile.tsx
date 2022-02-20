@@ -9,11 +9,29 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
+import { useRouter } from "next/router";
+import { loginState, userState } from "../../atom";
+import { useRecoilState } from "recoil";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 
 import { AccountBoxProps } from "./Navigation";
+import { auth } from "../../../firebase";
 
-function Profile({ login, name }: AccountBoxProps) {
-  const initials = login ? name : "";
+function Profile() {
+  const router = useRouter();
+  const [login, setLogin] = useRecoilState(loginState);
+  const [user, setUser] = useRecoilState(userState);
+
+  const initials = login ? user : "";
+  const logout = () => {
+    signOut(auth)
+      .then(() => {
+        setLogin(false);
+        setUser("");
+        console.log("User logged out");
+      })
+      .catch((error) => console.log(error));
+  };
 
   return (
     <Flex>
@@ -45,7 +63,7 @@ function Profile({ login, name }: AccountBoxProps) {
             <MenuItem>마이페이지</MenuItem>
           </Link>
           {login ? (
-            <MenuItem>로그아웃하기</MenuItem>
+            <MenuItem onClick={logout}>로그아웃하기</MenuItem>
           ) : (
             <Link href={`/login`}>
               <MenuItem>로그인하기</MenuItem>
