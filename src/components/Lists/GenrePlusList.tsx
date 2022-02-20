@@ -71,22 +71,24 @@ function GenrePlusList({ genres }: IGenreProps) {
   }, [handleScroll]);
 
   return (
-    <Box>
-      <Flex mb={10} direction="column">
-        <Heading size="lg" mb={5}>
-          장르별 영화
-        </Heading>
-        <Select size="sm" w="7rem" onChange={selectGenre}>
-          {genres.map((item) => (
-            <option key={item.id} value={item.id}>
-              {item.name}
-            </option>
-          ))}
-        </Select>
-      </Flex>
-      <GridList data={genreItems} columnNum={4} rowNum={4} width={"50rem"} />
-      <Flex justifyContent="center">{isLoading ? <Spinner /> : ""}</Flex>
-    </Box>
+    <Flex justifyContent="center">
+      <Box>
+        <Flex mb={10} direction="column">
+          <Heading size="lg" mb={5}>
+            장르별 영화
+          </Heading>
+          <Select size="sm" w="7rem" value={genre.id} onChange={selectGenre}>
+            {genres.map((item) => (
+              <option key={item.id} value={item.id}>
+                {item.name}
+              </option>
+            ))}
+          </Select>
+        </Flex>
+        <GridList data={genreItems} columnNum={4} rowNum={4} width={"50rem"} />
+        <Flex justifyContent="center">{isLoading ? <Spinner /> : ""}</Flex>
+      </Box>
+    </Flex>
   );
 }
 export default GenrePlusList;
