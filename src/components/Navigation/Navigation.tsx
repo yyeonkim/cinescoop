@@ -25,9 +25,6 @@ export interface IsSearch {
   search: boolean;
 }
 function Navigation({ search }: IsSearch) {
-  const login = useRecoilValue(loginState);
-  const user = useRecoilValue(userState);
-
   return (
     <Flex gap={30} paddingX={100} paddingY={10} alignItems="center">
       <p>Logo</p>
@@ -46,7 +43,7 @@ function Navigation({ search }: IsSearch) {
       >
         {colorMode == "dark" ? "Dark" : "Light"} Mode
       </Button> */}
-      <Profile login={login} name={user} />
+      <Profile />
     </Flex>
   );
 }
