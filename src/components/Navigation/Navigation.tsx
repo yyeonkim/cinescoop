@@ -1,4 +1,5 @@
 import {
+  Img,
   Button,
   Flex,
   Spacer,
@@ -6,6 +7,7 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
+import logo from "../../public/logo.png";
 
 import AccountBox from "./Profile";
 import Search from "./Search";
@@ -26,18 +28,19 @@ function Navigation({ search }: IsSearch) {
 
   return (
     <Flex gap={30} paddingX={100} paddingY={10} alignItems="center">
-      <p>Logo</p>
+      <Img src="logo.png" boxSize="12rem" objectFit="contain" mr={2} />
       <PageLink path="/" name="Home" />
       <PageLink path="/about" name="About" />
       <Spacer />
       {search && <Search version="short" />}
-      <Text>{colorMode == "dark" ? "Dark" : "Light"} Mode</Text>
+
       <Button
         onClick={toggleColorMode}
         variant="outline"
         size="md"
         _focus={{ outline: "none" }}
         _hover={{ borderColor: "pink" }}
+        minWidth="6rem"
       >
         {colorMode == "dark" ? "Dark" : "Light"} Mode
       </Button>
