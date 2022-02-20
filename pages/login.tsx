@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import type { NextPage } from "next";
 import styled from "styled-components";
+import NextLink from "next/link";
 import {
   FormControl,
   Text,
@@ -12,16 +13,26 @@ import {
   Button,
   Input,
   Icon,
+  Link,
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase";
+import { loginState, userState } from "../src/atom";
 
 interface IForm {
-  id: string;
+  email: string;
   password: string;
 }
 
 const Login: NextPage = () => {
   const [show, setShow] = useState(false);
+  const [login, setLogin] = useRecoilState(loginState);
+  const [user, setUser] = useRecoilState(userState);
+  const router = useRouter();
 
   const {
     register,
@@ -31,27 +42,38 @@ const Login: NextPage = () => {
   } = useForm<IForm>();
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
-    // console.log(data);
+    console.log(data);
+    signInWithEmailAndPassword(auth, data.email, data.password)
+      .then(() => {
+        console.log("login success");
+        setLogin(true);
+        setUser(data.email.slice(0, data.email.indexOf("@")));
+        router.push("/");
+      })
+      .catch((error) => {
+        console.log(error.code);
+        console.log(error.message);
+      });
   };
 
   const clickShow = () => setShow(!show);
   // console.log(errors);
 
   return (
-    <Flex h="100vh" direction="column" justify="center" alignItems="center">
+    <Flex h="80vh" direction="column" justify="center" alignItems="center">
       <Heading size="2xl" mb="1.5rem">
         로그인
       </Heading>
 
       <StyledForm method="post" onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
-          <Text mt="1.2rem">아이디</Text>
+          <Text mt="1.2rem">이메일</Text>
           <Input
-            {...register("id", { required: "아이디를 입력하세요" })}
+            {...register("email", { required: "이메일을 입력하세요" })}
             type="text"
           />
           <Text fontSize="xs" color="tomato">
-            {errors?.id?.message}
+            {errors?.email?.message}
           </Text>
 
           <Text mt="1.2rem">비밀번호</Text>
@@ -79,10 +101,23 @@ const Login: NextPage = () => {
           </Text>
         </FormControl>
 
-        <Button type="submit" mt="1.5rem" bg="pink" color="darkBlue" px={5}>
+        <Button
+          type="submit"
+          mt="3rem"
+          bg="pink"
+          color="darkBlue"
+          py="1rem"
+          w="100%"
+        >
           로그인
         </Button>
       </StyledForm>
+      <Flex mt="1rem">
+        <Text mr="0.5rem">아직 계정이 없나요?</Text>
+        <NextLink href="/join" passHref>
+          <Link textDecoration="underline">회원가입</Link>
+        </NextLink>
+      </Flex>
     </Flex>
   );
 };
