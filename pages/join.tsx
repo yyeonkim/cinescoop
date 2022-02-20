@@ -12,18 +12,28 @@ import {
   Button,
   Input,
   Icon,
+  SimpleGrid,
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+
+import { auth } from "../firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { loginState, userState } from "../src/atom";
 
 interface IForm {
   id: string;
   password: string;
   confirmation: string;
-  email?: string;
+  email: string;
 }
 
 const Join: NextPage = () => {
   const [show, setShow] = useState(false);
+  const router = useRouter();
+  const [login, setLogin] = useRecoilState(loginState);
+  const [user, setUser] = useRecoilState(userState);
 
   const {
     register,
@@ -33,12 +43,24 @@ const Join: NextPage = () => {
   } = useForm<IForm>();
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
-    // console.log(data)
+    console.log(data);
+
+    createUserWithEmailAndPassword(auth, data.email, data.password)
+      .then(() => {
+        console.log("signup success");
+        setLogin(true);
+        setUser(data.email.slice(0, data.email.indexOf("@")));
+        router.push("/");
+      })
+      .catch((error) => {
+        console.log(error.code);
+        console.log(error.message);
+      });
   };
 
   const clickShow = () => setShow(!show);
 
-  // console.log(errors);
+  const list = ["a", "b", "c"];
 
   return (
     <Flex h="100vh" direction="column" justify="center" alignItems="center">
@@ -48,14 +70,22 @@ const Join: NextPage = () => {
 
       <StyledForm onSubmit={handleSubmit(onSubmit)}>
         <FormControl>
-          <Text mt="1.2rem">아이디 *</Text>
+          <Text mt="1.2rem">이메일 *</Text>
+          <Input
+            {...register("email", { required: "이메일을 입력하세요" })}
+            type="email"
+          />
+          <Text fontSize="xs" color="tomato">
+            {errors?.email?.message}
+          </Text>
+          {/* <Text mt="1.2rem">아이디 *</Text>
           <Input
             {...register("id", { required: "아이디를 입력하세요" })}
             type="text"
           />
           <Text fontSize="xs" color="tomato">
             {errors?.id?.message}
-          </Text>
+          </Text> */}
 
           <Text mt="1.2rem">비밀번호 *</Text>
           <InputGroup size="md">
@@ -110,14 +140,16 @@ const Join: NextPage = () => {
               watch("confirmation").length !== 0 &&
               "비밀번호가 다릅니다"}
           </Text>
-          <Text mt="1.2rem">이메일</Text>
-          <Input {...register("email")} type="email" />
-          <Text fontSize="xs" color="tomato">
-            {errors?.email?.message}
-          </Text>
         </FormControl>
 
-        <Button type="submit" mt="1.5rem" bg="pink" color="darkBlue" px={5}>
+        <Button
+          type="submit"
+          mt="3rem"
+          bg="pink"
+          color="darkBlue"
+          py="1rem"
+          w="100%"
+        >
           가입하기
         </Button>
       </StyledForm>
