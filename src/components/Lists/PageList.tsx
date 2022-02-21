@@ -21,6 +21,9 @@ function PageList({ data }: IPageProps) {
   return (
     <Box mb={10}>
       <Swiper
+        slidesPerView={2}
+        centeredSlides={true}
+        spaceBetween={40}
         speed={600}
         autoplay={{ delay: 2500, disableOnInteraction: false }}
         parallax={true}

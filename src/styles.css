@@ -15,6 +15,11 @@
   width: 100%;
 }
 
+.swiper__pagination .swiper-slide-next,
+.swiper__pagination .swiper-slide-prev {
+  filter: brightness(40%);
+}
+
 .swiper-button-prev,
 .swiper-button-next {
   background-color: rgba(0, 0, 0, 0.8);
