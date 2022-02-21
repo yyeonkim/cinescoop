@@ -77,21 +77,24 @@ function GenreList({ genres }: IGenreProps) {
           navigation={true}
           className="swiper__navigation"
         >
-          {data?.map((movie: IMovie) => (
-            <SwiperSlide key={movie.id} className="wrapper__navigation">
-              <NextLink href={`movieinfo/${movie.id}`} passHref>
-                <Link>
-                  <Image
-                    src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
-                    alt={movie.title}
-                  />
-                  <Text fontSize="md" align="center" mt={1}>
-                    {movie.title}
-                  </Text>
-                </Link>
-              </NextLink>
-            </SwiperSlide>
-          ))}
+          {data?.map(
+            (movie: IMovie) =>
+              movie.backdrop_path && (
+                <SwiperSlide key={movie.id} className="wrapper__navigation">
+                  <NextLink href={`movieinfo/${movie.id}`} passHref>
+                    <Link>
+                      <Image
+                        src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
+                        alt={movie.title}
+                      />
+                      <Text fontSize="md" align="center" mt={1}>
+                        {movie.title}
+                      </Text>
+                    </Link>
+                  </NextLink>
+                </SwiperSlide>
+              )
+          )}
         </Swiper>
       )}
     </Box>
