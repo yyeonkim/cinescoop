@@ -1,6 +1,6 @@
 import { Stack, Flex, Image, Text, Button, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 
 import { IMAGE_URL } from "../../pages/api/useFetchGenre";
 import { movieIDState } from "../atom";
@@ -31,8 +31,8 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
             {detailData?.vote_average}%
           </Text>
           <Text>
-            <Text as="b">개요 </Text> {detailData?.genres[0].name},{" "}
-            {detailData?.genres[1].name} | {detailData?.runtime}분 |{" "}
+            <Text as="b">개요 </Text> {detailData?.genres[0].name}{" "}
+            {detailData?.genres[1]?.name} | {detailData?.runtime}분 |{" "}
             {detailData?.release_date} 개봉
           </Text>
           <Text>
