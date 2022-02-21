@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { NextPage } from "next";
 import { useQuery } from "react-query";
-import { Flex } from "@chakra-ui/react";
+import { Center, Flex } from "@chakra-ui/react";
 
 import { fetchCredit, fetchDetail } from "../api/useFetchGenre";
 import { ICast, IMovieDetails } from "../../src/interfaces";

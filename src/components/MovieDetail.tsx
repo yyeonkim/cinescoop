@@ -27,8 +27,8 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
           <Heading>{detailData?.title}</Heading>
           <Text>
             <Text as="b">평점 </Text>
-            {detailData?.popularity} | <Text as="b">예매율 </Text>
-            {detailData?.vote_average}%
+            {detailData?.vote_average} | <Text as="b">찜 </Text>
+            100
           </Text>
           <Text>
             <Text as="b">개요 </Text> {detailData?.genres[0].name}{" "}
@@ -40,9 +40,14 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
           </Text>
           <Text>{detailData?.overview}</Text>
         </Stack>
-        <Button onClick={onClick} w="8rem" bg="brightBlue">
-          관련 정보
-        </Button>
+        <Flex>
+          <Button onClick={onClick} w="8rem" bg="brightBlue" mr={5}>
+            관련 정보
+          </Button>
+          <Button w="8rem" bg="pink">
+            찜하기
+          </Button>
+        </Flex>
       </Flex>
     </Flex>
   );
