@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 import { BASE_QUERY, BASE_URL } from "./api/useFetchGenre";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
@@ -9,7 +10,6 @@ import GenreList from "../src/components/Lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
-import { useRouter } from "next/router";
 
 interface IHomeProps {
   trending: ITrending[];

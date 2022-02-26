@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Flex, Heading, HStack, Select, Text } from "@chakra-ui/react";
+import { Flex, Heading, HStack, Select, Text } from "@chakra-ui/react";
 
 type Cinema = "CGV" | "메가박스" | "롯데시네마";
 
