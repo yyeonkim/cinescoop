@@ -21,7 +21,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
   return (
     <Flex padding="2rem 5rem 5rem 5rem" flexDir="column">
       <Heading size="2xl" textAlign="center">
-        {details.original_title}
+        {details.title}
       </Heading>
       <Flex
         w="100%"
@@ -67,6 +67,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
             fontWeight="normal"
             h="13rem"
             overflow="scroll"
+            overflowX="hidden"
           >
             <List gap={2}>
               {cast.map((castMember, index) => (
