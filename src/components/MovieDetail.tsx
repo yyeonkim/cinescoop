@@ -31,12 +31,12 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
             100
           </Text>
           <Text>
-            <Text as="b">개요 </Text> {detailData?.genres[0].name}{" "}
-            {detailData?.genres[1]?.name} | {detailData?.runtime}분 |{" "}
-            {detailData?.release_date} 개봉
+            <Text as="b">개요</Text>{" "}
+            {detailData?.genres && `${detailData.genres[0].name} | `}
+            {detailData?.runtime}분 | {detailData?.release_date} 개봉
           </Text>
           <Text>
-            <Text as="b">출연 </Text> {creditData && creditData[0].name}
+            <Text as="b">출연</Text> {creditData && creditData[0].name}
           </Text>
           <Text>{detailData?.overview}</Text>
         </Stack>

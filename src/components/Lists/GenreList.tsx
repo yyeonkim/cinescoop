@@ -10,6 +10,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+// import Next
 import NextLink from "next/link";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -22,6 +23,8 @@ import { useQuery } from "react-query";
 import { IMovie, IGenre } from "../../interfaces";
 import { genreState } from "../../atom";
 import { fetchGenre, IMAGE_URL } from "../../../pages/api/useFetchGenre";
+import LoadingAnimation from "../LoadingAnimation";
+
 SwiperCore.use([Navigation]);
 
 export interface IGenreProps {
@@ -67,7 +70,9 @@ function GenreList({ genres }: IGenreProps) {
         </NextLink>
       </Flex>
       {isLoading ? (
-        <Text>Loading...</Text>
+        <Flex justifyContent="center" h="10rem" alignItems="center">
+          <LoadingAnimation />
+        </Flex>
       ) : (
         <Swiper
           slidesPerView={6}

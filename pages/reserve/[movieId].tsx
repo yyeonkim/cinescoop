@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { NextPage } from "next";
 import { useQuery } from "react-query";
-import { Center, Flex } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import { useSetRecoilState } from "recoil";
 
 import { fetchCredit, fetchDetail } from "../api/useFetchGenre";
 import { ICast, IMovieDetails } from "../../src/interfaces";
 import Navigation from "../../src/components/Navigation/Navigation";
 import MovieDetail from "../../src/components/MovieDetail";
 import ShowTime from "../../src/components/ShowTime";
-import { useRouter } from "next/router";
-import { useSetRecoilState } from "recoil";
+import LoadingAnimation from "../../src/components/LoadingAnimation";
 import { movieIDState } from "../../src/atom";
 
 const Reserve: NextPage = () => {
@@ -20,7 +21,7 @@ const Reserve: NextPage = () => {
   const setMovieId = useSetRecoilState(movieIDState);
 
   useEffect(() => {
-    const id = parseInt(movieId, 10);
+    const id = parseInt(movieId as any, 10);
     setMovieId(id);
   }, []);
 
@@ -37,7 +38,9 @@ const Reserve: NextPage = () => {
     <>
       <Navigation search={true} />
       {isLoading ? (
-        <span>Loading...</span>
+        <Flex justifyContent="center" h="20rem" alignItems="center">
+          <LoadingAnimation />
+        </Flex>
       ) : (
         <Flex direction="column" alignItems="center" px={20}>
           <MovieDetail detailData={detailData} creditData={creditData} />
