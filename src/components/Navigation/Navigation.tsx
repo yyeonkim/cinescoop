@@ -8,6 +8,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import logo from "../../public/logo.png";
+import Link from "next/link";
 
 import AccountBox from "./Profile";
 import Search from "./Search";
@@ -28,7 +29,9 @@ function Navigation({ search }: IsSearch) {
 
   return (
     <Flex gap={30} paddingX={100} paddingY={10} alignItems="center">
-      <Img src="logo.png" boxSize="12rem" objectFit="contain" mr={2} />
+      <Link href="/">
+        <Img src="logo.png" boxSize="12rem" objectFit="contain" mr={2} />
+      </Link>
       <PageLink path="/" name="Home" />
       <PageLink path="/about" name="About" />
       <Spacer />
