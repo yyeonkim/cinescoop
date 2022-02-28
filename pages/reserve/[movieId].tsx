@@ -71,6 +71,12 @@ export default Reserve;
 //   );
 //   const index = titles.findIndex((element: any) => element === title);
 
+//   // 상영 중인 영화가 아니면
+//   if (index == -1) {
+//     await browser.close();
+//     return {props: {}}
+//   }
+
 //   // 네이버 영화: 예매하기 버튼 클릭
 //   await page.click(
 //     `#content > div.article > div:nth-child(1) > div.lst_wrap > ul > li:nth-child(${
