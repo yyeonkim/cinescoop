@@ -1,14 +1,19 @@
 import React from "react";
 import { Flex, Text, Button } from "@chakra-ui/react";
+import Image from "next/image";
+import logo from "../../../public/logo.png";
 
 function Footer() {
   return (
-    <Flex bgColor="#C4C4C4" h="15rem" p="1rem" mt="2rem" justify="center">
-      <Flex flexDir="column">
-        <Text fontSize="1.5rem" mb="0.5rem">
-          Logo
-        </Text>
-        image
+    <Flex
+      backgroundColor="brightBlue"
+      h="15rem"
+      p="1rem"
+      mt="10rem"
+      justify="center"
+    >
+      <Flex flexDir="column" boxSize="12rem">
+        <Image src={logo} objectFit="contain" />
       </Flex>
       <Flex flexDir="column" ml="10rem" mr="10rem">
         <Text fontSize="1.5rem" mb="0.5rem">

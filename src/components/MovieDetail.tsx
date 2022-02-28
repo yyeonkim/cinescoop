@@ -2,7 +2,7 @@ import { Stack, Flex, Image, Text, Button, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 
-import { IMAGE_URL } from "../../pages/api/useFetchGenre";
+import { IMAGE_URL } from "../hooks/useFetchGenre";
 import { movieIDState } from "../atom";
 import { ICast, IMovieDetails } from "../interfaces";
 

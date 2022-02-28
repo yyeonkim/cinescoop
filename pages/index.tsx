@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
-import { BASE_QUERY, BASE_URL } from "./api/useFetchGenre";
+import { BASE_QUERY, BASE_URL } from "../src/hooks/useFetchGenre";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
 import SwipeList from "../src/components/Lists/SwipeList";

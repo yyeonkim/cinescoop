@@ -1,6 +1,6 @@
 import { Flex, Image } from "@chakra-ui/react";
 
-import { IMAGE_URL } from "../../../pages/api/useFetchGenre";
+import { IMAGE_URL } from "../../hooks/useFetchGenre";
 
 interface MainImageSectionProps {
   filePath: String;

@@ -22,7 +22,7 @@ import { useQuery } from "react-query";
 
 import { IMovie, IGenre } from "../../interfaces";
 import { genreState } from "../../atom";
-import { fetchGenre, IMAGE_URL } from "../../../pages/api/useFetchGenre";
+import { fetchGenre, IMAGE_URL } from "../../hooks/useFetchGenre";
 import LoadingAnimation from "../LoadingAnimation";
 
 SwiperCore.use([Navigation]);
