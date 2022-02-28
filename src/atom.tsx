@@ -2975,9 +2975,15 @@ export const movieInfoState = atom({
 export const loginState = atom({
   key: "loginState",
   default: false,
-})
+});
 
 export const userState = atom({
   key: "userState",
-  default:"Login/Sign up",
-})
+  default: {
+    thirdParty: false,
+    emailVerified: false,
+    email: "",
+    displayName: "",
+    photoURL: "",
+  },
+});

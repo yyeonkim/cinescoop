@@ -18,7 +18,11 @@ import {
   Image,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import {
+  AiFillAlipaySquare,
+  AiFillEye,
+  AiFillEyeInvisible,
+} from "react-icons/ai";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 
@@ -39,11 +43,7 @@ import { loginState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
 import facebookLogo from "../public/facebookLogo.png";
 import twitterLogo from "../public/twitterLogo.svg";
-
-interface IForm {
-  email: string;
-  password: string;
-}
+import { IForm } from "../src/interfaces";
 
 const Login: NextPage = () => {
   const [show, setShow] = useState(false);
@@ -60,12 +60,42 @@ const Login: NextPage = () => {
     formState: { errors },
   } = useForm<IForm>();
 
+  const setThirdPartyUser = (user: any) => {
+    if (user.emailVerified) {
+      user.email &&
+        setUser({
+          thirdParty: true,
+          emailVerified: user.emailVerified,
+          email: user.email,
+          displayName:
+            user.displayName != null
+              ? user.displayName
+              : user.email.slice(0, user.email.indexOf("@")),
+          photoURL: user.photoURL != null ? user.photoURL : "",
+        });
+    } else {
+      setUser({
+        thirdParty: true,
+        emailVerified: false,
+        email: "",
+        displayName: user.displayName != null ? user.displayName : "-",
+        photoURL: user.photoURL != null ? user.photoURL : "",
+      });
+    }
+  };
+
   const onSubmit: SubmitHandler<IForm> = (data) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then(() => {
         console.log("login success");
         setLogin(true);
-        setUser(data.email.slice(0, data.email.indexOf("@")));
+        setUser({
+          thirdParty: false,
+          emailVerified: true,
+          email: data.email,
+          displayName: data.email.slice(0, data.email.indexOf("@")),
+          photoURL: "",
+        });
         router.push("/");
       })
       .catch((error) => {
@@ -83,8 +113,7 @@ const Login: NextPage = () => {
 
         console.log("login success with Google");
         setLogin(true);
-        googleUser.email &&
-          setUser(googleUser.email.slice(0, googleUser.email.indexOf("@")));
+        setThirdPartyUser(googleUser);
         router.push("/");
       })
       .catch((error) => {
@@ -105,8 +134,7 @@ const Login: NextPage = () => {
 
         console.log("login success with Facebook");
         setLogin(true);
-        facebookUser.email &&
-          setUser(facebookUser.email.slice(0, facebookUser.email.indexOf("@")));
+        setThirdPartyUser(facebookUser);
         router.push("/");
       })
       .catch((error) => {
@@ -126,10 +154,10 @@ const Login: NextPage = () => {
         const secret = credential?.secret;
         const twitterUser = result.user;
 
+        console.log(credential);
         console.log("login success with Twitter");
         setLogin(true);
-        twitterUser.email &&
-          setUser(twitterUser.email.slice(0, twitterUser.email.indexOf("@")));
+        setThirdPartyUser(twitterUser);
         router.push("/");
       })
       .catch((error) => {

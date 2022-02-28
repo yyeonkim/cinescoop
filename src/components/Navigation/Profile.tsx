@@ -22,12 +22,19 @@ function Profile() {
   const [login, setLogin] = useRecoilState(loginState);
   const [user, setUser] = useRecoilState(userState);
 
-  const initials = login ? user : "";
+  const initials = login ? user.displayName : "";
+
   const logout = () => {
     signOut(auth)
       .then(() => {
         setLogin(false);
-        setUser("");
+        setUser({
+          thirdParty: false,
+          emailVerified: false,
+          email: "",
+          displayName: "",
+          photoURL: "",
+        });
         console.log("User logged out");
       })
       .catch((error) => console.log(error));
@@ -52,18 +59,31 @@ function Profile() {
           alignSelf="center"
           padding={0}
         >
-          <Avatar
-            name={initials}
-            src="https://bit.ly/broken-link"
-            icon={<AiOutlineUser fontSize="1.5rem" />}
-          />
+          {user.thirdParty ? (
+            <Avatar
+              src={user.photoURL}
+              icon={<AiOutlineUser fontSize="1.5rem" />}
+            ></Avatar>
+          ) : (
+            <Avatar
+              name={initials}
+              src={
+                user.photoURL == ""
+                  ? "https://bit.ly/broken-link"
+                  : user.photoURL
+              }
+              icon={<AiOutlineUser fontSize="1.5rem" />}
+            />
+          )}
         </MenuButton>
         <MenuList position="relative" zIndex={2}>
-          <Link href={`/mypage`}>
-            <MenuItem>마이페이지</MenuItem>
-          </Link>
           {login ? (
-            <MenuItem onClick={logout}>로그아웃하기</MenuItem>
+            <>
+              <Link href={`/mypage`}>
+                <MenuItem>마이페이지</MenuItem>
+              </Link>
+              <MenuItem onClick={logout}>로그아웃하기</MenuItem>
+            </>
           ) : (
             <Link href={`/login`}>
               <MenuItem>로그인하기</MenuItem>
