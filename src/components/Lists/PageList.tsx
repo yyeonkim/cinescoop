@@ -21,35 +21,60 @@ function PageList({ data }: IPageProps) {
   return (
     <Box mb={10}>
       <Swiper
+        centeredSlides={true}
         speed={600}
         autoplay={{ delay: 2500, disableOnInteraction: false }}
         parallax={true}
         pagination={{
           clickable: true,
         }}
+        breakpoints={{
+          // when window width is >= 480px
+          480: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          // when window width is >= 770px
+          770: {
+            slidesPerView: 1.5,
+            spaceBetween: 30,
+          },
+          // when window width is >= 1025px
+          1025: {
+            slidesPerView: 2,
+            spaceBetween: 40,
+          },
+        }}
         className="swiper__pagination"
       >
-        {data.map((movie) => (
-          <SwiperSlide className="slide__pagination" key={movie.id}>
-            <NextLink href={`movieinfo/${movie.id}`}>
-              <Link display="flex" flexDirection="column" alignItems="center">
-                <Image src={`${IMAGE_URL}/w780/${movie.backdrop_path}`} />
-                <Heading
-                  color="white"
-                  size="md"
-                  pos="absolute"
-                  bottom={5}
-                  className="title"
-                  data-swiper-parallax="-300"
-                  backgroundColor="rgba(0, 0, 0, 0.5)"
-                  boxShadow="dark-lg"
-                >
-                  {movie.title}
-                </Heading>
-              </Link>
-            </NextLink>
-          </SwiperSlide>
-        ))}
+        {data.map(
+          (movie) =>
+            movie.backdrop_path && (
+              <SwiperSlide className="slide__pagination" key={movie.id}>
+                <NextLink href={`movieinfo/${movie.id}`}>
+                  <Link
+                    display="flex"
+                    flexDirection="column"
+                    alignItems="center"
+                  >
+                    <Image src={`${IMAGE_URL}/w780/${movie.backdrop_path}`} />
+                    <Heading
+                      color="white"
+                      size="md"
+                      pos="absolute"
+                      bottom={5}
+                      className="title"
+                      data-swiper-parallax="-300"
+                      backgroundColor="rgba(0, 0, 0, 0.5)"
+                      boxShadow="dark-lg"
+                    >
+                      {movie.title}
+                    </Heading>
+                  </Link>
+                </NextLink>
+              </SwiperSlide>
+            )
+        )}
       </Swiper>
     </Box>
   );

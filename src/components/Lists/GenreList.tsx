@@ -10,6 +10,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
+// import Next
 import NextLink from "next/link";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -22,24 +23,28 @@ import { useQuery } from "react-query";
 import { IMovie, IGenre } from "../../interfaces";
 import { genreState } from "../../atom";
 import { fetchGenre, IMAGE_URL } from "../../../pages/api/useFetchGenre";
+import LoadingAnimation from "../LoadingAnimation";
+
 SwiperCore.use([Navigation]);
 
 export interface IGenreProps {
   genres: IGenre[];
+  windowWidth: number | null;
 }
 
-function GenreList({ genres }: IGenreProps) {
+function GenreList({ genres, windowWidth }: IGenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
   const { data, isLoading } = useQuery<IMovie[]>(["withGenre", genre], () =>
     fetchGenre(genre.id)
   );
 
   const selectGenre = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { selectedIndex } = event.currentTarget.options;
-    const currentOption = event.currentTarget.options[selectedIndex];
+    const {
+      currentTarget: { value, selectedOptions },
+    } = event;
     const selectedGenre = {
-      id: currentOption.value,
-      name: currentOption.text,
+      id: value,
+      name: selectedOptions[0].text,
     };
     setGenre(selectedGenre);
   };
@@ -66,7 +71,9 @@ function GenreList({ genres }: IGenreProps) {
         </NextLink>
       </Flex>
       {isLoading ? (
-        <Text>Loading...</Text>
+        <Flex justifyContent="center" h="10rem" alignItems="center">
+          <LoadingAnimation />
+        </Flex>
       ) : (
         <Swiper
           slidesPerView={6}
@@ -74,23 +81,47 @@ function GenreList({ genres }: IGenreProps) {
           slidesPerGroup={6}
           loop={false}
           navigation={true}
+          breakpoints={{
+            // when window width is >= 480px
+            480: {
+              slidesPerView: 3,
+              spaceBetween: 10,
+            },
+            // when window width is >= 770px
+            770: {
+              slidesPerView: 4,
+              spaceBetween: 10,
+            },
+            // when window width is >= 1025px
+            1025: {
+              slidesPerView: 6,
+              spaceBetween: 10,
+            },
+          }}
           className="swiper__navigation"
         >
-          {data?.map((movie: IMovie) => (
-            <SwiperSlide key={movie.id} className="wrapper__navigation">
-              <NextLink href={`movieinfo/${movie.id}`} passHref>
-                <Link>
-                  <Image
-                    src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
-                    alt={movie.title}
-                  />
-                  <Text fontSize="md" align="center" mt={1}>
-                    {movie.title}
-                  </Text>
-                </Link>
-              </NextLink>
-            </SwiperSlide>
-          ))}
+          {data?.map(
+            (movie: IMovie) =>
+              movie.backdrop_path && (
+                <SwiperSlide key={movie.id} className="wrapper__navigation">
+                  <NextLink href={`movieinfo/${movie.id}`} passHref>
+                    <Link>
+                      <Image
+                        src={`${IMAGE_URL}/w300/${
+                          windowWidth && windowWidth > 480
+                            ? movie.backdrop_path
+                            : movie.poster_path
+                        }`}
+                        alt={movie.title}
+                      />
+                      <Text fontSize="md" align="center" mt={1}>
+                        {movie.title}
+                      </Text>
+                    </Link>
+                  </NextLink>
+                </SwiperSlide>
+              )
+          )}
         </Swiper>
       )}
     </Box>

@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 
 import { BASE_QUERY, BASE_URL } from "./api/useFetchGenre";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
@@ -9,6 +10,7 @@ import GenreList from "../src/components/Lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
+import useWindowDimensions from "../src/hooks/useWindowDimensions";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -23,6 +25,13 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
+  const { width: windowWidth } = useWindowDimensions();
+  const router = useRouter();
+
+  const onClick = () => {
+    router.push("/now-in-theaters");
+  };
+
   return (
     <>
       <Navigation search={true} />
@@ -33,7 +42,7 @@ const Home: NextPage<IHomeProps> = ({
           <Heading size="lg" mb={10} mr={8}>
             상영 중인 영화
           </Heading>
-          <Button bg="pink" color="darkBlue" px={5}>
+          <Button bg="pink" color="darkBlue" px={5} onClick={onClick}>
             예매하기
           </Button>
         </Flex>
@@ -48,7 +57,7 @@ const Home: NextPage<IHomeProps> = ({
         <SwipeList data={topRated} poster={false} slidesNumber={6} />
       </Box>
 
-      <GenreList genres={genres} />
+      <GenreList genres={genres} windowWidth={windowWidth} />
       <Cinema />
     </>
   );
@@ -61,13 +70,17 @@ export async function getStaticProps() {
   ).json();
 
   //Now playing movies
-  const { results: nowPlaying } = await (
-    await fetch(`${BASE_URL}/movie/now_playing?${BASE_QUERY}&page=1`)
-  ).json();
+  let nowPlaying = [];
+  for (let i = 1; i <= 3; i++) {
+    const { results } = await (
+      await fetch(`${BASE_URL}/movie/now_playing?${BASE_QUERY}&page=${i}`)
+    ).json();
+    nowPlaying.push(...results);
+  }
 
   // Top rated movies
   const { results: topRated } = await (
-    await fetch(`${BASE_URL}/movie/top_rated?${BASE_QUERY}&page=1`)
+    await fetch(`${BASE_URL}/movie/top_rated?${BASE_QUERY}`)
   ).json();
 
   // Genre ids

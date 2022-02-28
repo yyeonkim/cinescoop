@@ -2,10 +2,10 @@
   "name": "cinescoop-web",
   "private": true,
   "scripts": {
+    "server": "nodemon server.js",
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@chakra-ui/icons": "^1.1.1",
@@ -16,8 +16,11 @@
     "axios": "^0.25.0",
     "dom7": "^4.0.4",
     "dotenv": "^14.3.0",
+    "express": "^4.17.2",
     "framer-motion": "^5.6.0",
-    "next": "12.0.7",
+    "next": "^12.1.0",
+    "nodemon": "^2.0.15",
+    "puppeteer": "^13.3.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.24.0",
@@ -31,6 +34,7 @@
   },
   "devDependencies": {
     "@types/node": "17.0.8",
+    "@types/puppeteer": "^5.4.4",
     "@types/react": "17.0.38",
     "@types/react-star-ratings": "^2.3.0",
     "@types/styled-components": "^5.1.20",
