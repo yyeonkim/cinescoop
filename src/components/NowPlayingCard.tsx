@@ -5,6 +5,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { movieIDState } from "../atom";
 import { IMovieDetails, ICast } from "../interfaces";
 import { Movie } from "./VerCard";
+import StarRating from "./StarRatings";
 
 interface CardProps {
   info: Movie;
@@ -40,9 +41,15 @@ function NowPlayingCard({ info, page, key }: CardProps) {
           <Text fontSize="1.2rem" mb={1}>
             {detail.title}
           </Text>
-          <Text fontSize="0.9rem" mb={1}>
-            평점 {detail.vote_average}
-          </Text>
+          <Flex fontSize="0.9rem" mb={1}>
+            <Text mr={1}>평점</Text>
+            {detail.vote_average ? (
+              <StarRating voteAverage={detail.vote_average} starSize={"15px"} />
+            ) : (
+              <StarRating voteAverage={0} starSize={"15px"} />
+            )}
+            <Text ml={1}>{detail.vote_average}</Text>
+          </Flex>
           <Flex>
             <Text fontSize="0.9rem" mr={1}>
               개요

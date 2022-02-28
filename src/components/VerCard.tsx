@@ -1,6 +1,7 @@
 import { Flex, Img, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
+import styled from "styled-components";
 
 import { movieIDState } from "../atom";
 
@@ -35,14 +36,17 @@ function VerCard({ info }: CardProps) {
 
   return (
     <Flex flexDir="column" onClick={() => seeMovieInfo(info.id)}>
-      <Img
-        objectFit="cover"
-        src={`https:www.themoviedb.org/t/p/w1280${info.poster_path}`}
-        maxW="100%"
-        minH="75%"
-        maxH="75%"
-        borderRadius={5}
-      />
+      <Wrapper>
+        <Img
+          _hover={{ backgroundColor: "pink" }}
+          objectFit="cover"
+          src={`https:www.themoviedb.org/t/p/w1280${info.poster_path}`}
+          maxW="100%"
+          minH="75%"
+          maxH="75%"
+          borderRadius={5}
+        />
+      </Wrapper>
       <Text textAlign="center" mb="0" fontSize="0.9rem">
         {info.title}
       </Text>
@@ -52,3 +56,4 @@ function VerCard({ info }: CardProps) {
 
 export default VerCard;
 export type { Movie };
+const Wrapper = styled.div``;

@@ -1,4 +1,5 @@
 import {
+  Box,
   Flex,
   Grid,
   GridItem,
@@ -8,7 +9,7 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react";
-
+import StarRating from "../../StarRatings";
 import { ICast, ICrew, IMovieDetails } from "../../../interfaces";
 
 interface infoBoxprops {
@@ -23,6 +24,9 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
       <Heading size="2xl" textAlign="center">
         {details.original_title}
       </Heading>
+      <Box mt={2} textAlign="center">
+        <StarRating voteAverage={details.vote_average} starSize={"1.5rem"} />
+      </Box>
       <Flex
         w="100%"
         minH="min-content"
