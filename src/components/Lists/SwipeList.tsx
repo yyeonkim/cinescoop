@@ -66,12 +66,22 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
                 onClick={() => seeMovieInfo(movie.id)}
               >
                 <Link>
-                  <Image
-                    src={`${IMAGE_URL}/w300/${
-                      isPoster ? movie.poster_path : movie.backdrop_path
-                    }`}
-                    alt={movie.title}
-                  />
+                  {isPoster ? (
+                    <Image
+                      src={`${IMAGE_URL}/w300/${movie.poster_path}`}
+                      alt={movie.title}
+                      objectFit="cover"
+                      h="450px"
+                      maxH="450px"
+                    />
+                  ) : (
+                    <Image
+                      src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
+                      alt={movie.title}
+                      objectFit="cover"
+                    />
+                  )}
+
                   <Text fontSize="md" align="center" mt={1}>
                     {movie.title}
                   </Text>
