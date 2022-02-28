@@ -11,6 +11,12 @@ import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import Footer from "../src/components/Layout/Footer";
 
+import axios from "axios";
+import Login from "./login";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
+import { useEffect } from "react";
+
 interface IHomeProps {
   trending: ITrending[];
   nowPlaying: IMovie[];
@@ -24,9 +30,20 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user);
+      } else {
+        console.log("none");
+      }
+    });
+  });
+
   return (
     <>
       <Navigation search={true} />
+      {/* <Login /> */}
       <PageList data={trending} />
       <HomeText />
       <Box bgColor="brightBlue" p={10} py={20}>
