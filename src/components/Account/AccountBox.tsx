@@ -3,9 +3,17 @@ import { Flex, Text, Button, Box, useDisclosure } from "@chakra-ui/react";
 import Withdrawal from "./Withdrawal";
 import ChangePassword from "./ChangePassword";
 
+import { useRecoilValue } from "recoil";
+import { userState } from "../../atom";
+import { getAuth } from "firebase/auth";
+
 function AccountBox() {
   const disclosure1 = useDisclosure();
   const disclosure2 = useDisclosure();
+  const user = useRecoilValue(userState);
+  const auth = getAuth();
+  const authUser = auth.currentUser;
+
   return (
     <Flex
       bgColor="#3843CD"
@@ -18,20 +26,26 @@ function AccountBox() {
     >
       <Box borderRadius="50%" w="10rem" h="10rem" bgColor="#C4C4C4"></Box>
       <Flex flexDir="column" ml="2rem">
-        <Text>아이디</Text>
-        <Text>이메일</Text>
-        <Text onClick={disclosure1.onOpen}>
+        <Text fontSize="1.5rem">{user.displayName}</Text>
+        {user.emailVerified && (
+          <>
+            <Text opacity="0.5">{user.email}</Text>
+          </>
+        )}
+
+        <Text color="pink" mt="2rem" onClick={disclosure1.onOpen}>
           비밀번호 변경하기 {">"}
           <ChangePassword
             isOpen={disclosure1.isOpen}
             onClose={disclosure1.onClose}
           />
         </Text>
-        <Text onClick={disclosure2.onOpen}>
+        <Text color="pink" onClick={disclosure2.onOpen}>
           탈퇴하기 {">"}
           <Withdrawal
             isOpen={disclosure2.isOpen}
             onClose={disclosure2.onClose}
+            authUser={authUser}
           />
         </Text>
       </Flex>

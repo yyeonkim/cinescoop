@@ -6,7 +6,7 @@ import { Flex, Text, Box } from "@chakra-ui/react";
 const MyPage: NextPage = () => {
   return (
     <div>
-      <Navigation num={1} />
+      <Navigation search={false} />
       <Flex justifyContent="center">
         <Box>
           <Text ml="3rem" color="pink" fontSize="1.5rem">
