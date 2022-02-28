@@ -12,6 +12,12 @@ import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 
+import axios from "axios";
+import Login from "./login";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../firebase";
+import { useEffect } from "react";
+
 interface IHomeProps {
   trending: ITrending[];
   nowPlaying: IMovie[];
@@ -31,10 +37,20 @@ const Home: NextPage<IHomeProps> = ({
   const onClick = () => {
     router.push("/now-in-theaters");
   };
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        console.log(user);
+      } else {
+        console.log("none");
+      }
+    });
+  });
 
   return (
     <>
       <Navigation search={true} />
+      {/* <Login /> */}
       <PageList data={trending} />
       <HomeText />
       <Box bgColor="brightBlue" p={10} py={20}>

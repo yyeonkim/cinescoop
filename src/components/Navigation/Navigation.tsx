@@ -9,10 +9,13 @@ import {
 } from "@chakra-ui/react";
 import logo from "../../public/logo.png";
 import Link from "next/link";
+import { useRecoilValue } from "recoil";
 
-import AccountBox from "./Profile";
+import Profile from "./Profile";
 import Search from "./Search";
 import PageLink from "./PageLink";
+import SwitchMode from "./SwitchMode";
+import { loginState, userState } from "../../atom";
 
 export interface SearchProps {
   version: string;
@@ -25,8 +28,6 @@ export interface IsSearch {
   search: boolean;
 }
 function Navigation({ search }: IsSearch) {
-  const { colorMode, toggleColorMode } = useColorMode();
-
   return (
     <Flex gap={30} paddingX={100} paddingY={10} alignItems="center">
       <Link href="/">
@@ -36,18 +37,8 @@ function Navigation({ search }: IsSearch) {
       <PageLink path="/about" name="About" />
       <Spacer />
       {search && <Search version="short" />}
-
-      <Button
-        onClick={toggleColorMode}
-        variant="outline"
-        size="md"
-        _focus={{ outline: "none" }}
-        _hover={{ borderColor: "pink" }}
-        minWidth="6rem"
-      >
-        {colorMode == "dark" ? "Dark" : "Light"} Mode
-      </Button>
-      <AccountBox login={true} name="Alice Jung" />
+      <SwitchMode />
+      <Profile />
     </Flex>
   );
 }

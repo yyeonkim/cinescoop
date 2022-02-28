@@ -126,9 +126,38 @@ export interface IVideo {
   published_at: string;
   id: string;
 }
+export interface IForm {
+  email: string;
+  password: string;
+}
 
-// export interface IMovieInfo {
-//   details: IMovieDetails;
-//   credits: IMovieCredits;
-//   videos: IMovie
+export interface IPasswordForm{
+  password: string;
+}
+
+// export interface IUserImpl {
+//   uid: string;
+//   emailVerified: boolean;
+//   displayName: string;
+//   isAnonymous: boolean;
+//   photoURL: string;
+//   providerData: [
+//     {
+//       providerId: string;
+//       uid: string;
+//       displayName: string | null;
+//       email: string | null;
+//       phoneNumber: string | null;
+//       photoURL: string | null;
+//     }
+//   ];
+//   stsTokenManager: {
+//     refreshToken: string;
+//     accessToken: string;
+//     expirationTime: number;
+//   };
+//   createdAt: string;
+//   lastLoginAt: string;
+//   apiKey: string;
+//   appName: string;
 // }
