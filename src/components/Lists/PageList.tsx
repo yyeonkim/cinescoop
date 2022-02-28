@@ -21,14 +21,29 @@ function PageList({ data }: IPageProps) {
   return (
     <Box mb={10}>
       <Swiper
-        slidesPerView={2}
         centeredSlides={true}
-        spaceBetween={40}
         speed={600}
         autoplay={{ delay: 2500, disableOnInteraction: false }}
         parallax={true}
         pagination={{
           clickable: true,
+        }}
+        breakpoints={{
+          // when window width is >= 480px
+          480: {
+            slidesPerView: 1,
+            spaceBetween: 20,
+          },
+          // when window width is >= 770px
+          770: {
+            slidesPerView: 1.5,
+            spaceBetween: 30,
+          },
+          // when window width is >= 1025px
+          1025: {
+            slidesPerView: 2,
+            spaceBetween: 40,
+          },
         }}
         className="swiper__pagination"
       >

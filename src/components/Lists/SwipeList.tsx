@@ -38,6 +38,23 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
         spaceBetween={10}
         slidesPerGroup={slidesNumber}
         navigation={true}
+        breakpoints={{
+          // when window width is >= 480px
+          480: {
+            slidesPerView: slidesNumber - 3,
+            slidesPerGroup: slidesNumber - 3,
+          },
+          // when window width is >= 770px
+          770: {
+            slidesPerView: slidesNumber - 2,
+            slidesPerGroup: slidesNumber - 2,
+          },
+          // when window width is >= 1025px
+          1025: {
+            slidesPerView: slidesNumber,
+            slidesPerGroup: slidesNumber,
+          },
+        }}
         className="swiper__navigation"
       >
         {data.map(

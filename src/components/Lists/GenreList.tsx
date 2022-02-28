@@ -29,9 +29,10 @@ SwiperCore.use([Navigation]);
 
 export interface IGenreProps {
   genres: IGenre[];
+  windowWidth: number | null;
 }
 
-function GenreList({ genres }: IGenreProps) {
+function GenreList({ genres, windowWidth }: IGenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
   const { data, isLoading } = useQuery<IMovie[]>(["withGenre", genre], () =>
     fetchGenre(genre.id)
@@ -80,6 +81,23 @@ function GenreList({ genres }: IGenreProps) {
           slidesPerGroup={6}
           loop={false}
           navigation={true}
+          breakpoints={{
+            // when window width is >= 480px
+            480: {
+              slidesPerView: 3,
+              spaceBetween: 10,
+            },
+            // when window width is >= 770px
+            770: {
+              slidesPerView: 4,
+              spaceBetween: 10,
+            },
+            // when window width is >= 1025px
+            1025: {
+              slidesPerView: 6,
+              spaceBetween: 10,
+            },
+          }}
           className="swiper__navigation"
         >
           {data?.map(
@@ -89,7 +107,11 @@ function GenreList({ genres }: IGenreProps) {
                   <NextLink href={`movieinfo/${movie.id}`} passHref>
                     <Link>
                       <Image
-                        src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
+                        src={`${IMAGE_URL}/w300/${
+                          windowWidth && windowWidth > 480
+                            ? movie.backdrop_path
+                            : movie.poster_path
+                        }`}
                         alt={movie.title}
                       />
                       <Text fontSize="md" align="center" mt={1}>

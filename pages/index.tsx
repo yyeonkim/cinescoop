@@ -10,6 +10,7 @@ import GenreList from "../src/components/Lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
+import useWindowDimensions from "../src/hooks/useWindowDimensions";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -24,6 +25,7 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
+  const { width: windowWidth } = useWindowDimensions();
   const router = useRouter();
 
   const onClick = () => {
@@ -55,7 +57,7 @@ const Home: NextPage<IHomeProps> = ({
         <SwipeList data={topRated} poster={false} slidesNumber={6} />
       </Box>
 
-      <GenreList genres={genres} />
+      <GenreList genres={genres} windowWidth={windowWidth} />
       <Cinema />
     </>
   );
