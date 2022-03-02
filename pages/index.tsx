@@ -12,7 +12,6 @@ import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 
-import axios from "axios";
 import Login from "./login";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
