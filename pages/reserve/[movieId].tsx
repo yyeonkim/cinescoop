@@ -5,7 +5,7 @@ import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 
-import { fetchCredit, fetchDetail } from "../../src/hooks/useFetchGenre";
+import { fetchCredit, fetchDetail } from "../../src/hooks/fetching";
 import { ICast, IMovieDetails } from "../../src/interfaces";
 import Navigation from "../../src/components/Navigation/Navigation";
 import MovieDetail from "../../src/components/MovieDetail";
