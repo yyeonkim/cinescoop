@@ -3,11 +3,13 @@ import type { NextRequest } from "next/server";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase";
 
-const isLoggedIn = onAuthStateChanged(auth, (user) => {
+let isLoggedIn = true;
+
+onAuthStateChanged(auth, (user) => {
   if (user) {
-    return true;
+    isLoggedIn = true;
   }
-  return false;
+  isLoggedIn = false;
 });
 
 export function middleware(req: NextRequest) {
