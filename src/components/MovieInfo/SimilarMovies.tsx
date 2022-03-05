@@ -1,6 +1,6 @@
 import { Flex, Heading, useColorModeValue } from "@chakra-ui/react";
 import { IMovie } from "../../interfaces";
-import SwipeList from "../A/SwipeList";
+import SwipeList from "../Lists/SwipeList";
 
 interface similarMoviesProps {
   data: IMovie[];
