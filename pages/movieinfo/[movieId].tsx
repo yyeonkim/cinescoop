@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { Flex } from "@chakra-ui/react";
 
-import useFetchMovieDetails from "../api/useFetchMovieInfo";
+import useFetchMovieDetails from "../../src/hooks/useFetchMovieInfo";
 import Navigation from "../../src/components/Navigation/Navigation";
 import MainImageSection from "../../src/components/MovieInfo/MainImageSection";
 import DetailsTicketBox from "../../src/components/MovieInfo/Ticket";
@@ -20,7 +20,7 @@ const MovieInfoPage: NextPage = () => {
 
   return (
     <div>
-      {/* <Navigation /> */}
+      <Navigation search={true} />
       {isLoading ? (
         <div>loading</div>
       ) : (

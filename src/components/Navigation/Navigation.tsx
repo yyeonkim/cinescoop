@@ -6,8 +6,9 @@ import {
   Switch,
   Text,
   useColorMode,
+  Image,
 } from "@chakra-ui/react";
-import logo from "../../public/logo.png";
+import logo from "../../../public/logo.png";
 import Link from "next/link";
 import { useRecoilValue } from "recoil";
 
@@ -29,9 +30,9 @@ export interface IsSearch {
 }
 function Navigation({ search }: IsSearch) {
   return (
-    <Flex gap={30} paddingX={100} paddingY={10} alignItems="center">
+    <Flex gap={30} paddingX={100} paddingY={0.7} alignItems="center">
       <Link href="/">
-        <Img src="logo.png" boxSize="12rem" objectFit="contain" mr={2} />
+        <Image src={logo.src} boxSize="12rem" objectFit="contain" mr={2} />
       </Link>
       <PageLink path="/" name="Home" />
       <PageLink path="/about" name="About" />
