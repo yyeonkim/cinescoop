@@ -6,6 +6,7 @@ import {
   GoogleAuthProvider,
   TwitterAuthProvider,
 } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -26,3 +27,5 @@ googleProvider.setCustomParameters({ prompt: "select_account" });
 
 export const facebookProvider = new FacebookAuthProvider();
 export const twitterProvider = new TwitterAuthProvider();
+
+export const db = getFirestore();

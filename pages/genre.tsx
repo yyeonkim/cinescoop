@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
 
-import { BASE_URL } from "../src/hooks/useFetchGenre";
+import { BASE_URL } from "../src/hooks/fetching";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
 import SwipeList from "../src/components/Lists/SwipeList";

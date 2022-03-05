@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import styled from "styled-components";
 import {
   FormControl,
@@ -15,11 +16,11 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-
-import { auth } from "../firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { useRouter } from "next/router";
+import { collection, addDoc } from "firebase/firestore";
 import { useRecoilState } from "recoil";
+
+import { auth, db } from "../firebase";
 import { loginState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
 
@@ -28,6 +29,16 @@ interface IForm {
   password: string;
   confirmation: string;
   email: string;
+}
+
+interface IUserMovie {
+  id: string;
+}
+
+interface INewUser {
+  uid: string;
+  username: string;
+  movies: IUserMovie[] | [];
 }
 
 const Join: NextPage = () => {
@@ -43,15 +54,28 @@ const Join: NextPage = () => {
     formState: { errors },
   } = useForm<IForm>();
 
-  const onSubmit: SubmitHandler<IForm> = (data) => {
-    console.log(data);
+  const saveUserToDB = async (id: string, username: string) => {
+    try {
+      await addDoc(collection(db, "users"), { id, username, movies: [] });
+      console.log("complete to save");
+      router.push("/");
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
 
+  const onSubmit: SubmitHandler<IForm> = (data) => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then(() => {
-        console.log("signup success");
+      .then((userCredential) => {
+        console.log(userCredential.user);
+        const {
+          user: { email, uid },
+        } = userCredential;
+        const username = email?.slice(0, email?.indexOf("@"));
+
+        saveUserToDB(uid, username as any);
         setLogin(true);
         setUser(data.email.slice(0, data.email.indexOf("@")));
-        router.push("/");
       })
       .catch((error) => {
         console.log(error.code);
