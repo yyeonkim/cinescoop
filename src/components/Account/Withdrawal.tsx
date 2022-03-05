@@ -55,7 +55,7 @@ function Withdrawal({ isOpen, onClose }: any) {
   const errorToast = useToast();
   const clickShow = () => setShow(!show);
 
-  const onSubmit: SubmitHandler<IPasswordForm> = (data) => {
+  const deleteUser: SubmitHandler<IPasswordForm> = (data) => {
     const auth = getAuth();
     const authUser = auth.currentUser;
     if (verified) {
@@ -110,7 +110,7 @@ function Withdrawal({ isOpen, onClose }: any) {
               비밀번호 인증
             </Text>
 
-            <StyledForm onSubmit={handleSubmit(onSubmit)}>
+            <StyledForm onSubmit={handleSubmit(deleteUser)}>
               <FormControl>
                 <Flex>
                   <InputGroup>
