@@ -30,6 +30,7 @@ function Profile() {
         setLogin(false);
         setUser({
           thirdParty: false,
+          loginMethod: "",
           emailVerified: false,
           email: "",
           displayName: "",

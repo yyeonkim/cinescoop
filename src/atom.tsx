@@ -2982,6 +2982,7 @@ export const userState = atom({
   default: {
     thirdParty: false,
     emailVerified: false,
+    loginMethod: "",
     email: "",
     displayName: "",
     photoURL: "",
