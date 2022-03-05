@@ -55,6 +55,8 @@ const Join: NextPage = () => {
   } = useForm<IForm>();
 
   const saveUserToDB = async (id: string, username: string) => {
+    //user id로 document id 만들기(set())
+    //third party user도 계정 추가할 수 있도록 하는 함수 필요(먼저 존재하는 유저인지 확인해야함!)
     try {
       await addDoc(collection(db, "users"), { id, username, movies: [] });
       console.log("complete to save");
