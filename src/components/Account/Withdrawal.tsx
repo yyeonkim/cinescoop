@@ -1,17 +1,15 @@
-
 import React, { useState } from "react";
 import {
   Flex,
   Text,
   Button,
-  Box,
   Input,
   InputGroup,
   InputRightElement,
   Icon,
   FormControl,
   useToast,
-  toast,
+  ModalHeader,
 } from "@chakra-ui/react";
 import {
   AiFillEye,
@@ -22,23 +20,18 @@ import {
   Modal,
   ModalOverlay,
   ModalContent,
-  ModalHeader,
-  ModalFooter,
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IPasswordForm } from "../../interfaces";
 import styled from "styled-components";
-import {
-  deleteUser,
-  getAuth,
-  EmailAuthProvider,
-  reauthenticateWithCredential,
-} from "firebase/auth";
+import { deleteUser, getAuth } from "firebase/auth";
 import { useRecoilState } from "recoil";
-import { loginState, userState } from "../../atom";
 import { useRouter } from "next/router";
+
+import { loginState, userState } from "../../atom";
+import { IPasswordForm } from "../../interfaces";
+import useReauthenticateUser from "../../hooks/login-signup/useReauthenticateUSer";
 
 function Withdrawal({ isOpen, onClose }: any) {
   const {
@@ -53,98 +46,69 @@ function Withdrawal({ isOpen, onClose }: any) {
   const [user, setUser] = useRecoilState(userState);
   const router = useRouter();
   const errorToast = useToast();
+
   const clickShow = () => setShow(!show);
+
+  const deleteCurrentUser = (authUser: any) => {
+    deleteUser(authUser)
+      .then(() => {
+        console.log("user delete success");
+      })
+      .catch((error) => console.log({ error }));
+    setLogin(false);
+    setUser({
+      thirdParty: false,
+      loginMethod: "",
+      emailVerified: false,
+      email: "",
+      displayName: "",
+      photoURL: "",
+    });
+    console.log("User logged out");
+    router.push("/");
+  };
 
   const onSubmit: SubmitHandler<IPasswordForm> = (data) => {
     const auth = getAuth();
     const authUser = auth.currentUser;
     if (verified) {
-      authUser &&
-        deleteUser(authUser)
-          .then(() => {
-            console.log("user delete success");
-          })
-          .catch((error) => console.log({ error }));
-      setLogin(false);
-      setUser({
-        thirdParty: false,
-        emailVerified: false,
-        email: "",
-        displayName: "",
-        photoURL: "",
-      });
-      console.log("User logged out");
-      router.push("/");
+      authUser && deleteCurrentUser(authUser);
     } else {
-      const credentials = EmailAuthProvider.credential(
-        authUser.emailVerified ? authUser.email : user.displayName,
-        getValues("password")
+      const { reauthenticate } = useReauthenticateUser(
+        authUser,
+        user,
+        getValues("password"),
+        setVerified,
+        errorToast
       );
-      authUser &&
-        reauthenticateWithCredential(authUser, credentials)
-          .then(() => {
-            setVerified(true);
-          })
-          .catch((error) => {
-            console.log({ error });
-            errorToast({
-              title: "인증 실패",
-              description:
-                "입력하신 비밀번호가 현재 비밀번호와 일치하지 않습니다.",
-              status: "error",
-              duration: 9000,
-              isClosable: true,
-            });
-          });
+      reauthenticate();
     }
   };
+
   return (
-    <Modal size="xl" isOpen={isOpen} onClose={onClose}>
+    <Modal
+      size="xl"
+      isOpen={isOpen}
+      onClose={() => {
+        setVerified(false);
+        onClose();
+      }}
+    >
       <ModalOverlay />
       <ModalContent>
         <ModalHeader>회원탈퇴</ModalHeader>
         <ModalCloseButton />
         <ModalBody>
           <Flex justify="center" flexDir="column">
-            <Text mr="3rem" mb="1rem">
-              비밀번호 인증
-            </Text>
-
             <StyledForm onSubmit={handleSubmit(onSubmit)}>
-              <FormControl>
+              {user.thirdParty ? (
                 <Flex>
-                  <InputGroup>
-                    <Input
-                      {...register("password", {
-                        required: "현재 비밀번호를 입력하세요",
-                      })}
-                      type={show ? "text" : "password"}
-                      size="lg"
-                      placeholder="비밀번호"
-                    />
-
-                    <InputRightElement width="3rem">
-                      {show ? (
-                        <Icon
-                          boxSize="1.5rem"
-                          as={AiFillEye}
-                          onClick={clickShow}
-                        />
-                      ) : (
-                        <Icon
-                          boxSize="1.5rem"
-                          as={AiFillEyeInvisible}
-                          onClick={clickShow}
-                        />
-                      )}
-                    </InputRightElement>
-                  </InputGroup>
+                  {/* <Text flexGrow="1">탈퇴하기 전 마지막으로 인증해주세요.</Text> */}
                   {verified ? (
                     <Button
                       leftIcon={<AiFillCheckCircle />}
                       isDisabled={true}
                       size="lg"
-                      ml="1rem"
                       backgroundColor="brightBlue"
                       _disabled={{ backgroundColor: "brightBlue" }}
                       _hover={{ backgroundColor: "brightBlue" }}
@@ -152,25 +116,78 @@ function Withdrawal({ isOpen, onClose }: any) {
                       인증완료
                     </Button>
                   ) : (
-                    <Button type="submit" size="lg" ml="1rem">
-                      인증하기
+                    <Button type="submit" size="lg">
+                      탈퇴하기 전 인증하기
                     </Button>
                   )}
                 </Flex>
+              ) : (
+                <>
+                  <Text mr="3rem" mb="1rem">
+                    비밀번호 인증
+                  </Text>
+                  <FormControl>
+                    <Flex>
+                      <InputGroup>
+                        <Input
+                          {...register("password", {
+                            required: "현재 비밀번호를 입력하세요",
+                          })}
+                          type={show ? "text" : "password"}
+                          size="lg"
+                          placeholder="비밀번호"
+                        />
 
-                <Text fontSize="xs" color="tomato">
-                  {errors?.password?.message}
-                </Text>
-              </FormControl>
-
+                        <InputRightElement width="3rem">
+                          {show ? (
+                            <Icon
+                              boxSize="1.5rem"
+                              as={AiFillEye}
+                              onClick={clickShow}
+                            />
+                          ) : (
+                            <Icon
+                              boxSize="1.5rem"
+                              as={AiFillEyeInvisible}
+                              onClick={clickShow}
+                            />
+                          )}
+                        </InputRightElement>
+                      </InputGroup>
+                      {verified ? (
+                        <Button
+                          leftIcon={<AiFillCheckCircle />}
+                          isDisabled={true}
+                          size="lg"
+                          ml="1rem"
+                          backgroundColor="brightBlue"
+                          _disabled={{ backgroundColor: "brightBlue" }}
+                          _hover={{ backgroundColor: "brightBlue" }}
+                        >
+                          인증완료
+                        </Button>
+                      ) : (
+                        <Button type="submit" size="lg" ml="1rem">
+                          인증하기
+                        </Button>
+                      )}
+                    </Flex>
+                    <Text fontSize="xs" color="tomato">
+                      {errors?.password?.message}
+                    </Text>
+                  </FormControl>
+                </>
+              )}
               <Button
                 type="submit"
-                display="inline-flex"
+                alignSelf="right"
+                justifySelf="right"
                 mb="2rem"
                 mt="3rem"
                 color="black"
                 bgColor="pink"
                 background="none"
+                isDisabled={!verified}
                 _focus={{ outline: "none" }}
                 _hover={{ backgroundColor: "white" }}
               >
