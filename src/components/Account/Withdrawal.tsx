@@ -31,7 +31,7 @@ import { useRouter } from "next/router";
 
 import { loginState, userState } from "../../atom";
 import { IPasswordForm } from "../../interfaces";
-import useReauthenticateUser from "../../hooks/login-signup/useReauthenticateUSer";
+import useReauthenticateUser from "../../hooks/login-signup/useReauthenticateUser";
 
 function Withdrawal({ isOpen, onClose }: any) {
   const {
