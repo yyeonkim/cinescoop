@@ -1,7 +1,7 @@
 import React from "react";
-import { Flex, Text, Button, Box, useDisclosure } from "@chakra-ui/react";
+import { Flex, Text, Box, useDisclosure } from "@chakra-ui/react";
 import Withdrawal from "./Withdrawal";
-import ChangePassword from "./ChangePassword";
+import ChangePasswordModal from "./ChangePasswordModal";
 
 import { useRecoilValue } from "recoil";
 import { userState } from "../../atom";
@@ -35,7 +35,7 @@ function AccountBox() {
 
         <Text color="pink" mt="2rem" onClick={disclosure1.onOpen}>
           비밀번호 변경하기 {">"}
-          <ChangePassword
+          <ChangePasswordModal
             isOpen={disclosure1.isOpen}
             onClose={disclosure1.onClose}
           />
