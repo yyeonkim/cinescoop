@@ -42,7 +42,7 @@ const Reserve: NextPage = () => {
     const id = parseInt(movieId as any, 10);
     setMovieId(id);
 
-    // 사용자 로그인 여부 확인
+    // 사용자 로그인 여부 확인 --> _app.tsx로 옮기고 로그인 state 만들기
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const { uid } = user;
