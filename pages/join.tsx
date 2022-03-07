@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { collection, addDoc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { useRecoilState } from "recoil";
 
 import { auth, db } from "../firebase";
@@ -58,7 +58,7 @@ const Join: NextPage = () => {
     //user id로 document id 만들기(set())
     //third party user도 계정 추가할 수 있도록 하는 함수 필요(먼저 존재하는 유저인지 확인해야함!)
     try {
-      await addDoc(collection(db, "users"), { id, username, movies: [] });
+      await setDoc(doc(db, "users", id), { username, movies: [] });
       console.log("complete to save");
       router.push("/");
     } catch (e) {
@@ -73,7 +73,7 @@ const Join: NextPage = () => {
         const {
           user: { email, uid },
         } = userCredential;
-        const username = email?.slice(0, email?.indexOf("@"));
+        const username = email?.slice(0, email?.indexOf("@")) + uid;
 
         saveUserToDB(uid, username as any);
         setLogin(true);
