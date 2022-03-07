@@ -131,33 +131,11 @@ export interface IForm {
   password: string;
 }
 
+export interface IPasswordCheckForm{
+  newPassword: string;
+  newPasswordCheck: string;
+}
+
 export interface IPasswordForm{
   password: string;
 }
-
-// export interface IUserImpl {
-//   uid: string;
-//   emailVerified: boolean;
-//   displayName: string;
-//   isAnonymous: boolean;
-//   photoURL: string;
-//   providerData: [
-//     {
-//       providerId: string;
-//       uid: string;
-//       displayName: string | null;
-//       email: string | null;
-//       phoneNumber: string | null;
-//       photoURL: string | null;
-//     }
-//   ];
-//   stsTokenManager: {
-//     refreshToken: string;
-//     accessToken: string;
-//     expirationTime: number;
-//   };
-//   createdAt: string;
-//   lastLoginAt: string;
-//   apiKey: string;
-//   appName: string;
-// }
