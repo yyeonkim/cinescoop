@@ -1,6 +1,16 @@
-import { Stack, Flex, Image, Text, Button, Heading } from "@chakra-ui/react";
+import {
+  Stack,
+  Flex,
+  Image,
+  Text,
+  Button,
+  Heading,
+  Circle,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useState } from "react";
 
 import { IMAGE_URL } from "../hooks/fetching";
 import { movieIDState } from "../atom";
@@ -14,6 +24,7 @@ interface IDetailProps {
 const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
   const router = useRouter();
   const movieID = useRecoilValue(movieIDState);
+  const [liked, setLiked] = useState(false);
 
   const onClick = () => {
     router.push(`/movieinfo/${movieID}`);
@@ -24,7 +35,22 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
       <Image src={`${IMAGE_URL}/w300/${detailData?.poster_path}`} />
       <Flex direction="column" justifyContent="space-between" ml="2rem">
         <Stack>
-          <Heading>{detailData?.title}</Heading>
+          <Flex alignItems="center">
+            <Heading mr={5}>{detailData?.title}</Heading>
+            <Circle
+              size="2.5rem"
+              bg="white"
+              color="pink"
+              _hover={{ cursor: "pointer" }}
+              onClick={() => setLiked((current) => !current)}
+            >
+              {liked ? (
+                <AiFillHeart size="1.4rem" />
+              ) : (
+                <AiOutlineHeart size="1.4rem" />
+              )}
+            </Circle>
+          </Flex>
           <Text>
             <Text as="b">평점 </Text>
             {detailData?.vote_average} | <Text as="b">찜 </Text>
@@ -41,11 +67,8 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
           <Text>{detailData?.overview}</Text>
         </Stack>
         <Flex>
-          <Button onClick={onClick} w="8rem" bg="brightBlue" mr={5}>
+          <Button onClick={onClick} w="8rem" bg="brightBlue">
             관련 정보
-          </Button>
-          <Button w="8rem" bg="pink">
-            찜하기
           </Button>
         </Flex>
       </Flex>
