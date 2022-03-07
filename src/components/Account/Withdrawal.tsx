@@ -1,21 +1,5 @@
 import React, { useState } from "react";
-import {
-  Flex,
-  Text,
-  Button,
-  Input,
-  InputGroup,
-  InputRightElement,
-  Icon,
-  FormControl,
-  useToast,
-  ModalHeader,
-} from "@chakra-ui/react";
-import {
-  AiFillEye,
-  AiFillEyeInvisible,
-  AiFillCheckCircle,
-} from "react-icons/ai";
+import { Flex, Button, ModalHeader } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -31,21 +15,17 @@ import { useRouter } from "next/router";
 
 import { loginState, userState } from "../../atom";
 import { IPasswordForm } from "../../interfaces";
-import useReauthenticateUser from "../../hooks/login-signup/useReauthenticateUser";
+import ReauthenticateForm from "./ReauthenticateForm";
 
 function Withdrawal({ isOpen, onClose }: any) {
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useForm<IPasswordForm>();
+  const { handleSubmit } = useForm<IPasswordForm>();
   const [show, setShow] = useState(false);
   const [verified, setVerified] = useState(false);
   const [login, setLogin] = useRecoilState(loginState);
   const [user, setUser] = useRecoilState(userState);
   const router = useRouter();
-  const errorToast = useToast();
+  const auth = getAuth();
+  const authUser = auth.currentUser;
 
   const clickShow = () => setShow(!show);
 
@@ -68,20 +48,9 @@ function Withdrawal({ isOpen, onClose }: any) {
     router.push("/");
   };
 
-  const onSubmit: SubmitHandler<IPasswordForm> = (data) => {
-    const auth = getAuth();
-    const authUser = auth.currentUser;
+  const onDeleteAccountSubmit: SubmitHandler<IPasswordForm> = () => {
     if (verified) {
       authUser && deleteCurrentUser(authUser);
-    } else {
-      const { reauthenticate } = useReauthenticateUser(
-        authUser,
-        user,
-        getValues("password"),
-        setVerified,
-        errorToast
-      );
-      reauthenticate();
     }
   };
 
@@ -100,84 +69,11 @@ function Withdrawal({ isOpen, onClose }: any) {
         <ModalCloseButton />
         <ModalBody>
           <Flex justify="center" flexDir="column">
-            <StyledForm onSubmit={handleSubmit(onSubmit)}>
-              {user.thirdParty ? (
-                <Flex>
-                  {/* <Text flexGrow="1">탈퇴하기 전 마지막으로 인증해주세요.</Text> */}
-                  {verified ? (
-                    <Button
-                      leftIcon={<AiFillCheckCircle />}
-                      isDisabled={true}
-                      size="lg"
-                      backgroundColor="brightBlue"
-                      _disabled={{ backgroundColor: "brightBlue" }}
-                      _hover={{ backgroundColor: "brightBlue" }}
-                    >
-                      인증완료
-                    </Button>
-                  ) : (
-                    <Button type="submit" size="lg">
-                      탈퇴하기 전 인증하기
-                    </Button>
-                  )}
-                </Flex>
-              ) : (
-                <>
-                  <Text mr="3rem" mb="1rem">
-                    비밀번호 인증
-                  </Text>
-                  <FormControl>
-                    <Flex>
-                      <InputGroup>
-                        <Input
-                          {...register("password", {
-                            required: "현재 비밀번호를 입력하세요",
-                          })}
-                          type={show ? "text" : "password"}
-                          size="lg"
-                          placeholder="비밀번호"
-                        />
-
-                        <InputRightElement width="3rem">
-                          {show ? (
-                            <Icon
-                              boxSize="1.5rem"
-                              as={AiFillEye}
-                              onClick={clickShow}
-                            />
-                          ) : (
-                            <Icon
-                              boxSize="1.5rem"
-                              as={AiFillEyeInvisible}
-                              onClick={clickShow}
-                            />
-                          )}
-                        </InputRightElement>
-                      </InputGroup>
-                      {verified ? (
-                        <Button
-                          leftIcon={<AiFillCheckCircle />}
-                          isDisabled={true}
-                          size="lg"
-                          ml="1rem"
-                          backgroundColor="brightBlue"
-                          _disabled={{ backgroundColor: "brightBlue" }}
-                          _hover={{ backgroundColor: "brightBlue" }}
-                        >
-                          인증완료
-                        </Button>
-                      ) : (
-                        <Button type="submit" size="lg" ml="1rem">
-                          인증하기
-                        </Button>
-                      )}
-                    </Flex>
-                    <Text fontSize="xs" color="tomato">
-                      {errors?.password?.message}
-                    </Text>
-                  </FormControl>
-                </>
-              )}
+            <StyledForm onSubmit={handleSubmit(onDeleteAccountSubmit)}>
+              <ReauthenticateForm
+                verified={verified}
+                setVerified={setVerified}
+              />
               <Button
                 type="submit"
                 alignSelf="right"
