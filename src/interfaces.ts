@@ -131,8 +131,17 @@ export interface IForm {
   password: string;
 }
 
-export interface IPasswordForm{
+export interface IPasswordForm {
   password: string;
+}
+
+export interface IUserMovie {
+  id: string;
+}
+
+export interface INewUser {
+  username: string;
+  movies?: IUserMovie[];
 }
 
 // export interface IUserImpl {
