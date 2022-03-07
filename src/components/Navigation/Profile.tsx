@@ -30,12 +30,14 @@ function Profile() {
         setLogin(false);
         setUser({
           thirdParty: false,
+          loginMethod: "",
           emailVerified: false,
           email: "",
           displayName: "",
           photoURL: "",
         });
         console.log("User logged out");
+        router.push("/");
       })
       .catch((error) => console.log(error));
   };

@@ -60,11 +60,12 @@ const Login: NextPage = () => {
     formState: { errors },
   } = useForm<IForm>();
 
-  const setThirdPartyUser = (user: any) => {
+  const setThirdPartyUser = (user: any, loginMethod: string) => {
     if (user.emailVerified) {
       user.email &&
         setUser({
           thirdParty: true,
+          loginMethod: loginMethod,
           emailVerified: user.emailVerified,
           email: user.email,
           displayName:
@@ -76,6 +77,7 @@ const Login: NextPage = () => {
     } else {
       setUser({
         thirdParty: true,
+        loginMethod: loginMethod,
         emailVerified: false,
         email: "",
         displayName: user.displayName != null ? user.displayName : "-",
@@ -90,6 +92,7 @@ const Login: NextPage = () => {
         console.log("login success");
         setLogin(true);
         setUser({
+          ...user,
           thirdParty: false,
           emailVerified: true,
           email: data.email,
@@ -113,7 +116,7 @@ const Login: NextPage = () => {
 
         console.log("login success with Google");
         setLogin(true);
-        setThirdPartyUser(googleUser);
+        setThirdPartyUser(googleUser, "google.com");
         router.push("/");
       })
       .catch((error) => {
@@ -134,7 +137,7 @@ const Login: NextPage = () => {
 
         console.log("login success with Facebook");
         setLogin(true);
-        setThirdPartyUser(facebookUser);
+        setThirdPartyUser(facebookUser, "facebook.com");
         router.push("/");
       })
       .catch((error) => {
@@ -157,7 +160,7 @@ const Login: NextPage = () => {
         console.log(credential);
         console.log("login success with Twitter");
         setLogin(true);
-        setThirdPartyUser(twitterUser);
+        setThirdPartyUser(twitterUser, "twitter.com");
         router.push("/");
       })
       .catch((error) => {

@@ -77,7 +77,15 @@ const Join: NextPage = () => {
 
         saveUserToDB(uid, username as any);
         setLogin(true);
-        setUser(data.email.slice(0, data.email.indexOf("@")));
+        setUser({
+          ...user,
+          thirdParty: false,
+          emailVerified: true,
+          email: data.email,
+          displayName: data.email.slice(0, data.email.indexOf("@")),
+          photoURL: "",
+        });
+        router.push("/");
       })
       .catch((error) => {
         console.log(error.code);
@@ -107,15 +115,6 @@ const Join: NextPage = () => {
             <Text fontSize="xs" color="tomato">
               {errors?.email?.message}
             </Text>
-            {/* <Text mt="1.2rem">아이디 *</Text>
-          <Input
-            {...register("id", { required: "아이디를 입력하세요" })}
-            type="text"
-          />
-          <Text fontSize="xs" color="tomato">
-            {errors?.id?.message}
-          </Text> */}
-
             <Text mt="1.2rem">비밀번호 *</Text>
             <InputGroup size="md">
               <Input
