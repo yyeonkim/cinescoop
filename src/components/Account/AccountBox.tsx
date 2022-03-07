@@ -1,6 +1,6 @@
 import React from "react";
 import { Flex, Text, Box, useDisclosure } from "@chakra-ui/react";
-import Withdrawal from "./Withdrawal";
+import WithdrawalModal from "./WithdrawalModal";
 import ChangePasswordModal from "./ChangePasswordModal";
 
 import { useRecoilValue } from "recoil";
@@ -42,7 +42,7 @@ function AccountBox() {
         </Text>
         <Text color="pink" onClick={disclosure2.onOpen}>
           탈퇴하기 {">"}
-          <Withdrawal
+          <WithdrawalModal
             isOpen={disclosure2.isOpen}
             onClose={disclosure2.onClose}
             authUser={authUser}

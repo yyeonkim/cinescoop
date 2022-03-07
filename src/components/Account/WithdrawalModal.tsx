@@ -17,7 +17,7 @@ import { loginState, userState } from "../../atom";
 import { IPasswordForm } from "../../interfaces";
 import ReauthenticateForm from "./ReauthenticateForm";
 
-function Withdrawal({ isOpen, onClose }: any) {
+function WithdrawalModal({ isOpen, onClose }: any) {
   const { handleSubmit } = useForm<IPasswordForm>();
   const [show, setShow] = useState(false);
   const [verified, setVerified] = useState(false);
@@ -26,8 +26,6 @@ function Withdrawal({ isOpen, onClose }: any) {
   const router = useRouter();
   const auth = getAuth();
   const authUser = auth.currentUser;
-
-  const clickShow = () => setShow(!show);
 
   const deleteCurrentUser = (authUser: any) => {
     deleteUser(authUser)
@@ -97,7 +95,7 @@ function Withdrawal({ isOpen, onClose }: any) {
   );
 }
 
-export default Withdrawal;
+export default WithdrawalModal;
 
 const StyledForm = styled.form`
   width: 100%;
