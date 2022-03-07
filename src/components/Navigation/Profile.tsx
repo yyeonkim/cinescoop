@@ -37,6 +37,7 @@ function Profile() {
           photoURL: "",
         });
         console.log("User logged out");
+        router.push("/");
       })
       .catch((error) => console.log(error));
   };
