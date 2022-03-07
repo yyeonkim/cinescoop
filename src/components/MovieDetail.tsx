@@ -1,19 +1,11 @@
-import {
-  Stack,
-  Flex,
-  Image,
-  Text,
-  Button,
-  Heading,
-  Circle,
-} from "@chakra-ui/react";
+import { Stack, Flex, Image, Text, Button, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { useRecoilValue } from "recoil";
 
 import { IMAGE_URL } from "../hooks/fetching";
-import { likedState, movieIDState } from "../atom";
+import { movieIDState } from "../atom";
 import { ICast, IMovieDetails } from "../interfaces";
+import LikeButton from "./LikeButton";
 
 interface IDetailProps {
   detailData?: IMovieDetails;
@@ -23,7 +15,6 @@ interface IDetailProps {
 const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
   const router = useRouter();
   const movieID = useRecoilValue(movieIDState);
-  const [liked, setLiked] = useRecoilState(likedState);
 
   const clickInfo = () => {
     router.push(`/movieinfo/${movieID}`);
@@ -36,19 +27,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
         <Stack>
           <Flex alignItems="center">
             <Heading mr={5}>{detailData?.title}</Heading>
-            <Circle
-              size="2.5rem"
-              bg="white"
-              color="pink"
-              _hover={{ cursor: "pointer" }}
-              onClick={() => setLiked((current) => !current)}
-            >
-              {liked ? (
-                <AiFillHeart size="1.4rem" />
-              ) : (
-                <AiOutlineHeart size="1.4rem" />
-              )}
-            </Circle>
+            <LikeButton />
           </Flex>
           <Text>
             <Text as="b">평점 </Text>
