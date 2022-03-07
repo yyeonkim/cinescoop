@@ -2987,3 +2987,8 @@ export const userState = atom({
     photoURL: "",
   },
 });
+
+export const likedState = atom({
+  key: "likedState",
+  default: false,
+});

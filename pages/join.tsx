@@ -23,22 +23,13 @@ import { useRecoilState } from "recoil";
 import { auth, db } from "../firebase";
 import { loginState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
+import { INewUser } from "../src/interfaces";
 
 interface IForm {
   id: string;
   password: string;
   confirmation: string;
   email: string;
-}
-
-interface IUserMovie {
-  id: string;
-}
-
-interface INewUser {
-  uid: string;
-  username: string;
-  movies: IUserMovie[] | [];
 }
 
 const Join: NextPage = () => {
@@ -55,11 +46,12 @@ const Join: NextPage = () => {
   } = useForm<IForm>();
 
   const saveUserToDB = async (id: string, username: string) => {
-    //user id로 document id 만들기(set())
     //third party user도 계정 추가할 수 있도록 하는 함수 필요(먼저 존재하는 유저인지 확인해야함!)
     try {
-      await setDoc(doc(db, "users", id), { username, movies: [] });
-      console.log("complete to save");
+      await setDoc(doc(db, "users", id), {
+        username,
+        movies: undefined,
+      } as INewUser);
       router.push("/");
     } catch (e) {
       console.error("Error adding document: ", e);

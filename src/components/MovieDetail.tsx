@@ -8,12 +8,11 @@ import {
   Circle,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useState } from "react";
 
 import { IMAGE_URL } from "../hooks/fetching";
-import { movieIDState } from "../atom";
+import { likedState, movieIDState } from "../atom";
 import { ICast, IMovieDetails } from "../interfaces";
 
 interface IDetailProps {
@@ -24,7 +23,7 @@ interface IDetailProps {
 const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
   const router = useRouter();
   const movieID = useRecoilValue(movieIDState);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useRecoilState(likedState);
 
   const clickInfo = () => {
     router.push(`/movieinfo/${movieID}`);
