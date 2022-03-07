@@ -26,7 +26,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
   const movieID = useRecoilValue(movieIDState);
   const [liked, setLiked] = useState(false);
 
-  const onClick = () => {
+  const clickInfo = () => {
     router.push(`/movieinfo/${movieID}`);
   };
 
@@ -67,7 +67,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
           <Text>{detailData?.overview}</Text>
         </Stack>
         <Flex>
-          <Button onClick={onClick} w="8rem" bg="brightBlue">
+          <Button onClick={clickInfo} w="8rem" bg="brightBlue">
             관련 정보
           </Button>
         </Flex>
