@@ -31,6 +31,7 @@ import {
 } from "firebase/auth";
 import {
   auth,
+  db,
   facebookProvider,
   googleProvider,
   twitterProvider,
@@ -41,6 +42,7 @@ import facebookLogo from "../public/facebookLogo.png";
 import twitterLogo from "../public/twitterLogo.svg";
 import { IForm } from "../src/interfaces";
 import ErrorMessage from "../src/components/Account/ErrorMessage";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const Login: NextPage = () => {
   const [show, setShow] = useState(false);
@@ -82,7 +84,36 @@ const Login: NextPage = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<IForm> = (data) => {
+  const saveThirdPartyUserToDb = async (
+    id: string,
+    username: string | null
+  ) => {
+    const dbUser = await getDoc(doc(db, "users", id));
+    if (dbUser.exists()) {
+      console.log("user already exists");
+    } else {
+      try {
+        await setDoc(doc(db, "users", id), {
+          id: id,
+          username: username,
+          movies: [],
+        });
+        console.log("complete to save");
+      } catch (e) {
+        console.error("Error adding document: ", e);
+      }
+    }
+  };
+
+  const logError = (error: any, provider: any) => {
+    const errorCode = error.code;
+    const errorMessage = error.message;
+    const email = error.email;
+    const credential = provider.credentialFromError(error);
+    console.log(errorCode, errorMessage, email, credential);
+  };
+
+  const loginSubmit: SubmitHandler<IForm> = (data) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then(() => {
         console.log("login success");
@@ -106,65 +137,50 @@ const Login: NextPage = () => {
   const loginWithGoogle = () => {
     signInWithPopup(auth, googleProvider)
       .then((result) => {
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
         const googleUser = result.user;
 
         console.log("login success with Google");
+        console.log(googleUser);
         setLogin(true);
         setThirdPartyUser(googleUser, "google.com");
+        saveThirdPartyUserToDb(googleUser.uid, user.displayName);
         router.push("/");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(errorCode, errorMessage, email, credential);
+        logError(error, GoogleAuthProvider);
       });
   };
 
   const loginWithFacebook = () => {
     signInWithPopup(auth, facebookProvider)
       .then((result) => {
-        const credential = FacebookAuthProvider.credentialFromResult(result);
-        const accessToken = credential?.accessToken;
         const facebookUser = result.user;
 
         console.log("login success with Facebook");
         setLogin(true);
         setThirdPartyUser(facebookUser, "facebook.com");
+        saveThirdPartyUserToDb(facebookUser.uid, user.displayName);
         router.push("/");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(errorCode, errorMessage, email, credential);
+        logError(error, FacebookAuthProvider);
       });
   };
 
   const loginWithTwitter = () => {
     signInWithPopup(auth, twitterProvider)
       .then((result) => {
-        const credential = TwitterAuthProvider.credentialFromResult(result);
-        const token = credential?.accessToken;
-        const secret = credential?.secret;
         const twitterUser = result.user;
 
-        console.log(credential);
+        console.log(result);
         console.log("login success with Twitter");
         setLogin(true);
         setThirdPartyUser(twitterUser, "twitter.com");
+        saveThirdPartyUserToDb(twitterUser.uid, user.displayName);
         router.push("/");
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        const email = error.email;
-        const credential = TwitterAuthProvider.credentialFromError(error);
-        console.log(errorCode, errorMessage, email, credential);
+        logError(error, TwitterAuthProvider);
       });
   };
 
@@ -184,7 +200,7 @@ const Login: NextPage = () => {
             로그인
           </Heading>
 
-          <StyledForm method="post" onSubmit={handleSubmit(onSubmit)}>
+          <StyledForm method="post" onSubmit={handleSubmit(loginSubmit)}>
             <FormControl>
               <Text mt="1.2rem">이메일</Text>
               <Input {...register("email")} />
