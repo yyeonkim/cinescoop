@@ -30,8 +30,6 @@ import ErrorMessage from "../src/components/Account/ErrorMessage";
 const Join: NextPage = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
-  const [login, setLogin] = useRecoilState(loginState);
-  const [user, setUser] = useRecoilState(userState);
 
   const {
     register,
@@ -40,8 +38,6 @@ const Join: NextPage = () => {
   } = useForm<IJoinForm>({ resolver: yupResolver(joinSchema) });
 
   const saveUserToDB = async (id: string, username: string) => {
-    //user id로 document id 만들기(set())
-    //third party user도 계정 추가할 수 있도록 하는 함수 필요(먼저 존재하는 유저인지 확인해야함!)
     try {
       await setDoc(doc(db, "users", id), {
         id: id,
@@ -64,15 +60,6 @@ const Join: NextPage = () => {
         const username = email?.slice(0, email?.indexOf("@"));
 
         saveUserToDB(uid, username as any);
-        setLogin(true);
-        setUser({
-          ...user,
-          thirdParty: false,
-          emailVerified: true,
-          email: data.email,
-          displayName: data.email.slice(0, data.email.indexOf("@")),
-          photoURL: "",
-        });
         router.push("/");
       })
       .catch((error) => {

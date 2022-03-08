@@ -9,33 +9,17 @@ import {
   MenuList,
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
+import { signOut } from "firebase/auth";
 import { useRouter } from "next/router";
-import { loginState, userState } from "../../atom";
-import { useRecoilState } from "recoil";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-
-import { AccountBoxProps } from "./Navigation";
 import { auth } from "../../../firebase";
 
 function Profile() {
+  const user = auth.currentUser;
   const router = useRouter();
-  const [login, setLogin] = useRecoilState(loginState);
-  const [user, setUser] = useRecoilState(userState);
-
-  const initials = login ? user.displayName : "";
 
   const logout = () => {
     signOut(auth)
       .then(() => {
-        setLogin(false);
-        setUser({
-          thirdParty: false,
-          loginMethod: "",
-          emailVerified: false,
-          email: "",
-          displayName: "",
-          photoURL: "",
-        });
         console.log("User logged out");
         router.push("/");
       })
@@ -61,25 +45,32 @@ function Profile() {
           alignSelf="center"
           padding={0}
         >
-          {user.thirdParty ? (
+          {user ? (
             <Avatar
-              src={user.photoURL}
+              name={
+                user.displayName
+                  ? user.displayName
+                  : user.email
+                  ? user.email
+                  : "-"
+              }
+              src={
+                user.photoURL != null
+                  ? user.photoURL
+                  : "https://bit.ly/broken-link"
+              }
               icon={<AiOutlineUser fontSize="1.5rem" />}
-            ></Avatar>
+            />
           ) : (
             <Avatar
-              name={initials}
-              src={
-                user.photoURL == ""
-                  ? "https://bit.ly/broken-link"
-                  : user.photoURL
-              }
+              name=""
+              src="https://bit.ly/broken-link"
               icon={<AiOutlineUser fontSize="1.5rem" />}
             />
           )}
         </MenuButton>
         <MenuList position="relative" zIndex={2}>
-          {login ? (
+          {user ? (
             <>
               <Link href={`/mypage`}>
                 <MenuItem>마이페이지</MenuItem>

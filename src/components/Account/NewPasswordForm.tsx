@@ -19,6 +19,7 @@ import styled from "styled-components";
 import { IPasswordCheckForm } from "../../../src/interfaces";
 import { passwordCheckSchema } from "../../schema";
 import ErrorMessage from "./ErrorMessage";
+import { auth } from "../../../firebase";
 
 interface NewPasswordFormProps {
   verified: boolean;
@@ -33,8 +34,7 @@ function NewPasswordForm({
 }: NewPasswordFormProps) {
   const [show, setShow] = useState(false);
   const toast = useToast();
-  const auth = getAuth();
-  const authUser = auth.currentUser;
+  const user = auth.currentUser;
 
   const {
     register,
@@ -49,8 +49,8 @@ function NewPasswordForm({
 
   const onPasswordUpdateSubmit: SubmitHandler<IPasswordCheckForm> = () => {
     console.log("passwordsubmitted");
-    if (verified && authUser != null) {
-      updatePassword(authUser, getValues("newPasswordCheck"))
+    if (verified && user != null) {
+      updatePassword(user, getValues("newPasswordCheck"))
         .then(() => {
           toast({
             title: "비밀번호 변경 완료",

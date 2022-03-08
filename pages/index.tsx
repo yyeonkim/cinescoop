@@ -1,8 +1,6 @@
 import type { NextPage } from "next";
 import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { onAuthStateChanged } from "firebase/auth";
-import { useEffect } from "react";
 
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
@@ -13,8 +11,7 @@ import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
-import Login from "./login";
-import { auth } from "../firebase";
+import { getAuth } from "firebase/auth";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -35,15 +32,6 @@ const Home: NextPage<IHomeProps> = ({
   const onClick = () => {
     router.push("/now-in-theaters");
   };
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // console.log(user);
-      } else {
-        console.log("none");
-      }
-    });
-  });
 
   return (
     <>

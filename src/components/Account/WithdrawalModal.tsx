@@ -10,45 +10,31 @@ import {
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { deleteUser, getAuth } from "firebase/auth";
-import { useRecoilState } from "recoil";
 import { useRouter } from "next/router";
 
-import { loginState, userState } from "../../atom";
 import { IPasswordForm } from "../../interfaces";
 import ReauthenticateForm from "./ReauthenticateForm";
+import { auth } from "../../../firebase";
 
 function WithdrawalModal({ isOpen, onClose }: any) {
   const { handleSubmit } = useForm<IPasswordForm>();
-  const [show, setShow] = useState(false);
   const [verified, setVerified] = useState(false);
-  const [login, setLogin] = useRecoilState(loginState);
-  const [user, setUser] = useRecoilState(userState);
   const router = useRouter();
-  const auth = getAuth();
-  const authUser = auth.currentUser;
+  const user = auth.currentUser;
 
-  const deleteCurrentUser = (authUser: any) => {
-    deleteUser(authUser)
+  const deleteCurrentUser = (user: any) => {
+    deleteUser(user)
       .then(() => {
         console.log("user delete success");
       })
       .catch((error) => console.log({ error }));
-    setLogin(false);
-    setUser({
-      thirdParty: false,
-      loginMethod: "",
-      emailVerified: false,
-      email: "",
-      displayName: "",
-      photoURL: "",
-    });
     console.log("User logged out");
     router.push("/");
   };
 
   const onDeleteAccountSubmit: SubmitHandler<IPasswordForm> = () => {
     if (verified) {
-      authUser && deleteCurrentUser(authUser);
+      user && deleteCurrentUser(user);
     }
   };
 

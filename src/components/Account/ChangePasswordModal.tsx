@@ -9,14 +9,15 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../atom";
 import ReauthenticateForm from "./ReauthenticateForm";
 import NewPasswordForm from "./NewPasswordForm";
+import { getAuth } from "firebase/auth";
+import { auth } from "../../../firebase";
 
 function ChangePasswordModal({ isOpen, onClose }: any) {
   const [verified, setVerified] = useState(false);
-  const user = useRecoilValue(userState);
+  const user = auth.currentUser;
+
   return (
     <Modal
       size="xl"
@@ -32,7 +33,7 @@ function ChangePasswordModal({ isOpen, onClose }: any) {
         <ModalCloseButton />
         <ModalBody>
           <Flex justify="center" flexDir="column">
-            {user.thirdParty ? (
+            {user && user.providerData[0].providerId != "password" ? (
               <Text mb="3rem">
                 외부 소셜 계정으로 로그인하셨습니다. 비밀번호 변경을 원하시면
                 특정 소셜 계정 사이트에서 변경해주시길 바랍니다.

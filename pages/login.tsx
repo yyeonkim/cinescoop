@@ -17,10 +17,10 @@ import {
   Divider,
   Image,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
 
 import {
   GoogleAuthProvider,
@@ -36,7 +36,6 @@ import {
   googleProvider,
   twitterProvider,
 } from "../firebase";
-import { loginState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
 import facebookLogo from "../public/facebookLogo.png";
 import twitterLogo from "../public/twitterLogo.svg";
@@ -46,9 +45,8 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 
 const Login: NextPage = () => {
   const [show, setShow] = useState(false);
-  const [login, setLogin] = useRecoilState(loginState);
-  const [user, setUser] = useRecoilState(userState);
   const router = useRouter();
+  const errorToast = useToast();
   const bgColor = useColorModeValue("darkBlue", "white");
   const txtColor = useColorModeValue("white", "darkBlue");
 
@@ -58,31 +56,6 @@ const Login: NextPage = () => {
     formState: { errors },
   } = useForm<IForm>();
 
-  const setThirdPartyUser = (user: any, loginMethod: string) => {
-    if (user.emailVerified) {
-      user.email &&
-        setUser({
-          thirdParty: true,
-          loginMethod: loginMethod,
-          emailVerified: user.emailVerified,
-          email: user.email,
-          displayName:
-            user.displayName != null
-              ? user.displayName
-              : user.email.slice(0, user.email.indexOf("@")),
-          photoURL: user.photoURL != null ? user.photoURL : "",
-        });
-    } else {
-      setUser({
-        thirdParty: true,
-        loginMethod: loginMethod,
-        emailVerified: false,
-        email: "",
-        displayName: user.displayName != null ? user.displayName : "-",
-        photoURL: user.photoURL != null ? user.photoURL : "",
-      });
-    }
-  };
 
   const saveThirdPartyUserToDb = async (
     id: string,
@@ -117,20 +90,19 @@ const Login: NextPage = () => {
     signInWithEmailAndPassword(auth, data.email, data.password)
       .then(() => {
         console.log("login success");
-        setLogin(true);
-        setUser({
-          ...user,
-          thirdParty: false,
-          emailVerified: true,
-          email: data.email,
-          displayName: data.email.slice(0, data.email.indexOf("@")),
-          photoURL: "",
-        });
         router.push("/");
       })
       .catch((error) => {
         console.log(error.code);
         console.log(error.message);
+        errorToast({
+          title: "로그인 실패",
+          description:
+            "계정이 존재하지 않거나 비밀번호가 일치하지 않습니다. 다시 시도해보십시오.",
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
       });
   };
 
@@ -140,10 +112,7 @@ const Login: NextPage = () => {
         const googleUser = result.user;
 
         console.log("login success with Google");
-        console.log(googleUser);
-        setLogin(true);
-        setThirdPartyUser(googleUser, "google.com");
-        saveThirdPartyUserToDb(googleUser.uid, user.displayName);
+        saveThirdPartyUserToDb(googleUser.uid, googleUser.displayName);
         router.push("/");
       })
       .catch((error) => {
@@ -157,9 +126,7 @@ const Login: NextPage = () => {
         const facebookUser = result.user;
 
         console.log("login success with Facebook");
-        setLogin(true);
-        setThirdPartyUser(facebookUser, "facebook.com");
-        saveThirdPartyUserToDb(facebookUser.uid, user.displayName);
+        saveThirdPartyUserToDb(facebookUser.uid, facebookUser.displayName);
         router.push("/");
       })
       .catch((error) => {
@@ -172,11 +139,8 @@ const Login: NextPage = () => {
       .then((result) => {
         const twitterUser = result.user;
 
-        console.log(result);
         console.log("login success with Twitter");
-        setLogin(true);
-        setThirdPartyUser(twitterUser, "twitter.com");
-        saveThirdPartyUserToDb(twitterUser.uid, user.displayName);
+        saveThirdPartyUserToDb(twitterUser.uid, twitterUser.displayName);
         router.push("/");
       })
       .catch((error) => {

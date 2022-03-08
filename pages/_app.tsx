@@ -27,3 +27,6 @@ function MyApp({ Component, pageProps }: AppProps) {
 }
 
 export default MyApp;
+function firebaseConfig(firebaseConfig: any) {
+  throw new Error("Function not implemented.");
+}

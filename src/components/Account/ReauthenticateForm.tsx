@@ -23,9 +23,9 @@ import {
   AiFillEyeInvisible,
   AiFillCheckCircle,
 } from "react-icons/ai";
-import { useRecoilValue } from "recoil";
 import styled from "styled-components";
-import { userState } from "../../atom";
+import { auth } from "../../../firebase";
+
 import { IPasswordForm } from "../../interfaces";
 import { reauthenticateSchema } from "../../schema";
 import ErrorMessage from "./ErrorMessage";
@@ -41,9 +41,7 @@ function ReauthenticateForm({
 }: ReauthenticateFormProps) {
   const errorToast = useToast();
   const [show, setShow] = useState(false);
-  const user = useRecoilValue(userState);
-  const auth = getAuth();
-  const authUser = auth.currentUser;
+  const user = auth.currentUser;
   const {
     register,
     handleSubmit,
@@ -56,30 +54,13 @@ function ReauthenticateForm({
   const clickShow = () => setShow(!show);
 
   const onVerifySubmit: SubmitHandler<IPasswordForm> = () => {
-    if (user.thirdParty && authUser != null) {
-      reauthenticateWithPopup(authUser, new OAuthProvider(user.loginMethod))
-        .then(() => setVerified(true))
-        .catch((error) => {
-          console.log({ error });
-          errorToast({
-            title: "인증 실패",
-            description:
-              "입력하신 비밀번호가 현재 비밀번호와 일치하지 않습니다.",
-            status: "error",
-            duration: 5000,
-            isClosable: true,
-          });
-        });
-    } else {
-      const credentials = EmailAuthProvider.credential(
-        user.email,
-        getValues("password")
-      );
-      authUser &&
-        reauthenticateWithCredential(authUser, credentials)
-          .then(() => {
-            setVerified(true);
-          })
+    if (user) {
+      if (user.providerData[0].providerId != "password") {
+        reauthenticateWithPopup(
+          user,
+          new OAuthProvider(user.providerData[0].providerId)
+        )
+          .then(() => setVerified(true))
           .catch((error) => {
             console.log({ error });
             errorToast({
@@ -87,16 +68,40 @@ function ReauthenticateForm({
               description:
                 "입력하신 비밀번호가 현재 비밀번호와 일치하지 않습니다.",
               status: "error",
-              duration: 9000,
+              duration: 5000,
               isClosable: true,
             });
           });
+      } else {
+        const credentials = EmailAuthProvider.credential(
+          user.email ? user.email : "",
+          getValues("password")
+        );
+        user &&
+          reauthenticateWithCredential(user, credentials)
+            .then(() => {
+              setVerified(true);
+            })
+            .catch((error) => {
+              console.log({ error });
+              errorToast({
+                title: "인증 실패",
+                description:
+                  "입력하신 비밀번호가 현재 비밀번호와 일치하지 않습니다.",
+                status: "error",
+                duration: 9000,
+                isClosable: true,
+              });
+            });
+      }
+    } else {
+      return;
     }
   };
 
   return (
     <StyledForm onSubmit={handleSubmit(onVerifySubmit)}>
-      {user.thirdParty ? (
+      {user?.providerData[0].providerId != "password" ? (
         <Flex mb="1rem">
           <Text flexGrow={1} m="0">
             비밀번호 인증
