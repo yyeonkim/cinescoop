@@ -131,11 +131,17 @@ export interface IForm {
   password: string;
 }
 
-export interface IPasswordCheckForm{
+export interface IJoinForm {
+  email: string;
+  password: string;
+  confirmation: string;
+}
+
+export interface IPasswordCheckForm {
   newPassword: string;
   newPasswordCheck: string;
 }
 
-export interface IPasswordForm{
+export interface IPasswordForm {
   password: string;
 }

@@ -13,7 +13,6 @@ import {
   Button,
   Input,
   Icon,
-  SimpleGrid,
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -23,23 +22,10 @@ import { useRecoilState } from "recoil";
 import { auth, db } from "../firebase";
 import { loginState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
-
-interface IForm {
-  id: string;
-  password: string;
-  confirmation: string;
-  email: string;
-}
-
-interface IUserMovie {
-  id: string;
-}
-
-interface INewUser {
-  uid: string;
-  username: string;
-  movies: IUserMovie[] | [];
-}
+import { yupResolver } from "@hookform/resolvers/yup";
+import { joinSchema } from "../src/schema";
+import { IJoinForm } from "../src/interfaces";
+import ErrorMessage from "../src/components/Account/ErrorMessage";
 
 const Join: NextPage = () => {
   const [show, setShow] = useState(false);
@@ -50,9 +36,8 @@ const Join: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
-  } = useForm<IForm>();
+  } = useForm<IJoinForm>({ resolver: yupResolver(joinSchema) });
 
   const saveUserToDB = async (id: string, username: string) => {
     //user id로 document id 만들기(set())
@@ -66,7 +51,7 @@ const Join: NextPage = () => {
     }
   };
 
-  const onSubmit: SubmitHandler<IForm> = (data) => {
+  const onSubmit: SubmitHandler<IJoinForm> = (data) => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         console.log(userCredential.user);
@@ -95,8 +80,6 @@ const Join: NextPage = () => {
 
   const clickShow = () => setShow(!show);
 
-  const list = ["a", "b", "c"];
-
   return (
     <>
       <Navigation search={true} />
@@ -108,23 +91,12 @@ const Join: NextPage = () => {
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
             <Text mt="1.2rem">이메일 *</Text>
-            <Input
-              {...register("email", { required: "이메일을 입력하세요" })}
-              type="email"
-            />
-            <Text fontSize="xs" color="tomato">
-              {errors?.email?.message}
-            </Text>
+            <Input {...register("email")} />
+            <ErrorMessage message={errors?.email?.message} />
             <Text mt="1.2rem">비밀번호 *</Text>
             <InputGroup size="md">
               <Input
-                {...register("password", {
-                  required: "비밀번호를 입력하세요",
-                  minLength: {
-                    value: 8,
-                    message: "8자 이상 입력하세요",
-                  },
-                })}
+                {...register("password")}
                 type={show ? "text" : "password"}
               />
               <InputRightElement width="3rem">
@@ -139,15 +111,11 @@ const Join: NextPage = () => {
                 )}
               </InputRightElement>
             </InputGroup>
-            <Text fontSize="xs" color="tomato">
-              {errors?.password?.message}
-            </Text>
+            <ErrorMessage message={errors?.password?.message} />
             <Text mt="1.2rem">비밀번호 확인 *</Text>
             <InputGroup size="md">
               <Input
-                {...register("confirmation", {
-                  required: "비밀번호 확인을 입력하세요",
-                })}
+                {...register("confirmation")}
                 type={show ? "text" : "password"}
               />
               <InputRightElement width="3rem">
@@ -162,12 +130,7 @@ const Join: NextPage = () => {
                 )}
               </InputRightElement>
             </InputGroup>
-            <Text fontSize="xs" color="tomato">
-              {errors?.confirmation?.message}
-              {watch("password") !== watch("confirmation") &&
-                watch("confirmation").length !== 0 &&
-                "비밀번호가 다릅니다"}
-            </Text>
+            <ErrorMessage message={errors?.confirmation?.message} />
           </FormControl>
 
           <Button

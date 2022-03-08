@@ -18,11 +18,7 @@ import {
   Image,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {
-  AiFillAlipaySquare,
-  AiFillEye,
-  AiFillEyeInvisible,
-} from "react-icons/ai";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 
@@ -44,6 +40,7 @@ import Navigation from "../src/components/Navigation/Navigation";
 import facebookLogo from "../public/facebookLogo.png";
 import twitterLogo from "../public/twitterLogo.svg";
 import { IForm } from "../src/interfaces";
+import ErrorMessage from "../src/components/Account/ErrorMessage";
 
 const Login: NextPage = () => {
   const [show, setShow] = useState(false);
@@ -56,7 +53,6 @@ const Login: NextPage = () => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<IForm>();
 
@@ -168,7 +164,7 @@ const Login: NextPage = () => {
         const errorMessage = error.message;
         const email = error.email;
         const credential = TwitterAuthProvider.credentialFromError(error);
-        console.log(error, errorMessage, email, credential);
+        console.log(errorCode, errorMessage, email, credential);
       });
   };
 
@@ -191,20 +187,12 @@ const Login: NextPage = () => {
           <StyledForm method="post" onSubmit={handleSubmit(onSubmit)}>
             <FormControl>
               <Text mt="1.2rem">이메일</Text>
-              <Input
-                {...register("email", { required: "이메일을 입력하세요" })}
-                type="text"
-              />
-              <Text fontSize="xs" color="tomato">
-                {errors?.email?.message}
-              </Text>
-
+              <Input {...register("email")} />
+              <ErrorMessage message={errors?.email?.message} />
               <Text mt="1.2rem">비밀번호</Text>
               <InputGroup size="md">
                 <Input
-                  {...register("password", {
-                    required: "비밀번호를 입력하세요",
-                  })}
+                  {...register("password")}
                   type={show ? "text" : "password"}
                 />
                 <InputRightElement width="3rem">
@@ -219,9 +207,7 @@ const Login: NextPage = () => {
                   )}
                 </InputRightElement>
               </InputGroup>
-              <Text fontSize="xs" color="tomato">
-                {errors?.password?.message}
-              </Text>
+              <ErrorMessage message={errors?.password?.message} />
             </FormControl>
 
             <Button
@@ -289,9 +275,9 @@ const Login: NextPage = () => {
   );
 };
 
+export default Login;
+
 const StyledForm = styled.form`
   max-width: 32rem;
   width: 100%;
 `;
-
-export default Login;
