@@ -10,8 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
 import { useRouter } from "next/router";
-import { loginState, userState } from "../../atom";
-import { useRecoilState } from "recoil";
+import { loginState, uidState, userState } from "../../atom";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { onAuthStateChanged, signOut } from "firebase/auth";
 
 import { AccountBoxProps } from "./Navigation";
@@ -21,6 +21,7 @@ function Profile() {
   const router = useRouter();
   const [login, setLogin] = useRecoilState(loginState);
   const [user, setUser] = useRecoilState(userState);
+  const setUserId = useSetRecoilState(uidState);
 
   const initials = login ? user.displayName : "";
 
@@ -28,6 +29,7 @@ function Profile() {
     signOut(auth)
       .then(() => {
         setLogin(false);
+        setUserId("");
         setUser({
           thirdParty: false,
           emailVerified: false,
