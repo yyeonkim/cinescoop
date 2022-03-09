@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useQuery } from "react-query";
 import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -26,7 +26,7 @@ const Reserve: NextPage = () => {
     query: { movieId },
   } = useRouter();
 
-  const [movieID, setMovieId] = useRecoilState(movieIDState);
+  const setMovieID = useSetRecoilState(movieIDState);
   const setLiked = useSetRecoilState(likedState);
 
   // 사용자가 찜한 영화 가져오기
@@ -40,7 +40,7 @@ const Reserve: NextPage = () => {
 
   useEffect(() => {
     const id = parseInt(movieId as any, 10);
-    setMovieId(id);
+    setMovieID(id);
 
     // 사용자 로그인 여부 확인 --> _app.tsx로 옮기고 로그인 state 만들기
     onAuthStateChanged(auth, async (user) => {
@@ -49,7 +49,7 @@ const Reserve: NextPage = () => {
         const likedMovies = await getLikedMovies(uid); // 사용자가 찜한 영화
         if (likedMovies !== undefined) {
           const index = likedMovies.findIndex(
-            (movie: IUserMovie) => movie.id === `${movieID}`
+            (movie: IUserMovie) => movie.id === movieId
           );
           // 영화를 찜했으면
           if (index != -1) {
@@ -58,7 +58,7 @@ const Reserve: NextPage = () => {
         }
       }
     });
-  }, []);
+  }, [movieId]);
 
   const { data: detailData, isLoading: detailLoading } =
     useQuery<IMovieDetails>(["detail", movieId], () => fetchDetail(movieId));
