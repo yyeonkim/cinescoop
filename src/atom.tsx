@@ -2983,7 +2983,7 @@ export const userDBState = atom({
   default: {
     uid: "",
     username: "",
-    movies: [],
+    movies: undefined,
   },
 });
 

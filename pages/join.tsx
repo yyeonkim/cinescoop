@@ -21,7 +21,7 @@ import { setDoc, doc } from "firebase/firestore";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { auth, db } from "../firebase";
-import { loginState, uidState, userState } from "../src/atom";
+import { loginState, userDBState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
 import { IUserDB } from "../src/interfaces";
 
@@ -37,7 +37,7 @@ const Join: NextPage = () => {
   const router = useRouter();
   const [login, setLogin] = useRecoilState(loginState);
   const [user, setUser] = useRecoilState(userState);
-  const setUserId = useSetRecoilState(uidState);
+  const setUserDB = useSetRecoilState(userDBState);
 
   const {
     register,
@@ -48,12 +48,15 @@ const Join: NextPage = () => {
 
   const saveUserToDB = async (id: string, username: string) => {
     //third party user도 계정 추가할 수 있도록 하는 함수 필요(먼저 존재하는 유저인지 확인해야함!)
+    const dbInfo = {
+      uid: id,
+      username,
+      movies: undefined,
+    };
     try {
-      await setDoc(doc(db, "users", id), {
-        username,
-        movies: undefined,
-      } as IUserDB);
+      await setDoc(doc(db, "users", id), dbInfo as IUserDB);
       router.push("/");
+      setUserDB(dbInfo);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -70,7 +73,6 @@ const Join: NextPage = () => {
 
         saveUserToDB(uid, username as any);
         setLogin(true);
-        setUserId(uid);
         setUser(data.email.slice(0, data.email.indexOf("@")));
       })
       .catch((error) => {

@@ -33,15 +33,12 @@ const Reserve: NextPage = () => {
 
   const setMovieID = useSetRecoilState(movieIDState);
   const setLiked = useSetRecoilState(likedState);
-  const isLoggedIn = useRecoilValue(loginState);
-  const setLikedMovies = useSetRecoilState(likedMoviesState);
 
   // 사용자가 찜한 영화 가져오기
   const getLikedMovies = async (uid: string) => {
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
     const movies: IUserDB["movies"] = docSnap.data()?.movies;
-    setLikedMovies(movies);
 
     return movies;
   };
