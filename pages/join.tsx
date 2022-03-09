@@ -18,10 +18,10 @@ import {
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { auth, db } from "../firebase";
-import { loginState, userState } from "../src/atom";
+import { loginState, uidState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
 import { INewUser } from "../src/interfaces";
 
@@ -37,6 +37,7 @@ const Join: NextPage = () => {
   const router = useRouter();
   const [login, setLogin] = useRecoilState(loginState);
   const [user, setUser] = useRecoilState(userState);
+  const setUserId = useSetRecoilState(uidState);
 
   const {
     register,
@@ -69,6 +70,7 @@ const Join: NextPage = () => {
 
         saveUserToDB(uid, username as any);
         setLogin(true);
+        setUserId(uid);
         setUser(data.email.slice(0, data.email.indexOf("@")));
       })
       .catch((error) => {

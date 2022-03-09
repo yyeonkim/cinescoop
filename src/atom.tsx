@@ -2977,6 +2977,11 @@ export const loginState = atom({
   default: false,
 });
 
+export const uidState = atom({
+  key: "uidState",
+  default: "",
+});
+
 export const userState = atom({
   key: "userState",
   default: {
