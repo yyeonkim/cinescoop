@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import { IUserDB } from "./interfaces";
 
 export const inputState = atom({
   key: "inputState",
@@ -2980,6 +2981,11 @@ export const loginState = atom({
 export const uidState = atom({
   key: "uidState",
   default: "",
+});
+
+export const likedMoviesState = atom<IUserDB["movies"]>({
+  key: "likedMoviesState",
+  default: [],
 });
 
 export const userState = atom({

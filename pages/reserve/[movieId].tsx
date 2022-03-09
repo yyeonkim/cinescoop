@@ -3,7 +3,7 @@ import { NextPage } from "next";
 import { useQuery } from "react-query";
 import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
@@ -11,14 +11,19 @@ import { fetchCredit, fetchDetail } from "../../src/hooks/fetching";
 import {
   ICast,
   IMovieDetails,
-  INewUser,
+  IUserDB,
   IUserMovie,
 } from "../../src/interfaces";
 import Navigation from "../../src/components/Navigation/Navigation";
 import MovieDetail from "../../src/components/MovieDetail";
 import ShowTime from "../../src/components/ShowTime";
 import LoadingAnimation from "../../src/components/LoadingAnimation";
-import { likedState, movieIDState } from "../../src/atom";
+import {
+  likedMoviesState,
+  likedState,
+  loginState,
+  movieIDState,
+} from "../../src/atom";
 import { auth, db } from "../../firebase";
 
 const Reserve: NextPage = () => {
@@ -28,12 +33,15 @@ const Reserve: NextPage = () => {
 
   const setMovieID = useSetRecoilState(movieIDState);
   const setLiked = useSetRecoilState(likedState);
+  const isLoggedIn = useRecoilValue(loginState);
+  const setLikedMovies = useSetRecoilState(likedMoviesState);
 
   // 사용자가 찜한 영화 가져오기
   const getLikedMovies = async (uid: string) => {
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
-    const movies: INewUser["movies"] = docSnap.data()?.movies;
+    const movies: IUserDB["movies"] = docSnap.data()?.movies;
+    setLikedMovies(movies);
 
     return movies;
   };
@@ -42,7 +50,7 @@ const Reserve: NextPage = () => {
     const id = parseInt(movieId as any, 10);
     setMovieID(id);
 
-    // 사용자 로그인 여부 확인 --> _app.tsx로 옮기고 로그인 state 만들기
+    // 사용자 로그인 여부 확인
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         const { uid } = user;
