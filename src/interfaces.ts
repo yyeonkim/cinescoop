@@ -139,7 +139,7 @@ export interface IUserMovie {
   id: string;
 }
 
-export interface INewUser {
+export interface IUserDB {
   username: string;
   movies?: IUserMovie[];
 }

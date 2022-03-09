@@ -23,7 +23,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { auth, db } from "../firebase";
 import { loginState, uidState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
-import { INewUser } from "../src/interfaces";
+import { IUserDB } from "../src/interfaces";
 
 interface IForm {
   id: string;
@@ -52,7 +52,7 @@ const Join: NextPage = () => {
       await setDoc(doc(db, "users", id), {
         username,
         movies: undefined,
-      } as INewUser);
+      } as IUserDB);
       router.push("/");
     } catch (e) {
       console.error("Error adding document: ", e);
