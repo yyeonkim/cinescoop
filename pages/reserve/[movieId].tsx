@@ -29,7 +29,7 @@ import { auth, db } from "../../firebase";
 const Reserve: NextPage = () => {
   const {
     query: { movieId },
-  } = useRouter();
+  } = useRouter(); // string
 
   const setMovieID = useSetRecoilState(movieIDState);
   const setLiked = useSetRecoilState(likedState);
@@ -57,7 +57,7 @@ const Reserve: NextPage = () => {
         const likedMovies = await getLikedMovies(uid); // 사용자가 찜한 영화
         if (likedMovies !== undefined) {
           const index = likedMovies.findIndex(
-            (movie: IUserMovie) => movie.id === movieId
+            (movie: IUserMovie) => `${movie.id}` === movieId
           );
           // 영화를 찜했으면
           if (index != -1) {

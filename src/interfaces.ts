@@ -136,7 +136,7 @@ export interface IPasswordForm {
 }
 
 export interface IUserMovie {
-  id: string;
+  id: number;
 }
 
 export interface IUserDB {
