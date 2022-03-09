@@ -31,8 +31,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
           </Flex>
           <Text>
             <Text as="b">평점 </Text>
-            {detailData?.vote_average} | <Text as="b">찜 </Text>
-            100
+            {detailData?.vote_average}
           </Text>
           <Text>
             <Text as="b">개요</Text>{" "}
