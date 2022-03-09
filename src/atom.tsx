@@ -2978,14 +2978,34 @@ export const loginState = atom({
   default: false,
 });
 
-export const uidState = atom({
-  key: "uidState",
-  default: "",
+export const userDBState = atom({
+  key: "userDBState",
+  default: {
+    uid: "",
+    username: "",
+    movies: [],
+  },
 });
 
-export const likedMoviesState = atom<IUserDB["movies"]>({
+export const uidState = selector({
+  key: "uidState",
+  get: ({ get }) => {
+    return get(userDBState).uid;
+  },
+});
+
+export const likedMoviesState = selector<IUserDB["movies"]>({
   key: "likedMoviesState",
-  default: [],
+  get: ({ get }) => {
+    return get(userDBState).movies;
+  },
+});
+
+export const usernameState = selector({
+  key: "usernameState",
+  get: ({ get }) => {
+    return get(userDBState).username;
+  },
 });
 
 export const userState = atom({
