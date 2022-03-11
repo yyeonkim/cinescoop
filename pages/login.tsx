@@ -24,7 +24,7 @@ import {
   AiFillEyeInvisible,
 } from "react-icons/ai";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 import {
   GoogleAuthProvider,
@@ -35,15 +35,17 @@ import {
 } from "firebase/auth";
 import {
   auth,
+  db,
   facebookProvider,
   googleProvider,
   twitterProvider,
 } from "../firebase";
-import { loginState, userState } from "../src/atom";
+import { loginState, userDBState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
 import facebookLogo from "../public/facebookLogo.png";
 import twitterLogo from "../public/twitterLogo.svg";
 import { IForm } from "../src/interfaces";
+import { doc, getDoc } from "firebase/firestore";
 
 const Login: NextPage = () => {
   const [show, setShow] = useState(false);
@@ -52,6 +54,7 @@ const Login: NextPage = () => {
   const router = useRouter();
   const bgColor = useColorModeValue("darkBlue", "white");
   const txtColor = useColorModeValue("white", "darkBlue");
+  const setUserDB = useSetRecoilState(userDBState);
 
   const {
     register,
@@ -86,8 +89,15 @@ const Login: NextPage = () => {
 
   const onSubmit: SubmitHandler<IForm> = (data) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
-      .then(() => {
-        console.log("login success");
+      .then(async (userCredential) => {
+        // uid로 DB에서 사용자 정보 가져오기
+        const {
+          user: { uid },
+        } = userCredential;
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+        setUserDB(docSnap.data() as any);
+
         setLogin(true);
         setUser({
           thirdParty: false,
