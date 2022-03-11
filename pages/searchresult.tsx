@@ -10,12 +10,12 @@ const SearchResultPage: NextPage = () => {
   const { movieData, handleChange } = useSearchMovie();
   return (
     <div>
-      <Navigation num={0} />
+      <Navigation search={true} />
       <Flex align="center" justifyContent="center" direction="column">
         <Flex mb="4rem" mt="3rem">
           <SearchBar handleChange={handleChange} />
         </Flex>
-        <GridList data={movieData} columnNum={4} rowNum={4} width={"50rem"} />
+        <GridList data={movieData} columnNum={4} rowNum={4} width={"70rem"} />
       </Flex>
     </div>
   );
