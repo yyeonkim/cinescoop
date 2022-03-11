@@ -17,10 +17,8 @@ import {
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
-import { useRecoilState } from "recoil";
 
 import { auth, db } from "../firebase";
-import { loginState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { joinSchema } from "../src/schema";

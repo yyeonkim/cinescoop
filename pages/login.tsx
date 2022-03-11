@@ -18,6 +18,8 @@ import {
   Image,
   useColorModeValue,
   useToast,
+  Circle,
+  AspectRatio,
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/router";
@@ -38,10 +40,11 @@ import {
 } from "../firebase";
 import Navigation from "../src/components/Navigation/Navigation";
 import facebookLogo from "../public/facebookLogo.png";
-import twitterLogo from "../public/twitterLogo.svg";
+import twitterLogo from "../public/twitterLogo.png";
 import { IForm } from "../src/interfaces";
 import ErrorMessage from "../src/components/Account/ErrorMessage";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import icecreamScoops from "../public/icecreamScoops.png";
 
 const Login: NextPage = () => {
   const [show, setShow] = useState(false);
@@ -55,7 +58,6 @@ const Login: NextPage = () => {
     handleSubmit,
     formState: { errors },
   } = useForm<IForm>();
-
 
   const saveThirdPartyUserToDb = async (
     id: string,
@@ -152,18 +154,23 @@ const Login: NextPage = () => {
   return (
     <>
       <Navigation search={true} />
-      <Flex w="100%" h="80vh" justify="center">
-        <Flex
-          px="5rem"
-          width="50rem"
-          direction="column"
-          justify="center"
-          alignItems="center"
-        >
+
+      <Flex
+        w="55vw"
+        backgroundColor="brightBlue"
+        minH="60rem"
+        mx="auto"
+        position="relative"
+        paddingRight="5rem"
+      >
+        <AspectRatio ratio={1} w="25rem">
+          <Image src={icecreamScoops.src} />
+        </AspectRatio>
+
+        <Flex flexDir="column" justify="center" alignItems="left" flexGrow="1">
           <Heading size="2xl" mb="1.5rem">
             로그인
           </Heading>
-
           <StyledForm method="post" onSubmit={handleSubmit(loginSubmit)}>
             <FormControl>
               <Text mt="1.2rem">이메일</Text>
@@ -189,66 +196,54 @@ const Login: NextPage = () => {
               </InputGroup>
               <ErrorMessage message={errors?.password?.message} />
             </FormControl>
+            <Flex mt="5rem" alignItems="center">
+              <Button
+                type="submit"
+                bg="pink"
+                color="darkBlue"
+                py="1rem"
+                w="8rem"
+              >
+                로그인
+              </Button>
+              <Flex justify="right" alignItems="center" gap="1rem" flexGrow="1">
+                <Circle backgroundColor="white" h="fit-content" p="0.3rem">
+                  <Button onClick={loginWithGoogle} p="0">
+                    <Image
+                      w="2.5rem"
+                      src="https://img.icons8.com/color/48/000000/google-logo.png"
+                    />
+                  </Button>
+                </Circle>
 
-            <Button
-              type="submit"
-              mt="3rem"
-              bg="pink"
-              color="darkBlue"
-              py="1rem"
-              w="100%"
-            >
-              로그인
-            </Button>
+                <Circle backgroundColor="white" h="fit-content" p="0.3rem">
+                  <Button onClick={loginWithFacebook} p="0">
+                    <Image w="2.5rem" src={facebookLogo.src} />
+                  </Button>
+                </Circle>
+
+                <Circle backgroundColor="white" h="fit-content" p="0.3rem">
+                  <Button onClick={loginWithTwitter} p="0">
+                    <Image w="2.5rem" src={twitterLogo.src} />
+                  </Button>
+                </Circle>
+              </Flex>
+            </Flex>
+            <Divider w="100%" my="2rem" opacity="0.2" borderColor="white" />
           </StyledForm>
-          <Flex mt="1rem">
-            <Text mr="0.5rem">아직 계정이 없나요?</Text>
-            <NextLink href="/join" passHref>
-              <Link textDecoration="underline">회원가입</Link>
-            </NextLink>
+          <Flex align="center" flexDir="column" mt="3rem">
+            <Text fontSize="1.5rem">아직 계정이 없으신가요?</Text>
+            <Button
+              bg="brightBlue"
+              border="1px solid"
+              borderColor="pink"
+              mt="1rem"
+              px="2rem"
+              _focus={{ outline: "none" }}
+            >
+              회원가입하기
+            </Button>
           </Flex>
-        </Flex>
-        <Divider orientation="vertical" opacity="0.2" borderColor="white" />
-        <Flex px="5rem" direction="column" justify="center">
-          <Button
-            bgColor={bgColor}
-            p="0.5rem 1rem"
-            h="fit-content"
-            my="0.5rem"
-            onClick={loginWithGoogle}
-          >
-            <Image
-              w="2.5rem"
-              src="https://img.icons8.com/color/48/000000/google-logo.png"
-            />
-            <Text color={txtColor} ml="1rem" fontSize="1rem">
-              Continue with Google
-            </Text>
-          </Button>
-          <Button
-            bgColor={bgColor}
-            p="0.5rem 1rem"
-            h="fit-content"
-            my="0.5rem"
-            onClick={loginWithFacebook}
-          >
-            <Image w="2.5rem" src={facebookLogo.src} />
-            <Text color={txtColor} ml="1rem" fontSize="1rem">
-              Continue with Facebook
-            </Text>
-          </Button>
-          <Button
-            bgColor={bgColor}
-            p="0.5rem 1rem"
-            h="fit-content"
-            my="0.5rem"
-            onClick={loginWithTwitter}
-          >
-            <Image w="2.5rem" src={twitterLogo.src} />
-            <Text color={txtColor} ml="1rem" fontSize="1rem">
-              Continue with Twitter
-            </Text>
-          </Button>
         </Flex>
       </Flex>
     </>
@@ -258,6 +253,5 @@ const Login: NextPage = () => {
 export default Login;
 
 const StyledForm = styled.form`
-  max-width: 32rem;
   width: 100%;
 `;
