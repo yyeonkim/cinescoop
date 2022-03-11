@@ -51,20 +51,20 @@ function VerCard({ info }: CardProps) {
   };
 
   return (
-    <Flex
-      flexDir="column"
-      onClick={() => seeMovieInfo(info.id)}
-      onMouseOver={() => setIsHover(1)}
-      onMouseLeave={() => setIsHover(0)}
-    >
+    <>
       {isHover ? (
-        <Flex justify="center">
-          <Box zIndex={-1} position="absolute">
+        <Flex justify="center" onMouseLeave={() => setIsHover(0)}>
+          <Box zIndex={1} position="absolute">
             <HoverCard info={info} />
           </Box>
         </Flex>
       ) : (
-        <Box position="relative">
+        <Flex
+          flexDir="column"
+          position="relative"
+          onClick={() => seeMovieInfo(info.id)}
+          onMouseOver={() => setIsHover(1)}
+        >
           <Img
             _hover={{ backgroundColor: "pink" }}
             objectFit="cover"
@@ -78,9 +78,9 @@ function VerCard({ info }: CardProps) {
           <Text textAlign="center" mb="0" fontSize="0.9rem">
             {info.title}
           </Text>
-        </Box>
+        </Flex>
       )}
-    </Flex>
+    </>
   );
 }
 

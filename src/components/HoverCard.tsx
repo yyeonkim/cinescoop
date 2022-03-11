@@ -40,7 +40,7 @@ function HoverCard({ info }: NumberProps) {
     <>
       {" "}
       {video[0] ? (
-        <>
+        <Box bgColor="black">
           <Box w="100%">
             <iframe
               src={`https://www.youtube.com/embed/${video[0].key}?vq=hd1080&autoplay=1&modestbranding=1&showinfo=0&rel=0&fs=0&color=white&disablekb=1&mute=1`}
@@ -48,7 +48,7 @@ function HoverCard({ info }: NumberProps) {
             />
           </Box>
           <Text>{info.title}</Text>
-        </>
+        </Box>
       ) : (
         ""
       )}
