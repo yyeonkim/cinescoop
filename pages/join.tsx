@@ -13,7 +13,6 @@ import {
   Button,
   Input,
   Icon,
-  SimpleGrid,
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -23,7 +22,6 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { auth, db } from "../firebase";
 import { loginState, userDBState, userState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
-import { IUserDB } from "../src/interfaces";
 
 interface IForm {
   id: string;
@@ -49,13 +47,12 @@ const Join: NextPage = () => {
   const saveUserToDB = async (id: string, username: string) => {
     //third party user도 계정 추가할 수 있도록 하는 함수 필요(먼저 존재하는 유저인지 확인해야함!)
     const dbInfo = {
-      uid: id,
+      id,
       username,
-      movies: undefined,
+      movies: [],
     };
     try {
-      await setDoc(doc(db, "users", id), dbInfo as IUserDB);
-      router.push("/");
+      await setDoc(doc(db, "users", id), dbInfo);
       setUserDB(dbInfo);
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -65,7 +62,6 @@ const Join: NextPage = () => {
   const onSubmit: SubmitHandler<IForm> = (data) => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
-        console.log(userCredential.user);
         const {
           user: { email, uid },
         } = userCredential;
@@ -74,6 +70,7 @@ const Join: NextPage = () => {
         saveUserToDB(uid, username as any);
         setLogin(true);
         setUser(data.email.slice(0, data.email.indexOf("@")));
+        router.push("/");
       })
       .catch((error) => {
         console.log(error.code);

@@ -2981,16 +2981,16 @@ export const loginState = atom({
 export const userDBState = atom({
   key: "userDBState",
   default: {
-    uid: "",
+    id: "",
     username: "",
-    movies: undefined,
+    movies: [],
   },
 });
 
 export const uidState = selector({
   key: "uidState",
   get: ({ get }) => {
-    return get(userDBState).uid;
+    return get(userDBState).id;
   },
 });
 
