@@ -63,7 +63,7 @@ function GenreList({ genres, windowWidth }: IGenreProps) {
           ))}
         </Select>
         <Spacer />
-        <NextLink href={`/genre/${genre.id}`} passHref>
+        <NextLink href={`/genre`} passHref>
           <Link align="right">
             더보기
             <ChevronRightIcon />

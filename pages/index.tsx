@@ -3,6 +3,7 @@ import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
+import Link from "next/link";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
 import SwipeList from "../src/components/Lists/SwipeList";
@@ -44,9 +45,11 @@ const Home: NextPage<IHomeProps> = ({
           <Heading size="lg" mb={10} mr={8}>
             상영 중인 영화
           </Heading>
-          <Button bg="pink" color="darkBlue" px={5} onClick={onClick}>
-            예매하기
-          </Button>
+          <Link href={"./nowplaying"}>
+            <Button bg="pink" color="darkBlue" px={5}>
+              예매하기
+            </Button>
+          </Link>
         </Flex>
         <Divider borderColor="gray.50" mb={10} />
         <SwipeList data={nowPlaying} poster={true} slidesNumber={5} />
