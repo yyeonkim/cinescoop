@@ -11,7 +11,6 @@ import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
-import { getAuth } from "firebase/auth";
 
 interface IHomeProps {
   trending: ITrending[];
