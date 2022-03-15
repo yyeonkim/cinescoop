@@ -32,7 +32,13 @@ function Navigation({ search }: IsSearch) {
   return (
     <Flex gap={30} paddingX={100} paddingY={0.7} alignItems="center">
       <Link href="/">
-        <Image src={logo.src} boxSize="12rem" objectFit="contain" mr={2} />
+        <Image
+          src={logo.src}
+          boxSize="12rem"
+          objectFit="contain"
+          mr={2}
+          cursor="pointer"
+        />
       </Link>
       <PageLink path="/" name="Home" />
       <PageLink path="/about" name="About" />

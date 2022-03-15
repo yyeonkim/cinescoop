@@ -1,6 +1,6 @@
 import { Flex, Img, Text, Button, Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import useNowDetail from "../../pages/api/useNowDetail";
+import useNowDetail from "../hooks/useNowDetail";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { movieIDState } from "../atom";
 import { IMovieDetails, ICast } from "../interfaces";
