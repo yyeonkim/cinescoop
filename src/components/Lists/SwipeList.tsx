@@ -21,10 +21,9 @@ interface ISwipeProps {
 }
 
 function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
-  const router = useRouter();
-
   const [isPoster, setIsPoster] = useState(poster);
   const setMovieID = useSetRecoilState(movieIDState);
+  const router = useRouter();
 
   const seeMovieInfo = (id: number) => {
     setMovieID(id);
