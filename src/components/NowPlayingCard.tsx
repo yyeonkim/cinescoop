@@ -21,9 +21,9 @@ function NowPlayingCard({ info, page, key }: CardProps) {
   const detail = movieDetail as unknown as IMovieDetails;
   const cast1 = cast as unknown as unknown as ICast;
 
-  const seeMovieInfo = (id: number) => {
+  const onClick = (id: number, path: string) => {
     setMovieID(id);
-    router.push(`/movieinfo/${id}`);
+    router.push(`/${path}/${id}`);
   };
 
   return (
@@ -82,13 +82,14 @@ function NowPlayingCard({ info, page, key }: CardProps) {
               borderColor="pink"
               borderWidth="0.1rem"
               bgColor="darkBlue"
+              onClick={() => onClick(info.id, "reserve")}
             >
               Buy tickets
             </Button>
             <Button
               bgColor="pink"
               color="black"
-              onClick={() => seeMovieInfo(info.id)}
+              onClick={() => onClick(info.id, "movieinfo")}
             >
               관련 정보
             </Button>
