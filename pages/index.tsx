@@ -12,6 +12,8 @@ import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
+import { useRecoilValue } from "recoil";
+import { userDBState } from "../src/atom";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -26,7 +28,11 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
+  const userDB = useRecoilValue(userDBState);
+  const auth = getAuth();
+  const user = auth.currentUser;
   const { width: windowWidth } = useWindowDimensions();
+  console.log(userDB.movies);
 
   return (
     <>
@@ -35,12 +41,14 @@ const Home: NextPage<IHomeProps> = ({
       <HomeText />
 
       {/* 사용자가 찜한 영화 */}
-      <Box my={20} px={10}>
-        <Heading size="lg" mb={10} mr={8}>
-          찜한 영화
-        </Heading>
-        <SwipeList data={topRated} poster={false} slidesNumber={6} />
-      </Box>
+      {user && userDB.movies.length !== 0 && (
+        <Box my={20} px={10}>
+          <Heading size="lg" mb={10} mr={8}>
+            찜한 영화
+          </Heading>
+          <SwipeList data={userDB.movies} poster={false} slidesNumber={6} />
+        </Box>
+      )}
 
       {/* 상영 중인 영화 */}
       <Box bgColor="brightBlue" p={10} py={20}>
@@ -74,12 +82,6 @@ const Home: NextPage<IHomeProps> = ({
 };
 
 export async function getStaticProps() {
-  const auth = getAuth();
-  const user = auth.currentUser;
-  // 로그인 사용자가 있으면 찜한 영화 가졍괴
-  if (user) {
-  }
-
   //Trending movies
   const { results: trending } = await (
     await fetch(`${BASE_URL}/trending/movie/day?${BASE_QUERY}`)
