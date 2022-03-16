@@ -1,3 +1,5 @@
+import { IMovieDetails } from "../interfaces";
+
 export const BASE_URL = "https://api.themoviedb.org/3";
 export const IMAGE_URL = "https://image.tmdb.org/t/p";
 export const BASE_QUERY = `api_key=${process.env.NEXT_PUBLIC_API_KEY}&region=KR&language=ko&include_adult=true&include_image_language=ko`;

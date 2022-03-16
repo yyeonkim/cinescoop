@@ -1,9 +1,11 @@
 import type { NextPage } from "next";
 import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
 import { getAuth } from "firebase/auth";
+import { useEffect, useState } from "react";
+import { useQuery } from "react-query";
 
-import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
-import { IMovie, ITrending, IGenre } from "../src/interfaces";
+import { BASE_QUERY, BASE_URL, fetchDetail } from "../src/hooks/fetching";
+import { IMovie, ITrending, IGenre, IMovieDetails } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
 import SwipeList from "../src/components/Lists/SwipeList";
 import GenreList from "../src/components/Lists/GenreList";
@@ -12,8 +14,10 @@ import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 import { useRecoilValue } from "recoil";
-import { userDBState } from "../src/atom";
+import { likedMoviesState, userDBState } from "../src/atom";
 import ReserveButton from "../src/components/Buttons/ReserveButton";
+import LoadingAnimation from "../src/components/LoadingAnimation";
+import useFetchLiked from "../src/hooks/useFetchLiked";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -29,10 +33,11 @@ const Home: NextPage<IHomeProps> = ({
   genres,
 }) => {
   const userDB = useRecoilValue(userDBState);
+  const likedMovies = useRecoilValue(likedMoviesState);
   const auth = getAuth();
   const user = auth.currentUser;
   const { width: windowWidth } = useWindowDimensions();
-  console.log(userDB.movies);
+  const { data: likedData, isLoading } = useFetchLiked();
 
   return (
     <>
@@ -41,12 +46,16 @@ const Home: NextPage<IHomeProps> = ({
       <HomeText />
 
       {/* 사용자가 찜한 영화 */}
-      {user && userDB.movies.length !== 0 && (
+      {user && likedMovies && (
         <Box my={20} px={10}>
           <Heading size="lg" mb={10} mr={8}>
             찜한 영화
           </Heading>
-          <SwipeList data={userDB.movies} poster={false} slidesNumber={6} />
+          {isLoading ? (
+            <LoadingAnimation />
+          ) : (
+            <SwipeList data={likedData} poster={false} slidesNumber={6} />
+          )}
         </Box>
       )}
 
