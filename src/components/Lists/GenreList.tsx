@@ -17,13 +17,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { useQuery } from "react-query";
 
 import { IMovie, IGenre } from "../../interfaces";
-import { genreState } from "../../atom";
+import { genreState, movieIDState } from "../../atom";
 import { fetchGenre, IMAGE_URL } from "../../hooks/fetching";
 import LoadingAnimation from "../LoadingAnimation";
+import { useRouter } from "next/router";
 
 SwiperCore.use([Navigation]);
 
@@ -34,6 +35,13 @@ export interface IGenreProps {
 
 function GenreList({ genres, windowWidth }: IGenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
+  const setMovieID = useSetRecoilState(movieIDState);
+  const router = useRouter();
+
+  const seeMovieInfo = (id: number) => {
+    setMovieID(id);
+    router.push(`/movieinfo/${id}`);
+  };
   const { data, isLoading } = useQuery<IMovie[]>(["withGenre", genre], () =>
     fetchGenre(genre.id)
   );
@@ -103,7 +111,11 @@ function GenreList({ genres, windowWidth }: IGenreProps) {
           {data?.map(
             (movie: IMovie) =>
               movie.backdrop_path && (
-                <SwiperSlide key={movie.id} className="wrapper__navigation">
+                <SwiperSlide
+                  key={movie.id}
+                  className="wrapper__navigation"
+                  onClick={() => seeMovieInfo(movie.id)}
+                >
                   <NextLink href={`movieinfo/${movie.id}`} passHref>
                     <Link>
                       <Image

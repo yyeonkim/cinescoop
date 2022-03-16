@@ -1,7 +1,7 @@
 import { Flex, Img, Text, Button, Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import useNowDetail from "../hooks/useNowDetail";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { movieIDState } from "../atom";
 import { IMovieDetails, ICast } from "../interfaces";
 import { Movie } from "./VerCard";
@@ -15,7 +15,7 @@ interface CardProps {
 
 function NowPlayingCard({ info, page, key }: CardProps) {
   const router = useRouter();
-  const [movieID, setMovieID] = useRecoilState(movieIDState);
+  const setMovieID = useSetRecoilState(movieIDState);
   const { movieDetail, cast, isLoading, isError } = useNowDetail(info.id);
 
   const detail = movieDetail as unknown as IMovieDetails;
@@ -26,8 +26,13 @@ function NowPlayingCard({ info, page, key }: CardProps) {
     router.push(`/${path}/${id}`);
   };
 
+  const seeMovieInfo = (id: number) => {
+    setMovieID(id);
+    router.push(`/movieinfo/${id}`);
+  };
+
   return (
-    <Box mr={10} ml={10} mt={10}>
+    <Box mr={10} ml={10} mt={10} onClick={() => seeMovieInfo(detail.id)}>
       <Flex mb={10}>
         <Img
           objectFit="contain"
