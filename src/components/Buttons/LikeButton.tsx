@@ -1,29 +1,42 @@
 import { Circle, useToast } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { doc, setDoc } from "firebase/firestore";
 
 import {
   likedMoviesState,
   likedState,
-  loginState,
   movieIDState,
   uidState,
+  userDBState,
   usernameState,
 } from "../../atom";
-import { db } from "../../../firebase";
+import { auth, db } from "../../../firebase";
+import { IUserMovie } from "../../interfaces";
 
 export default function LikeButton() {
   const toast = useToast();
   const [liked, setLiked] = useRecoilState(likedState);
-  const isLoggedIn = useRecoilValue(loginState);
   const movieID = useRecoilValue(movieIDState);
   const userId = useRecoilValue(uidState);
   const username = useRecoilValue(usernameState);
   const likedMovies = useRecoilValue(likedMoviesState);
+  const setUserDB = useSetRecoilState(userDBState);
+
+  const saveMoviesToDB = async (movies: IUserMovie[]) => {
+    const dbInfo = {
+      id: userId,
+      username,
+      movies,
+    };
+    await setDoc(doc(db, "users", userId), dbInfo);
+    setUserDB(dbInfo);
+  };
 
   const onClick = async () => {
-    if (!isLoggedIn) {
+    const user = auth.currentUser;
+
+    if (!user) {
       toast({
         position: "top",
         title: "로그인 해주세요",
@@ -33,26 +46,12 @@ export default function LikeButton() {
         isClosable: true,
       });
     } else {
-      // 버튼 애니메이션
+      // 찜하면 DB에 영화를 추가하고 해제하면 삭제한다.
       setLiked((current) => !current);
-
-      // 찜하기 취소
-      if (liked) {
-        let movies = likedMovies?.filter((movie) => movie.id !== movieID);
-        await setDoc(doc(db, "users", userId), {
-          id: userId,
-          username,
-          movies,
-        });
-      } else {
-        // 찜하기
-        let movies = likedMovies?.push({ id: movieID });
-        await setDoc(doc(db, "users", userId), {
-          id: userId,
-          username,
-          movies,
-        });
-      }
+      const movies = liked
+        ? likedMovies?.filter((movie) => movie.id !== movieID)
+        : likedMovies?.concat([{ id: movieID }]);
+      saveMoviesToDB(movies as IUserMovie[]);
     }
   };
 

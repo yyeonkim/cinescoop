@@ -43,7 +43,7 @@ const Reserve: NextPage = () => {
     setMovieID(id);
 
     // 사용자 로그인 여부 확인
-    async () => {
+    (async () => {
       const user = auth.currentUser;
       if (user) {
         const { uid } = user;
@@ -52,13 +52,11 @@ const Reserve: NextPage = () => {
           const index = likedMovies.findIndex(
             (movie: IUserMovie) => `${movie.id}` === movieId
           );
-          // 영화를 찜했으면
-          if (index != -1) {
-            setLiked(true);
-          }
+          // 좋아요 표시
+          setLiked(index === -1 ? false : true);
         }
       }
-    };
+    })();
   }, [movieId]);
 
   const { data: detailData, isLoading: detailLoading } =

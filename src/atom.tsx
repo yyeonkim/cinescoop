@@ -2983,7 +2983,7 @@ export const userDBState = atom({
   default: {
     id: "",
     username: "",
-    movies: [],
+    movies: undefined as IUserDB["movies"],
   },
 });
 
@@ -2996,6 +2996,7 @@ export const uidState = selector({
 
 export const likedMoviesState = selector<IUserDB["movies"]>({
   key: "likedMoviesState",
+
   get: ({ get }) => {
     return get(userDBState).movies;
   },
