@@ -24,10 +24,22 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { joinSchema } from "../src/schema";
 import { IJoinForm } from "../src/interfaces";
 import ErrorMessage from "../src/components/Account/ErrorMessage";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { loginState, userDBState, userState } from "../src/atom";
+
+interface IForm {
+  id: string;
+  password: string;
+  confirmation: string;
+  email: string;
+}
 
 const Join: NextPage = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
+  const [login, setLogin] = useRecoilState(loginState);
+  const [user, setUser] = useRecoilState(userState);
+  const setUserDB = useSetRecoilState(userDBState);
 
   const {
     register,
@@ -36,13 +48,15 @@ const Join: NextPage = () => {
   } = useForm<IJoinForm>({ resolver: yupResolver(joinSchema) });
 
   const saveUserToDB = async (id: string, username: string) => {
+    //third party user도 계정 추가할 수 있도록 하는 함수 필요(먼저 존재하는 유저인지 확인해야함!)
+    const dbInfo = {
+      id,
+      username,
+      movies: [],
+    };
     try {
-      await setDoc(doc(db, "users", id), {
-        id: id,
-        username: username,
-        movies: [],
-      });
-      console.log("complete to save");
+      await setDoc(doc(db, "users", id), dbInfo);
+      setUserDB(dbInfo);
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -51,13 +65,14 @@ const Join: NextPage = () => {
   const onSubmit: SubmitHandler<IJoinForm> = (data) => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
-        console.log(userCredential.user);
         const {
           user: { email, uid },
         } = userCredential;
-        const username = email?.slice(0, email?.indexOf("@"));
+        const username = email?.slice(0, email?.indexOf("@")) + uid;
 
         saveUserToDB(uid, username as any);
+        setLogin(true);
+        setUser(data.email.slice(0, data.email.indexOf("@")));
         router.push("/");
       })
       .catch((error) => {

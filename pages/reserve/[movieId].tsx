@@ -4,26 +4,61 @@ import { useQuery } from "react-query";
 import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
+import { onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 import { fetchCredit, fetchDetail } from "../../src/hooks/fetching";
-import { ICast, IMovieDetails } from "../../src/interfaces";
+import {
+  ICast,
+  IMovieDetails,
+  IUserDB,
+  IUserMovie,
+} from "../../src/interfaces";
 import Navigation from "../../src/components/Navigation/Navigation";
 import MovieDetail from "../../src/components/MovieDetail";
 import ShowTime from "../../src/components/ShowTime";
 import LoadingAnimation from "../../src/components/LoadingAnimation";
-import { movieIDState } from "../../src/atom";
+import { likedState, movieIDState } from "../../src/atom";
+import { auth, db } from "../../firebase";
 
 const Reserve: NextPage = () => {
   const {
     query: { movieId },
-  } = useRouter();
+  } = useRouter(); // string
 
-  const setMovieId = useSetRecoilState(movieIDState);
+  const setMovieID = useSetRecoilState(movieIDState);
+  const setLiked = useSetRecoilState(likedState);
+
+  // 사용자가 찜한 영화 가져오기
+  const getLikedMovies = async (uid: string) => {
+    const docRef = doc(db, "users", uid);
+    const docSnap = await getDoc(docRef);
+    const movies: IUserDB["movies"] = docSnap.data()?.movies;
+
+    return movies;
+  };
 
   useEffect(() => {
     const id = parseInt(movieId as any, 10);
-    setMovieId(id);
-  }, []);
+    setMovieID(id);
+
+    // 사용자 로그인 여부 확인
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const { uid } = user;
+        const likedMovies = await getLikedMovies(uid); // 사용자가 찜한 영화
+        if (likedMovies !== undefined) {
+          const index = likedMovies.findIndex(
+            (movie: IUserMovie) => `${movie.id}` === movieId
+          );
+          // 영화를 찜했으면
+          if (index != -1) {
+            setLiked(true);
+          }
+        }
+      }
+    });
+  }, [movieId]);
 
   const { data: detailData, isLoading: detailLoading } =
     useQuery<IMovieDetails>(["detail", movieId], () => fetchDetail(movieId));

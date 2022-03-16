@@ -1,4 +1,5 @@
 import { atom, selector } from "recoil";
+import { IUserDB } from "./interfaces";
 
 export const inputState = atom({
   key: "inputState",
@@ -2970,4 +2971,55 @@ export const movieInfoState = atom({
       },
     ],
   },
+});
+
+export const loginState = atom({
+  key: "loginState",
+  default: false,
+});
+
+export const userDBState = atom({
+  key: "userDBState",
+  default: {
+    id: "",
+    username: "",
+    movies: [],
+  },
+});
+
+export const uidState = selector({
+  key: "uidState",
+  get: ({ get }) => {
+    return get(userDBState).id;
+  },
+});
+
+export const likedMoviesState = selector<IUserDB["movies"]>({
+  key: "likedMoviesState",
+  get: ({ get }) => {
+    return get(userDBState).movies;
+  },
+});
+
+export const usernameState = selector({
+  key: "usernameState",
+  get: ({ get }) => {
+    return get(userDBState).username;
+  },
+});
+
+export const userState = atom({
+  key: "userState",
+  default: {
+    thirdParty: false,
+    emailVerified: false,
+    email: "",
+    displayName: "",
+    photoURL: "",
+  },
+});
+
+export const likedState = atom({
+  key: "likedState",
+  default: false,
 });

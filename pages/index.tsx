@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import { getAuth } from "firebase/auth";
 
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
 import Link from "next/link";
@@ -12,7 +12,6 @@ import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
-import { getAuth } from "firebase/auth";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -28,18 +27,22 @@ const Home: NextPage<IHomeProps> = ({
   genres,
 }) => {
   const { width: windowWidth } = useWindowDimensions();
-  const router = useRouter();
-
-  const onClick = () => {
-    router.push("/now-in-theaters");
-  };
 
   return (
     <>
       <Navigation search={true} />
-      {/* <Login /> */}
       <PageList data={trending} />
       <HomeText />
+
+      {/* 사용자가 찜한 영화 */}
+      <Box my={20} px={10}>
+        <Heading size="lg" mb={10} mr={8}>
+          찜한 영화
+        </Heading>
+        <SwipeList data={topRated} poster={false} slidesNumber={6} />
+      </Box>
+
+      {/* 상영 중인 영화 */}
       <Box bgColor="brightBlue" p={10} py={20}>
         <Flex>
           <Heading size="lg" mb={10} mr={8}>
@@ -55,6 +58,7 @@ const Home: NextPage<IHomeProps> = ({
         <SwipeList data={nowPlaying} poster={true} slidesNumber={5} />
       </Box>
 
+      {/* 영화 순위 */}
       <Box my={20} px={10}>
         <Heading size="lg" mb={10}>
           영화 순위
@@ -62,6 +66,7 @@ const Home: NextPage<IHomeProps> = ({
         <SwipeList data={topRated} poster={false} slidesNumber={6} />
       </Box>
 
+      {/* 장르별 영화 */}
       <GenreList genres={genres} windowWidth={windowWidth} />
       <Cinema />
     </>
@@ -69,6 +74,12 @@ const Home: NextPage<IHomeProps> = ({
 };
 
 export async function getStaticProps() {
+  const auth = getAuth();
+  const user = auth.currentUser;
+  // 로그인 사용자가 있으면 찜한 영화 가졍괴
+  if (user) {
+  }
+
   //Trending movies
   const { results: trending } = await (
     await fetch(`${BASE_URL}/trending/movie/day?${BASE_QUERY}`)
