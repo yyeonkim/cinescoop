@@ -1,4 +1,4 @@
-import { Circle } from "@chakra-ui/react";
+import { Circle, useToast } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { doc, setDoc } from "firebase/firestore";
@@ -14,6 +14,7 @@ import {
 import { db } from "../../firebase";
 
 export default function LikeButton() {
+  const toast = useToast();
   const [liked, setLiked] = useRecoilState(likedState);
   const isLoggedIn = useRecoilValue(loginState);
   const movieID = useRecoilValue(movieIDState);
@@ -23,7 +24,14 @@ export default function LikeButton() {
 
   const onClick = async () => {
     if (!isLoggedIn) {
-      window.alert("로그인이 필요합니다.");
+      toast({
+        position: "top",
+        title: "로그인 해주세요",
+        description: "로그인이 필요한 서비스입니다.",
+        status: "info",
+        duration: 3000,
+        isClosable: true,
+      });
     } else {
       // 버튼 애니메이션
       setLiked((current) => !current);
