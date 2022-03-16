@@ -2,6 +2,9 @@ import { Grid } from "@chakra-ui/react";
 
 import VerCard from "../VerCard";
 import type { Movie } from "../VerCard";
+import { useSetRecoilState } from "recoil";
+import { movieIDState } from "../../atom";
+import { useRouter } from "next/router";
 
 interface MovieListProps {
   data: Movie[];
