@@ -5,6 +5,7 @@ import { useRecoilValue } from "recoil";
 import { IMAGE_URL } from "../hooks/fetching";
 import { movieIDState } from "../atom";
 import { ICast, IMovieDetails } from "../interfaces";
+import LikeButton from "./Buttons/LikeButton";
 
 interface IDetailProps {
   detailData?: IMovieDetails;
@@ -15,7 +16,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
   const router = useRouter();
   const movieID = useRecoilValue(movieIDState);
 
-  const onClick = () => {
+  const clickInfo = () => {
     router.push(`/movieinfo/${movieID}`);
   };
 
@@ -24,11 +25,13 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
       <Image src={`${IMAGE_URL}/w300/${detailData?.poster_path}`} />
       <Flex direction="column" justifyContent="space-between" ml="2rem">
         <Stack>
-          <Heading>{detailData?.title}</Heading>
+          <Flex alignItems="center">
+            <Heading mr={5}>{detailData?.title}</Heading>
+            <LikeButton />
+          </Flex>
           <Text>
             <Text as="b">평점 </Text>
-            {detailData?.vote_average} | <Text as="b">찜 </Text>
-            100
+            {detailData?.vote_average}
           </Text>
           <Text>
             <Text as="b">개요</Text>{" "}
@@ -41,11 +44,8 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
           <Text>{detailData?.overview}</Text>
         </Stack>
         <Flex>
-          <Button onClick={onClick} w="8rem" bg="brightBlue" mr={5}>
+          <Button onClick={clickInfo} w="8rem" bg="brightBlue">
             관련 정보
-          </Button>
-          <Button w="8rem" bg="pink">
-            찜하기
           </Button>
         </Flex>
       </Flex>

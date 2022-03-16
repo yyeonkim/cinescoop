@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import type { NextPage } from "next";
 import styled from "styled-components";
-import NextLink from "next/link";
 import {
   FormControl,
   Text,
@@ -23,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/router";
+import { useSetRecoilState } from "recoil";
 
 import {
   GoogleAuthProvider,
@@ -31,6 +31,8 @@ import {
   signInWithPopup,
   TwitterAuthProvider,
 } from "firebase/auth";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+
 import {
   auth,
   db,
@@ -38,12 +40,12 @@ import {
   googleProvider,
   twitterProvider,
 } from "../firebase";
+import { userDBState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
 import facebookLogo from "../public/facebookLogo.png";
 import twitterLogo from "../public/twitterLogo.png";
 import { IForm } from "../src/interfaces";
 import ErrorMessage from "../src/components/Account/ErrorMessage";
-import { doc, getDoc, setDoc } from "firebase/firestore";
 import icecreamScoops from "../public/icecreamScoops.png";
 
 const Login: NextPage = () => {
@@ -52,6 +54,7 @@ const Login: NextPage = () => {
   const errorToast = useToast();
   const bgColor = useColorModeValue("darkBlue", "white");
   const txtColor = useColorModeValue("white", "darkBlue");
+  const setUserDB = useSetRecoilState(userDBState);
 
   const {
     register,
@@ -90,8 +93,14 @@ const Login: NextPage = () => {
 
   const loginSubmit: SubmitHandler<IForm> = (data) => {
     signInWithEmailAndPassword(auth, data.email, data.password)
-      .then(() => {
-        console.log("login success");
+      .then(async (userCredential) => {
+        // uid로 DB에서 사용자 정보 가져오기
+        const {
+          user: { uid },
+        } = userCredential;
+        const docRef = doc(db, "users", uid);
+        const docSnap = await getDoc(docRef);
+        setUserDB(docSnap.data() as any);
         router.push("/");
       })
       .catch((error) => {

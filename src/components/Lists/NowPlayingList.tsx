@@ -1,4 +1,4 @@
-import useFetchNow from "../../../pages/api/useFetchNow";
+import useFetchNow from "../../hooks/useFetchNow";
 import { Heading, Grid, Flex, Box, Spacer, Spinner } from "@chakra-ui/react";
 import NowPlayingCard from "../NowPlayingCard";
 import type { Movie } from "../VerCard";

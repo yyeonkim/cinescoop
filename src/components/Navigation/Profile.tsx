@@ -7,21 +7,43 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  useToast,
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
 import { signOut } from "firebase/auth";
 import { useRouter } from "next/router";
+import { useRecoilState, useSetRecoilState } from "recoil";
+
+import { loginState, userDBState } from "../../atom";
 import { auth } from "../../../firebase";
 
 function Profile() {
   const user = auth.currentUser;
   const router = useRouter();
+  const toast = useToast();
+  const [login, setLogin] = useRecoilState(loginState);
+  const setUserDB = useSetRecoilState(userDBState);
+
+  const initials = login ? user?.displayName : "";
 
   const logout = () => {
     signOut(auth)
       .then(() => {
+        setLogin(false);
+        setUserDB({
+          id: "",
+          username: "",
+          movies: [],
+        });
         console.log("User logged out");
         router.push("/");
+        toast({
+          title: "로그아웃 완료",
+          description: "로그아웃 되었습니다.",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
       })
       .catch((error) => console.log(error));
   };

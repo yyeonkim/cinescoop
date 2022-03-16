@@ -7,7 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import SwiperCore, { Navigation } from "swiper";
 
-import { IMovie } from "../../interfaces";
+import { IMovie, IMovieDetails } from "../../interfaces";
 import { IMAGE_URL } from "../../hooks/fetching";
 import { useSetRecoilState } from "recoil";
 import { movieIDState } from "../../atom";
@@ -15,7 +15,7 @@ import { useRouter } from "next/router";
 SwiperCore.use([Navigation]);
 
 interface ISwipeProps {
-  data: IMovie[];
+  data: IMovie[] | IMovieDetails[];
   poster: boolean;
   slidesNumber: number;
 }
