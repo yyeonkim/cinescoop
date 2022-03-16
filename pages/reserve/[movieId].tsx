@@ -43,7 +43,8 @@ const Reserve: NextPage = () => {
     setMovieID(id);
 
     // 사용자 로그인 여부 확인
-    onAuthStateChanged(auth, async (user) => {
+    async () => {
+      const user = auth.currentUser;
       if (user) {
         const { uid } = user;
         const likedMovies = await getLikedMovies(uid); // 사용자가 찜한 영화
@@ -57,7 +58,7 @@ const Reserve: NextPage = () => {
           }
         }
       }
-    });
+    };
   }, [movieId]);
 
   const { data: detailData, isLoading: detailLoading } =
