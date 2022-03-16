@@ -5,7 +5,7 @@ import { useRecoilValue } from "recoil";
 import { IMAGE_URL } from "../hooks/fetching";
 import { movieIDState } from "../atom";
 import { ICast, IMovieDetails } from "../interfaces";
-import LikeButton from "./LikeButton";
+import LikeButton from "./Buttons/LikeButton";
 
 interface IDetailProps {
   detailData?: IMovieDetails;

@@ -1,9 +1,8 @@
 import type { NextPage } from "next";
-import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
+import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
 import { getAuth } from "firebase/auth";
 
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
-import Link from "next/link";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
 import SwipeList from "../src/components/Lists/SwipeList";
@@ -14,6 +13,7 @@ import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 import { useRecoilValue } from "recoil";
 import { userDBState } from "../src/atom";
+import ReserveButton from "../src/components/Buttons/ReserveButton";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -56,11 +56,7 @@ const Home: NextPage<IHomeProps> = ({
           <Heading size="lg" mb={10} mr={8}>
             상영 중인 영화
           </Heading>
-          <Link href={"./nowplaying"}>
-            <Button bg="pink" color="darkBlue" px={5}>
-              예매하기
-            </Button>
-          </Link>
+          <ReserveButton />
         </Flex>
         <Divider borderColor="gray.50" mb={10} />
         <SwipeList data={nowPlaying} poster={true} slidesNumber={5} />

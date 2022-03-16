@@ -10,8 +10,8 @@ import {
   movieIDState,
   uidState,
   usernameState,
-} from "../atom";
-import { db } from "../../firebase";
+} from "../../atom";
+import { db } from "../../../firebase";
 
 export default function LikeButton() {
   const toast = useToast();
