@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { IMovieDetails } from "../../src/interfaces";
+import { ICast, IMovieDetails } from "../../src/interfaces";
 
 function useNowDetail(id: number) {
   const [movieDetail, setMovieDetail] = useState([]);
-  const [cast, setCast] = useState([]);
+  const [cast, setCast] = useState<ICast[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);

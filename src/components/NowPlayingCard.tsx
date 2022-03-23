@@ -76,9 +76,9 @@ function NowPlayingCard({ info, page, key }: CardProps) {
               출연
             </Text>{" "}
             <Flex direction="column">
-              <Text>{cast[0] && cast[0].name}</Text>
-              <Text>{cast[1] && cast[1].name}</Text>
-              <Text>{cast[2] && cast[2].name}</Text>
+              <Text>{cast[0]?.name}</Text>
+              <Text>{cast[1]?.name}</Text>
+              <Text>{cast[2]?.name}</Text>
             </Flex>
           </Flex>
           <Flex mt="8rem">
