@@ -1,15 +1,20 @@
-import { Flex, Img, Text, Box } from "@chakra-ui/react";
-import styled from "styled-components";
+import { Flex, Img, Text, Box, Button } from "@chakra-ui/react";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { movieIDState } from "../atom";
+import useNowDetail from "../hooks/useNowDetail";
 import { useState, useEffect } from "react";
+import { IMovie } from "../interfaces";
 
-interface NumberProps {
-  info: any;
+interface HoverProps {
+  info: IMovie;
 }
 
-function HoverCard({ info }: NumberProps) {
-  console.log(info);
+function HoverCard({ info }: HoverProps) {
+  const router = useRouter();
+  const [movieID, setMovieID] = useRecoilState(movieIDState);
+  const { movieDetail } = useNowDetail(info.id);
   const [video, setVideo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -36,6 +41,12 @@ function HoverCard({ info }: NumberProps) {
     getMovieVideos();
   }, [info.id]);
   console.log(video);
+
+  const seeMovieInfo = (id: number) => {
+    setMovieID(id);
+    router.push(`/movieinfo/${id}`);
+  };
+
   return (
     <>
       {" "}
@@ -47,7 +58,24 @@ function HoverCard({ info }: NumberProps) {
               frameBorder="0"
             />
           </Box>
-          <Text>{info.title}</Text>
+          <Box p={1}>
+            <Text textColor="white">{info.title}</Text>
+            <Flex>
+              {movieDetail.genres &&
+                movieDetail.genres.map((genre) => (
+                  <Text mr={1} key={genre.id}>
+                    {genre.name}
+                  </Text>
+                ))}
+            </Flex>
+            <Button
+              bgColor="pink"
+              color="black"
+              onClick={() => seeMovieInfo(info.id)}
+            >
+              관련 정보
+            </Button>
+          </Box>
         </Box>
       ) : (
         ""
