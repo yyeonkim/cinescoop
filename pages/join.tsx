@@ -37,8 +37,8 @@ interface IForm {
 const Join: NextPage = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
-  const [login, setLogin] = useRecoilState(loginState);
-  const [user, setUser] = useRecoilState(userState);
+  const setLogin = useSetRecoilState(loginState);
+  const setUser = useSetRecoilState(userState);
   const setUserDB = useSetRecoilState(userDBState);
 
   const {
@@ -72,7 +72,6 @@ const Join: NextPage = () => {
 
         saveUserToDB(uid, username as any);
         setLogin(true);
-        setUser(data.email.slice(0, data.email.indexOf("@")));
         router.push("/");
       })
       .catch((error) => {
@@ -85,7 +84,6 @@ const Join: NextPage = () => {
 
   return (
     <>
-      <Navigation search={true} />
       <Flex direction="column" justify="center" alignItems="center">
         <Heading size="2xl" mb="1.5rem">
           회원가입

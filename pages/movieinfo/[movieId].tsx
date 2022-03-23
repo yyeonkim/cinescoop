@@ -19,8 +19,7 @@ const MovieInfoPage: NextPage = () => {
   console.log(movieInfo);
 
   return (
-    <div>
-      <Navigation search={true} />
+    <>
       {isLoading ? (
         <div>loading</div>
       ) : (
@@ -35,7 +34,7 @@ const MovieInfoPage: NextPage = () => {
           <SimilarMovies data={movieInfo.similarMovies} />
         </Flex>
       )}
-    </div>
+    </>
   );
 };
 

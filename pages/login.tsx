@@ -162,8 +162,6 @@ const Login: NextPage = () => {
   const clickShow = () => setShow(!show);
   return (
     <>
-      <Navigation search={true} />
-
       <Flex
         w="55vw"
         backgroundColor="brightBlue"

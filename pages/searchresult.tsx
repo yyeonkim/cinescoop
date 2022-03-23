@@ -10,7 +10,6 @@ const SearchResultPage: NextPage = () => {
   const { movieData, handleChange } = useSearchMovie();
   return (
     <div>
-      <Navigation search={true} />
       <Flex align="center" justifyContent="center" direction="column">
         <Flex mb="4rem" mt="3rem">
           <SearchBar handleChange={handleChange} />

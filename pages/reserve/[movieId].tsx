@@ -70,7 +70,6 @@ const Reserve: NextPage = () => {
 
   return (
     <>
-      <Navigation search={true} />
       {isLoading ? (
         <Flex justifyContent="center" h="20rem" alignItems="center">
           <LoadingAnimation />

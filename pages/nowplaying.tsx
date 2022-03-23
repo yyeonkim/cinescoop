@@ -5,7 +5,6 @@ import NowPlayingList from "../src/components/Lists/NowPlayingList";
 const NowPlaying: NextPage = () => {
   return (
     <>
-      <Navigation search={true} />
       <NowPlayingList />
     </>
   );
