@@ -104,9 +104,9 @@ export async function getServerSideProps({ query: { movieId } }: any) {
   }
 
   // 주소의 movieId와 일치하는 영화 찾기
-  const filtered = nowPlaying.filter((movie) => `${movie.id}` === movieId);
+  const index = nowPlaying.findIndex((movie) => `${movie.id}` === movieId);
   // 상영 중인 영화면 true, 아니면 false
-  const isPlaying = filtered.length === 0 ? false : true;
+  const isPlaying = index === -1 ? false : true;
 
   return { props: { isPlaying } };
 }
