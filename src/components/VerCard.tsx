@@ -1,9 +1,8 @@
-import { Flex, Img, Text, Box } from "@chakra-ui/react";
+import { Flex, Img, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
-import HoverCard from "./HoverCard";
+import "animate.css";
 import { movieIDState } from "../atom";
 
 interface Movie {
@@ -27,7 +26,7 @@ interface CardProps {
 
 function VerCard({ info }: CardProps) {
   const router = useRouter();
-  const [isHover, setIsHover] = useState(0);
+
   const [movieID, setMovieID] = useRecoilState(movieIDState);
 
   const seeMovieInfo = (id: number) => {
@@ -35,55 +34,25 @@ function VerCard({ info }: CardProps) {
     router.push(`/movieinfo/${id}`);
   };
 
-  const hoverMovie = (event: any) => {
-    console.log("hi");
-    event.target.style.transform = "scale(1.2)";
-    return <HoverCard info={info} />;
-  };
-  const smallMovie = (event: any) => {
-    console.log("hi");
-    event.target.style.transform = "scale(1)";
-    return (
-      <Box w="20rem" bgColor="pink">
-        hi{" "}
-      </Box>
-    );
-  };
-
   return (
-    <>
-      {isHover ? (
-        <Flex justify="center" onMouseLeave={() => setIsHover(0)}>
-          <Box zIndex={1} position="absolute">
-            <HoverCard info={info} />
-          </Box>
-        </Flex>
-      ) : (
-        <Flex
-          flexDir="column"
-          position="relative"
-          onClick={() => seeMovieInfo(info.id)}
-          onMouseOver={() => setIsHover(1)}
-        >
-          <Img
-            _hover={{ backgroundColor: "pink" }}
-            objectFit="cover"
-            src={`https:www.themoviedb.org/t/p/w1280${info.poster_path}`}
-            maxW="100%"
-            minH="75%"
-            maxH="75%"
-            borderRadius={5}
-          />
+    <Flex flexDir="column" onClick={() => seeMovieInfo(info.id)}>
+      <Img
+        cursor="pointer"
+        _hover={{ backgroundColor: "pink" }}
+        objectFit="cover"
+        src={`https:www.themoviedb.org/t/p/w1280${info.poster_path}`}
+        maxW="100%"
+        minH="75%"
+        maxH="75%"
+        borderRadius={5}
+      />
 
-          <Text textAlign="center" mb="0" fontSize="0.9rem">
-            {info.title}
-          </Text>
-        </Flex>
-      )}
-    </>
+      <Text textAlign="center" mb="0" fontSize="0.9rem">
+        {info.title}
+      </Text>
+    </Flex>
   );
 }
 
 export default VerCard;
 export type { Movie };
-const Wrapper = styled.div``;

@@ -19,7 +19,7 @@ function SimilarMovies({ data }: similarMoviesProps) {
       flexDir="column"
     >
       <Heading marginBottom="1.5rem">Similar Movies</Heading>
-      <SwipeList data={data} poster={true} slidesNumber={4} />
+      <SwipeList data={data} poster={true} slidesNumber={4} hover={false} />
     </Flex>
   );
 }

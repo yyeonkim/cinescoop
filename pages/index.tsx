@@ -52,14 +52,24 @@ const Home: NextPage<IHomeProps> = ({
           </Link>
         </Flex>
         <Divider borderColor="gray.50" mb={10} />
-        <SwipeList data={nowPlaying} poster={true} slidesNumber={5} />
+        <SwipeList
+          data={nowPlaying}
+          poster={true}
+          slidesNumber={5}
+          hover={true}
+        />
       </Box>
 
       <Box my={20} px={10}>
         <Heading size="lg" mb={10}>
           영화 순위
         </Heading>
-        <SwipeList data={topRated} poster={false} slidesNumber={6} />
+        <SwipeList
+          data={topRated}
+          poster={false}
+          slidesNumber={6}
+          hover={true}
+        />
       </Box>
 
       <GenreList genres={genres} windowWidth={windowWidth} />

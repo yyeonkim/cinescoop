@@ -1,10 +1,11 @@
 import { useState } from "react";
 // Import Chakra
-import { Image, Link, Text } from "@chakra-ui/react";
+import { Image, Link, Text, Flex, Box } from "@chakra-ui/react";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
+import SwipeCard from "../SwipeCard";
 import SwiperCore, { Navigation } from "swiper";
 
 import { IMovie } from "../../interfaces";
@@ -18,18 +19,12 @@ interface ISwipeProps {
   data: IMovie[];
   poster: boolean;
   slidesNumber: number;
+  hover: boolean;
 }
 
-function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
-  const router = useRouter();
-
+function SwipeList({ data, poster, slidesNumber, hover }: ISwipeProps) {
   const [isPoster, setIsPoster] = useState(poster);
   const setMovieID = useSetRecoilState(movieIDState);
-
-  const seeMovieInfo = (id: number) => {
-    setMovieID(id);
-    router.push(`/movieinfo/${id}`);
-  };
 
   return (
     <>
@@ -60,12 +55,10 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
         {data.map(
           (movie) =>
             movie.poster_path && (
-              <SwiperSlide
-                key={movie.id}
-                className="wrapper__navigation"
-                onClick={() => seeMovieInfo(movie.id)}
-              >
-                <Link>
+              <SwiperSlide key={movie.id} className="wrapper__navigation">
+                <SwipeCard isPoster={isPoster} movie={movie} hover={hover} />
+
+                {/* <Link>
                   {isPoster ? (
                     <Image
                       src={`${IMAGE_URL}/w300/${movie.poster_path}`}
@@ -85,7 +78,7 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
                   <Text fontSize="md" align="center" mt={1}>
                     {movie.title}
                   </Text>
-                </Link>
+                </Link> */}
               </SwiperSlide>
             )
         )}
