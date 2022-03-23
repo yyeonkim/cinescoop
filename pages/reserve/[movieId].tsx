@@ -30,12 +30,13 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
 
   const setMovieID = useSetRecoilState(movieIDState);
 
+  // movieId를 정수로 설정하기
   useEffect(() => {
     const id = parseInt(movieId as any, 10);
     setMovieID(id);
   }, [movieId]);
 
-  useFillButton(movieId);
+  useFillButton(movieId); // 사용자가 찜한 영화면 좋아요 표시하기
 
   const { data: detailData, isLoading: detailLoading } =
     useQuery<IMovieDetails>(["detail", movieId], () => fetchDetail(movieId));
@@ -64,7 +65,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
 };
 
 export async function getServerSideProps({ query: { movieId } }: any) {
-  //Now playing movies
+  // Get now playing movies
   let nowPlaying = [];
   for (let i = 1; i <= 3; i++) {
     const { results } = await (
