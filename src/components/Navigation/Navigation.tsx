@@ -1,22 +1,15 @@
 import {
-  Img,
-  Button,
   Flex,
   Spacer,
-  Switch,
-  Text,
-  useColorMode,
   Image,
 } from "@chakra-ui/react";
 import logo from "../../../public/logo.png";
 import Link from "next/link";
-import { useRecoilValue } from "recoil";
 
 import Profile from "./Profile";
 import Search from "./Search";
 import PageLink from "./PageLink";
 import SwitchMode from "./SwitchMode";
-import { loginState, userState } from "../../atom";
 
 export interface SearchProps {
   version: string;
