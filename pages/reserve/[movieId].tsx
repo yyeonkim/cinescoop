@@ -4,10 +4,14 @@ import { useQuery } from "react-query";
 import { Flex } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
-import { onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore";
 
-import { fetchCredit, fetchDetail } from "../../src/hooks/fetching";
+import {
+  BASE_QUERY,
+  BASE_URL,
+  fetchCredit,
+  fetchDetail,
+} from "../../src/hooks/fetching";
 import {
   ICast,
   IMovieDetails,
@@ -21,7 +25,11 @@ import LoadingAnimation from "../../src/components/LoadingAnimation";
 import { likedState, movieIDState } from "../../src/atom";
 import { auth, db } from "../../firebase";
 
-const Reserve: NextPage = () => {
+interface IReserveProps {
+  isPlaying: boolean;
+}
+
+const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
   const {
     query: { movieId },
   } = useRouter(); // string
@@ -78,15 +86,32 @@ const Reserve: NextPage = () => {
       ) : (
         <Flex direction="column" alignItems="center" px={20}>
           <MovieDetail detailData={detailData} creditData={creditData} />
-          <ShowTime />
+          {isPlaying && <ShowTime />}
         </Flex>
       )}
     </>
   );
 };
 
-export default Reserve;
+export async function getServerSideProps({ query: { movieId } }: any) {
+  //Now playing movies
+  let nowPlaying = [];
+  for (let i = 1; i <= 3; i++) {
+    const { results } = await (
+      await fetch(`${BASE_URL}/movie/now_playing?${BASE_QUERY}&page=${i}`)
+    ).json();
+    nowPlaying.push(...results);
+  }
 
+  // 주소의 movieId와 일치하는 영화 찾기
+  const filtered = nowPlaying.filter((movie) => `${movie.id}` === movieId);
+  // 상영 중인 영화면 true, 아니면 false
+  const isPlaying = filtered.length === 0 ? false : true;
+
+  return { props: { isPlaying } };
+}
+
+export default Reserve;
 // export async function getServerSideProps({ query }: any) {
 //   const { movieId } = query;
 //   const { title } = await fetchDetail(movieId); // 예매 페이지의 영화 제목
@@ -117,14 +142,6 @@ export default Reserve;
 //       index + 1
 //     }) > dl > dd.info_t1 > div`
 //   );
-//   // const link = await page.$eval(
-//   //   `#content > div.article > div:nth-child(1) > div.lst_wrap > ul > li:nth-child(${
-//   //     index + 1
-//   //   }) > dl > dd.info_t1 > div > a`,
-//   //   (a: any) => a.href
-//   // );
-//   // // 네이버 영화의 예매 페이지로 이동
-//   // await page.goto(link, { waitUntil: "networkidle0", timeout: 0 });
 
 //   const areas = await page.$$eval("#rootDropBox > li > a", (lists: any) =>
 //     lists.map((list: any) => list.textContent)
