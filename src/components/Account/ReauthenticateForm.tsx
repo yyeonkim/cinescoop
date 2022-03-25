@@ -28,6 +28,7 @@ import { auth } from "../../../firebase";
 
 import { IPasswordForm } from "../../interfaces";
 import { reauthenticateSchema } from "../../schema";
+import ShowIcon from "../ShowIcon";
 import ErrorMessage from "./ErrorMessage";
 
 interface ReauthenticateFormProps {
@@ -137,15 +138,7 @@ function ReauthenticateForm({
                 placeholder="비밀번호를 입력해주세요"
               />
               <InputRightElement width="3rem">
-                {show ? (
-                  <Icon boxSize="1.5rem" as={AiFillEye} onClick={clickShow} />
-                ) : (
-                  <Icon
-                    boxSize="1.5rem"
-                    as={AiFillEyeInvisible}
-                    onClick={clickShow}
-                  />
-                )}
+                <ShowIcon show={show} setShow={setShow} />
               </InputRightElement>
             </InputGroup>
             {verified ? (

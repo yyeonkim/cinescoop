@@ -20,6 +20,7 @@ import { IPasswordCheckForm } from "../../../src/interfaces";
 import { passwordCheckSchema } from "../../schema";
 import ErrorMessage from "./ErrorMessage";
 import { auth } from "../../../firebase";
+import ShowIcon from "../ShowIcon";
 
 interface NewPasswordFormProps {
   verified: boolean;
@@ -90,15 +91,7 @@ function NewPasswordForm({
           <ErrorMessage message={errors?.newPassword?.message} />
         </Flex>
         <InputRightElement w="3rem" mt="0.25rem">
-          {show ? (
-            <Icon boxSize="1.5rem" as={AiFillEye} onClick={handleClick} />
-          ) : (
-            <Icon
-              boxSize="1.5rem"
-              as={AiFillEyeInvisible}
-              onClick={handleClick}
-            />
-          )}
+          <ShowIcon show={show} setShow={setShow} />
         </InputRightElement>
       </InputGroup>
       <Input
