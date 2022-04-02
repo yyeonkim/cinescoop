@@ -27,13 +27,6 @@ import ErrorMessage from "../src/components/Account/ErrorMessage";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { loginState, userDBState, userState } from "../src/atom";
 
-interface IForm {
-  id: string;
-  password: string;
-  confirmation: string;
-  email: string;
-}
-
 const Join: NextPage = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
@@ -52,7 +45,7 @@ const Join: NextPage = () => {
     const dbInfo = {
       id,
       username,
-      movies: [],
+      movies: { watch: [], good: [], bad: [] },
     };
     try {
       await setDoc(doc(db, "users", id), dbInfo);

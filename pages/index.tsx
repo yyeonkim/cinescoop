@@ -30,12 +30,12 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
-  const likedMovies = useRecoilValue(likedMoviesState);
+  // const likedMovies = useRecoilValue(likedMoviesState);
   const auth = getAuth();
   const user = auth.currentUser;
   const { width: windowWidth } = useWindowDimensions();
-  const { data: likedData, isLoading } = useFetchLiked();
-  console.log(likedMovies);
+  const { data: likedData, isLoading } = useFetchLiked(); // []
+
   return (
     <>
       <Navigation search={true} />
@@ -43,7 +43,7 @@ const Home: NextPage<IHomeProps> = ({
       <HomeText />
 
       {/* 사용자가 찜한 영화 */}
-      {user && likedMovies && (
+      {user && likedData.length !== 0 && (
         <Box my={20} px={10}>
           <Heading size="lg" mb={10} mr={8}>
             찜한 영화

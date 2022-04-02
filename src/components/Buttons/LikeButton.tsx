@@ -4,6 +4,8 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { doc, setDoc } from "firebase/firestore";
 
 import {
+  badMoviesState,
+  goodMoviesState,
   likedMoviesState,
   likedState,
   movieIDState,
@@ -12,7 +14,7 @@ import {
   usernameState,
 } from "../../atom";
 import { auth, db } from "../../../firebase";
-import { IUserMovie } from "../../interfaces";
+import { IUserMovies } from "../../interfaces";
 
 export default function LikeButton() {
   const toast = useToast();
@@ -21,13 +23,15 @@ export default function LikeButton() {
   const userId = useRecoilValue(uidState);
   const username = useRecoilValue(usernameState);
   const likedMovies = useRecoilValue(likedMoviesState);
+  const goodMovies = useRecoilValue(goodMoviesState);
+  const badMovies = useRecoilValue(badMoviesState);
   const setUserDB = useSetRecoilState(userDBState);
 
-  const saveMoviesToDB = async (movies: IUserMovie[]) => {
+  const saveMoviesToDB = async (movies: IUserMovies["watch"]) => {
     const dbInfo = {
       id: userId,
       username,
-      movies,
+      movies: { watch: movies, good: goodMovies, bad: badMovies },
     };
     await setDoc(doc(db, "users", userId), dbInfo);
     setUserDB(dbInfo);
@@ -49,9 +53,9 @@ export default function LikeButton() {
       // 찜하면 DB에 영화를 추가하고 해제하면 삭제한다.
       setLiked((current) => !current);
       const movies = liked
-        ? likedMovies?.filter((movie) => movie.id !== movieID)
-        : likedMovies?.concat([{ id: movieID }]);
-      saveMoviesToDB(movies as IUserMovie[]);
+        ? likedMovies?.filter((id) => id !== movieID)
+        : likedMovies?.concat([movieID]);
+      saveMoviesToDB(movies);
     }
   };
 

@@ -4,7 +4,7 @@ import { useSetRecoilState } from "recoil";
 
 import { auth, db } from "../../firebase";
 import { likedState } from "../atom";
-import { IUserDB, IUserMovie } from "../interfaces";
+import { IUserMovies } from "../interfaces";
 
 type IMovieId = string | string[] | undefined;
 
@@ -15,9 +15,9 @@ export default function useFillButton(movieId: IMovieId) {
   const getLikedMovies = async (uid: string) => {
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
-    const movies: IUserDB["movies"] = docSnap.data()?.movies;
+    const movies = docSnap.data()?.movies;
 
-    return movies;
+    return movies.watch as IUserMovies["watch"];
   };
 
   useEffect(() => {
@@ -29,10 +29,8 @@ export default function useFillButton(movieId: IMovieId) {
         const likedMovies = await getLikedMovies(uid); // 사용자가 찜한 영화
 
         // 찜한 영화인지 아닌지 확인
-        if (likedMovies !== undefined) {
-          const index = likedMovies.findIndex(
-            (movie: IUserMovie) => `${movie.id}` === movieId
-          );
+        if (likedMovies.length !== 0) {
+          const index = likedMovies?.findIndex((id) => `${id}` === movieId);
           // 좋아요 표시
           setLiked(index === -1 ? false : true);
         }

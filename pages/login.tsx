@@ -12,7 +12,6 @@ import {
   Button,
   Input,
   Icon,
-  Link,
   Divider,
   Image,
   useColorModeValue,
@@ -44,7 +43,7 @@ import { userDBState } from "../src/atom";
 import Navigation from "../src/components/Navigation/Navigation";
 import facebookLogo from "../public/facebookLogo.png";
 import twitterLogo from "../public/twitterLogo.png";
-import { IForm } from "../src/interfaces";
+import { IForm, IUserDB } from "../src/interfaces";
 import ErrorMessage from "../src/components/Account/ErrorMessage";
 import icecreamScoops from "../public/icecreamScoops.png";
 
@@ -74,7 +73,7 @@ const Login: NextPage = () => {
         await setDoc(doc(db, "users", id), {
           id: id,
           username: username,
-          movies: [],
+          movies: { watch: [], good: [], bad: [] },
         });
         console.log("complete to save");
       } catch (e) {
