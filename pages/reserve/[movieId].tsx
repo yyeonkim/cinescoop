@@ -53,7 +53,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
     },
     {
       name: "메가박스",
-      logo: "/megabox.png",
+      logo: "/megabox-reservation.jpg",
       href: `https://www.megabox.co.kr/movie?searchText=${detailData?.title}`,
     },
     {
