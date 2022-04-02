@@ -1,7 +1,15 @@
 import { useEffect } from "react";
 import { NextPage } from "next";
 import { useQuery } from "react-query";
-import { Center, Flex, Heading, HStack, Img, Link } from "@chakra-ui/react";
+import {
+  Center,
+  Flex,
+  Heading,
+  HStack,
+  Img,
+  Link,
+  Stack,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 
@@ -81,22 +89,25 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
       ) : (
         <Flex direction="column" alignItems="center" px={20}>
           <MovieDetail detailData={detailData} creditData={creditData} />
+
+          {/* 상영관 정보 */}
           <Flex w="100%" mt={10} flexDir="column">
             <Heading mb={10} color="pink" size="lg" mr={10}>
               상영관
             </Heading>
             {isPlaying ? (
-              <HStack spacing="2%">
+              <Flex flexWrap="wrap">
                 {cinemas.map((cinema) => (
                   <Link
                     href={cinema.href}
                     display="flex"
-                    w="32%"
                     px={5}
                     alignItems="center"
                     bg="brightBlue"
                     borderRadius="1rem"
                     isExternal
+                    mr={5}
+                    mb={5}
                   >
                     <Img
                       src={cinema.logo}
@@ -107,7 +118,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
                     <Heading fontSize="lg">{cinema.name}</Heading>
                   </Link>
                 ))}
-              </HStack>
+              </Flex>
             ) : (
               <Center>상영하는 영화관이 없습니다 😭</Center>
             )}

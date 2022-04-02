@@ -11,8 +11,6 @@ import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
-import { useRecoilValue } from "recoil";
-import { likedMoviesState } from "../src/atom";
 import ReserveButton from "../src/components/Buttons/ReserveButton";
 import LoadingAnimation from "../src/components/LoadingAnimation";
 import useFetchLiked from "../src/hooks/useFetchLiked";
