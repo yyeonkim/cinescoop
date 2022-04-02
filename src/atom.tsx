@@ -3044,3 +3044,8 @@ export const likedState = atom({
   key: "likedState",
   default: false,
 });
+
+export const ratingState = atom<"good" | "bad" | "">({
+  key: "ratingState",
+  default: "",
+});
