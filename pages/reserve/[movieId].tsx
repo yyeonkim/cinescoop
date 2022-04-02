@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { NextPage } from "next";
 import { useQuery } from "react-query";
-import { Flex } from "@chakra-ui/react";
+import { Center, Flex, Heading, HStack, Img, Link } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 
@@ -14,7 +14,6 @@ import {
 import { ICast, IMovieDetails } from "../../src/interfaces";
 import Navigation from "../../src/components/Navigation/Navigation";
 import MovieDetail from "../../src/components/MovieDetail";
-import ShowTime from "../../src/components/ShowTime";
 import LoadingAnimation from "../../src/components/LoadingAnimation";
 import { movieIDState } from "../../src/atom";
 import useFillButton from "../../src/hooks/useFillButton";
@@ -23,18 +22,18 @@ interface IReserveProps {
   isPlaying: boolean;
 }
 
+interface ICinema {
+  name: string;
+  logo: string;
+  href: string;
+}
+
 const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
   const {
     query: { movieId },
   } = useRouter(); // string
 
   const setMovieID = useSetRecoilState(movieIDState);
-
-  // movieId를 정수로 설정하기
-  useEffect(() => {
-    const id = parseInt(movieId as any, 10);
-    setMovieID(id);
-  }, [movieId]);
 
   useFillButton(movieId); // 사용자가 찜한 영화면 좋아요 표시하기
 
@@ -45,7 +44,32 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
     () => fetchCredit(movieId)
   );
 
+  // 상영관 정보
+  const cinemas: ICinema[] = [
+    {
+      name: "CGV",
+      logo: "/cgv.png",
+      href: `http://www.cgv.co.kr/search/?query=${detailData?.title}`,
+    },
+    {
+      name: "메가박스",
+      logo: "/megabox.png",
+      href: `https://www.megabox.co.kr/movie?searchText=${detailData?.title}`,
+    },
+    {
+      name: "롯데시네마",
+      logo: "/lotte.png",
+      href: "https://www.lottecinema.co.kr/NLCHS/Ticketing",
+    },
+  ];
+
   const isLoading = detailLoading || creditLoading;
+
+  // movieId를 정수로 설정하기
+  useEffect(() => {
+    const id = parseInt(movieId as any, 10);
+    setMovieID(id);
+  }, [movieId]);
 
   return (
     <>
@@ -57,7 +81,37 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
       ) : (
         <Flex direction="column" alignItems="center" px={20}>
           <MovieDetail detailData={detailData} creditData={creditData} />
-          {isPlaying && <ShowTime />}
+          <Flex w="100%" mt={10} flexDir="column">
+            <Heading mb={10} color="pink" size="lg" mr={10}>
+              상영관
+            </Heading>
+            {isPlaying ? (
+              <HStack spacing="2%">
+                {cinemas.map((cinema) => (
+                  <Link
+                    href={cinema.href}
+                    display="flex"
+                    w="32%"
+                    px={5}
+                    alignItems="center"
+                    bg="brightBlue"
+                    borderRadius="1rem"
+                    isExternal
+                  >
+                    <Img
+                      src={cinema.logo}
+                      boxSize="5rem"
+                      objectFit="contain"
+                      mr={5}
+                    />
+                    <Heading fontSize="lg">{cinema.name}</Heading>
+                  </Link>
+                ))}
+              </HStack>
+            ) : (
+              <Center>상영하는 영화관이 없습니다 😭</Center>
+            )}
+          </Flex>
         </Flex>
       )}
     </>
@@ -83,45 +137,3 @@ export async function getServerSideProps({ query: { movieId } }: any) {
 }
 
 export default Reserve;
-// export async function getServerSideProps({ query }: any) {
-//   const { movieId } = query;
-//   const { title } = await fetchDetail(movieId); // 예매 페이지의 영화 제목
-//   const puppeteer = require("puppeteer");
-//   const browser = await puppeteer.launch();
-//   const page = await browser.newPage(); // 새로운 페이지 열기
-
-//   await page.setDefaultNavigationTimeout(0);
-//   // 네이버 영화: 현재 상영 영화 페이지로 이동s
-//   await page.goto("https://movie.naver.com/movie/running/current.naver");
-
-//   // 네이버 영화: 현재 상영작 제목 가져오기
-//   const titles = await page.$$eval(
-//     "#content > div.article > div > div.lst_wrap > ul > li > dl > dt > a",
-//     (lists: any) => lists.map((list: any) => list.textContent)
-//   );
-//   const index = titles.findIndex((element: any) => element === title);
-
-//   // 상영 중인 영화가 아니면
-//   if (index == -1) {
-//     await browser.close();
-//     return {props: {}}
-//   }
-
-//   // 네이버 영화: 예매하기 버튼 클릭
-//   await page.click(
-//     `#content > div.article > div:nth-child(1) > div.lst_wrap > ul > li:nth-child(${
-//       index + 1
-//     }) > dl > dd.info_t1 > div`
-//   );
-
-//   const areas = await page.$$eval("#rootDropBox > li > a", (lists: any) =>
-//     lists.map((list: any) => list.textContent)
-//   );
-//   console.log(areas);
-
-//   await browser.close();
-
-//   return {
-//     props: {},
-//   };
-// }
