@@ -26,13 +26,8 @@ function NowPlayingCard({ info, page, key }: CardProps) {
     router.push(`/${path}/${id}`);
   };
 
-  const seeMovieInfo = (id: number) => {
-    setMovieID(id);
-    router.push(`/movieinfo/${id}`);
-  };
-
   return (
-    <Box mr={10} ml={10} mt={10} onClick={() => seeMovieInfo(detail.id)}>
+    <Box mr={10} ml={10} mt={10}>
       <Flex mb={10}>
         <Img
           objectFit="contain"
