@@ -1,23 +1,11 @@
 import type { NextPage } from "next";
-Cimport styled, { css } from "styled-components";
+import styled, { css } from "styled-components";
 import {
-  FormControl,
   Text,
-  InputRightElement,
-  InputGroup,
   Heading,
   Flex,
   Button,
-  Input,
-  Icon,
-  Link,
   Divider,
-  Image,
-  useColorModeValue,
-  useToast,
-  Circle,
-  AspectRatio,
-  Box,
   keyframes,
 } from "@chakra-ui/react";
 import ThirdPartyLogin from "../src/components/LoginSignup/ThirdPartyLogin";
@@ -87,9 +75,9 @@ const Login: NextPage = () => {
       <Flex
         as={motion.div}
         initial={false}
-        animation={
-          slideDir === "left" ? slideLeftAnimation : slideRightAnimation
-        }
+        // animation={
+        //   slideDir === "left" ? slideLeftAnimation : slideRightAnimation
+        // }
         flexDir="column"
         width="40%"
         borderRadius="0.3rem"

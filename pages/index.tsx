@@ -1,15 +1,10 @@
 import type { NextPage } from "next";
 import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
-import { getAuth } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { useQuery } from "react-query";
-
-import { BASE_QUERY, BASE_URL, fetchDetail } from "../src/hooks/fetching";
-import { IMovie, ITrending, IGenre, IMovieDetails } from "../src/interfaces";
+import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
+import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
 import SwipeList from "../src/components/Lists/SwipeList";
 import GenreList from "../src/components/Lists/GenreList";
-import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
@@ -18,6 +13,7 @@ import { likedMoviesState, userDBState } from "../src/atom";
 import ReserveButton from "../src/components/Buttons/ReserveButton";
 import LoadingAnimation from "../src/components/LoadingAnimation";
 import useFetchLiked from "../src/hooks/useFetchLiked";
+import { auth } from "../firebase";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -32,16 +28,13 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
-  const userDB = useRecoilValue(userDBState);
   const likedMovies = useRecoilValue(likedMoviesState);
-  const auth = getAuth();
   const user = auth.currentUser;
   const { width: windowWidth } = useWindowDimensions();
   const { data: likedData, isLoading } = useFetchLiked();
 
   return (
     <>
-      <Navigation search={true} />
       <PageList data={trending} />
       <HomeText />
 
