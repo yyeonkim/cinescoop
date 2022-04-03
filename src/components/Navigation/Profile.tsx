@@ -24,8 +24,6 @@ function Profile() {
   const [login, setLogin] = useRecoilState(loginState);
   const setUserDB = useSetRecoilState(userDBState);
 
-  const initials = login ? user?.displayName : "";
-
   const logout = () => {
     signOut(auth)
       .then(() => {
