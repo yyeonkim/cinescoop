@@ -21,9 +21,8 @@ export interface IsSearch {
 
 interface navigationProps {
   search: boolean;
-  user: User | null;
 }
-function Navigation({ search, user }: navigationProps) {
+function Navigation({ search }: navigationProps) {
   return (
     <Flex gap={30} paddingX={100} m={0} alignItems="center">
       <Link href="/">
@@ -39,7 +38,7 @@ function Navigation({ search, user }: navigationProps) {
       <Spacer />
       {search && <Search version="short" />}
       <SwitchMode />
-      <Profile user={user} />
+      <Profile />
     </Flex>
   );
 }

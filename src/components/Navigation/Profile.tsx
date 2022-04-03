@@ -10,22 +10,32 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
-import { signOut, User } from "firebase/auth";
+import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { loginState, userDBState } from "../../atom";
 import { auth } from "../../../firebase";
+import { useEffect } from "react";
 
 interface profileProps {
   user: User | null;
 }
 
-function Profile({ user }: profileProps) {
+function Profile() {
+  const user = auth.currentUser;
   const router = useRouter();
   const toast = useToast();
   const [login, setLogin] = useRecoilState(loginState);
   const setUserDB = useSetRecoilState(userDBState);
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      setLogin(true);
+    } else {
+      setLogin(false);
+    }
+  });
 
   const logout = () => {
     signOut(auth)

@@ -1,5 +1,5 @@
 import React from "react";
-import type { AppContext, AppInitialProps, AppProps } from "next/app";
+import type { AppProps } from "next/app";
 import { ChakraProvider } from "@chakra-ui/react";
 import { RecoilRoot } from "recoil";
 import { QueryClient, QueryClientProvider } from "react-query";
@@ -9,7 +9,6 @@ import "@fontsource/nanum-gothic/700.css";
 import "../src/styles.css";
 import customTheme from "../src/theme/customeTheme";
 import Layout from "../src/components/Layout/Layout";
-import { getAuth } from "firebase/auth";
 
 const queryClient = new QueryClient();
 
@@ -18,7 +17,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     <RecoilRoot>
       <ChakraProvider theme={customTheme}>
         <QueryClientProvider client={queryClient}>
-          <Layout >
+          <Layout>
             <Component {...pageProps} />
           </Layout>
         </QueryClientProvider>
@@ -26,25 +25,6 @@ function MyApp({ Component, pageProps }: AppProps) {
     </RecoilRoot>
   );
 }
-
-export async function getInitialProps() {
-  const auth = getAuth();
-  const user = auth.currentUser;
-  return { props: { user } };
-}
-
-MyApp.getInitialProps = async ({
-  Component,
-  ctx,
-}: AppContext): Promise<AppInitialProps> => {
-  let pageProps = {};
-
-  if (Component.getInitialProps) {
-    pageProps = await Component.getInitialProps(ctx);
-  }
-
-  return { pageProps };
-};
 
 export default MyApp;
 function firebaseConfig(firebaseConfig: any) {
