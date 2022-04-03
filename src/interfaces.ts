@@ -145,13 +145,15 @@ export interface IPasswordCheckForm {
 export interface IPasswordForm {
   password: string;
 }
-export interface IUserMovie {
-  id: number;
+export interface IUserMovies {
+  watch: number[];
+  good: number[];
+  bad: number[];
 }
 
 export interface IUserDB {
   username: string;
-  movies?: IUserMovie[];
+  movies?: IUserMovies;
 }
 
 // export interface IUserImpl {

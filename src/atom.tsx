@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { IUserDB } from "./interfaces";
+import { IUserMovies } from "./interfaces";
 
 export const inputState = atom({
   key: "inputState",
@@ -2983,7 +2983,11 @@ export const userDBState = atom({
   default: {
     id: "",
     username: "",
-    movies: undefined as IUserDB["movies"],
+    movies: {
+      watch: [] as number[],
+      good: [] as number[],
+      bad: [] as number[],
+    },
   },
 });
 
@@ -2994,11 +2998,27 @@ export const uidState = selector({
   },
 });
 
-export const likedMoviesState = selector<IUserDB["movies"]>({
+export const likedMoviesState = selector<IUserMovies["watch"]>({
   key: "likedMoviesState",
 
   get: ({ get }) => {
-    return get(userDBState).movies;
+    return get(userDBState).movies.watch;
+  },
+});
+
+export const goodMoviesState = selector<IUserMovies["good"]>({
+  key: "likedMoviesState",
+
+  get: ({ get }) => {
+    return get(userDBState).movies.good;
+  },
+});
+
+export const badMoviesState = selector<IUserMovies["bad"]>({
+  key: "likedMoviesState",
+
+  get: ({ get }) => {
+    return get(userDBState).movies.bad;
   },
 });
 
@@ -3023,4 +3043,9 @@ export const userState = atom({
 export const likedState = atom({
   key: "likedState",
   default: false,
+});
+
+export const ratingState = atom<"good" | "bad" | "">({
+  key: "ratingState",
+  default: "",
 });

@@ -6,13 +6,13 @@ import { IMovieDetails } from "../interfaces";
 import { fetchDetail } from "./fetching";
 
 export default function useFetchLiked() {
-  const movies = useRecoilValue(likedMoviesState);
+  const movies = useRecoilValue(likedMoviesState); // []
   const [data, setData] = useState<IMovieDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    movies?.map(async (movie) => {
-      const data = await fetchDetail(`${movie.id}`);
+    movies?.map(async (id) => {
+      const data = await fetchDetail(`${id}`);
       setData((current) => current.concat([data]));
     });
     setIsLoading(false);

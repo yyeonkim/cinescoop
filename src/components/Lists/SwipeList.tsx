@@ -64,7 +64,7 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
                 className="wrapper__navigation"
                 onClick={() => seeMovieInfo(movie.id)}
               >
-                <Link>
+                <Link display="flex" flexDirection="column">
                   {isPoster ? (
                     <Image
                       src={`${IMAGE_URL}/w300/${movie.poster_path}`}
