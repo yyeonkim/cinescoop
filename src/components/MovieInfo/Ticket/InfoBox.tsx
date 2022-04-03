@@ -4,6 +4,7 @@ import {
   Grid,
   GridItem,
   Heading,
+  HStack,
   Image,
   List,
   ListItem,
@@ -11,6 +12,8 @@ import {
 } from "@chakra-ui/react";
 import StarRating from "../../StarRatings";
 import { ICast, ICrew, IMovieDetails } from "../../../interfaces";
+import GoodButton from "../../Buttons/GoodButton";
+import BadButton from "../../Buttons/BadButton";
 
 interface infoBoxprops {
   details: IMovieDetails;
@@ -33,11 +36,18 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
         maxH="min-content"
         padding="2rem 0 3rem 0"
       >
-        <Image
-          src={`https://www.themoviedb.org/t/p/w1280/${details.poster_path} `}
-          w="40%"
-          h="xs"
-        />
+        <Flex flexDir="column" w="40%">
+          <Image
+            src={`https://www.themoviedb.org/t/p/w1280/${details.poster_path} `}
+            w="100%"
+            h="s"
+          />
+          <HStack maxW="min-content" spacing="0.5rem" mt="1rem">
+            <GoodButton />
+            <BadButton />
+          </HStack>
+        </Flex>
+
         <Grid
           templateColumns="1fr 2fr"
           marginLeft="3rem"
@@ -45,6 +55,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
           h="100%"
           fontWeight="semibold"
           rowGap={1}
+          flexGrow="1"
         >
           <GridItem>Release Date</GridItem>
           <GridItem textAlign="right" fontWeight="normal">
