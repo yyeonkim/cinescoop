@@ -1,12 +1,18 @@
+import { User } from "firebase/auth";
 import React from "react";
 import Navigation from "../Navigation/Navigation";
 import Footer from "./Footer";
 
-const Layout = (props: { children: React.ReactNode }) => {
+interface layoutProps {
+  children: React.ReactNode;
+  user: User | null;
+}
+
+const Layout = ({ children, user }: layoutProps) => {
   return (
     <>
-      <Navigation search={true} />
-      {props.children}
+      <Navigation search={true} user={user} />
+      {children}
       <Footer />
     </>
   );

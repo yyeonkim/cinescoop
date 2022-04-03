@@ -6,6 +6,7 @@ import Profile from "./Profile";
 import Search from "./Search";
 import PageLink from "./PageLink";
 import SwitchMode from "./SwitchMode";
+import { User } from "firebase/auth";
 
 export interface SearchProps {
   version: string;
@@ -17,7 +18,12 @@ export interface AccountBoxProps {
 export interface IsSearch {
   search: boolean;
 }
-function Navigation({ search }: IsSearch) {
+
+interface navigationProps {
+  search: boolean;
+  user: User | null;
+}
+function Navigation({ search, user }: navigationProps) {
   return (
     <Flex gap={30} paddingX={100} m={0} alignItems="center">
       <Link href="/">
@@ -33,7 +39,7 @@ function Navigation({ search }: IsSearch) {
       <Spacer />
       {search && <Search version="short" />}
       <SwitchMode />
-      <Profile />
+      <Profile user={user} />
     </Flex>
   );
 }

@@ -10,15 +10,18 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
-import { signOut } from "firebase/auth";
+import { signOut, User } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 import { loginState, userDBState } from "../../atom";
 import { auth } from "../../../firebase";
 
-function Profile() {
-  const user = auth.currentUser;
+interface profileProps {
+  user: User | null;
+}
+
+function Profile({ user }: profileProps) {
   const router = useRouter();
   const toast = useToast();
   const [login, setLogin] = useRecoilState(loginState);
