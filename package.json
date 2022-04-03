@@ -42,7 +42,7 @@
     "@types/puppeteer": "^5.4.4",
     "@types/react": "17.0.38",
     "@types/react-star-ratings": "^2.3.0",
-    "@types/styled-components": "^5.1.20",
+    "@types/styled-components": "^5.1.24",
     "babel-plugin-styled-components": "^2.0.2",
     "eslint": "8.6.0",
     "eslint-config-next": "^0.2.4",
