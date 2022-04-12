@@ -1,18 +1,9 @@
 import { Circle, useToast } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { doc, setDoc } from "firebase/firestore";
 
-import {
-  badMoviesState,
-  goodMoviesState,
-  likedMoviesState,
-  likedState,
-  movieIDState,
-  uidState,
-  userDBState,
-  usernameState,
-} from "../../atom";
+import { likedState, movieIDState } from "../../atom";
 import { auth, db } from "../../../firebase";
 import { IUserMovies } from "../../interfaces";
 
@@ -20,21 +11,24 @@ export default function LikeButton() {
   const toast = useToast();
   const [liked, setLiked] = useRecoilState(likedState);
   const movieID = useRecoilValue(movieIDState);
-  const userId = useRecoilValue(uidState);
-  const username = useRecoilValue(usernameState);
-  const likedMovies = useRecoilValue(likedMoviesState);
-  const goodMovies = useRecoilValue(goodMoviesState);
-  const badMovies = useRecoilValue(badMoviesState);
-  const setUserDB = useSetRecoilState(userDBState);
+  const {
+    id,
+    movies: { good, bad, watch },
+    username,
+  } = JSON.parse(localStorage.getItem("user") as any); // 사용자 정보 가져오기
 
   const saveMoviesToDB = async (movies: IUserMovies["watch"]) => {
     const dbInfo = {
-      id: userId,
+      id,
       username,
-      movies: { watch: movies, good: goodMovies, bad: badMovies },
+      movies: {
+        watch: movies,
+        good,
+        bad,
+      },
     };
-    await setDoc(doc(db, "users", userId), dbInfo);
-    setUserDB(dbInfo);
+    await setDoc(doc(db, "users", id), dbInfo);
+    localStorage.setItem("user", JSON.stringify(dbInfo)); // 사용자 정보 저장
   };
 
   const onClick = async () => {
@@ -53,8 +47,8 @@ export default function LikeButton() {
       // 찜하면 DB에 영화를 추가하고 해제하면 삭제한다.
       setLiked((current) => !current);
       const movies = liked
-        ? likedMovies?.filter((id) => id !== movieID)
-        : likedMovies?.concat([movieID]);
+        ? watch?.filter((movie) => movie !== movieID)
+        : watch?.concat([movieID]);
       saveMoviesToDB(movies);
     }
   };

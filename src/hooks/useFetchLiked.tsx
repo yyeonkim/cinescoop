@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
 
-import { likedMoviesState } from "../atom";
 import { IMovieDetails } from "../interfaces";
 import { fetchDetail } from "./fetching";
 
-export default function useFetchLiked() {
-  const movies = useRecoilValue(likedMoviesState); // []
+export default function useFetchWatch() {
   const [data, setData] = useState<IMovieDetails[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    movies?.map(async (id) => {
+    const {
+      movies: { watch },
+    } = JSON.parse(localStorage.getItem("user") as any);
+
+    watch?.map(async (id: number) => {
       const data = await fetchDetail(`${id}`);
       setData((current) => current.concat([data]));
     });
