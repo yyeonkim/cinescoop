@@ -19,20 +19,17 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { setDoc, doc } from "firebase/firestore";
 
 import { auth, db } from "../firebase";
-import Navigation from "../src/components/Navigation/Navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { joinSchema } from "../src/schema";
 import { IJoinForm } from "../src/interfaces";
 import ErrorMessage from "../src/components/Account/ErrorMessage";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { loginState, userDBState, userState } from "../src/atom";
+import { useSetRecoilState } from "recoil";
+import { loginState } from "../src/atom";
 
 const Join: NextPage = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
   const setLogin = useSetRecoilState(loginState);
-  const setUser = useSetRecoilState(userState);
-  const setUserDB = useSetRecoilState(userDBState);
 
   const {
     register,
@@ -49,7 +46,7 @@ const Join: NextPage = () => {
     };
     try {
       await setDoc(doc(db, "users", id), dbInfo);
-      setUserDB(dbInfo);
+      localStorage.setItem("user", JSON.stringify(dbInfo));
     } catch (e) {
       console.error("Error adding document: ", e);
     }

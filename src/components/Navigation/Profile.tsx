@@ -12,11 +12,10 @@ import {
 import { AiOutlineUser } from "react-icons/ai";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useRouter } from "next/router";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
-import { loginState, userDBState } from "../../atom";
+import { loginState } from "../../atom";
 import { auth } from "../../../firebase";
-import { useEffect } from "react";
 
 interface profileProps {
   user: User | null;
@@ -26,8 +25,7 @@ function Profile() {
   const user = auth.currentUser;
   const router = useRouter();
   const toast = useToast();
-  const [login, setLogin] = useRecoilState(loginState);
-  const setUserDB = useSetRecoilState(userDBState);
+  const setLogin = useSetRecoilState(loginState);
 
   onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -41,11 +39,7 @@ function Profile() {
     signOut(auth)
       .then(() => {
         setLogin(false);
-        setUserDB({
-          id: "",
-          username: "",
-          movies: [],
-        });
+        localStorage.removeItem("user");
         console.log("User logged out");
         router.push("/");
         toast({
