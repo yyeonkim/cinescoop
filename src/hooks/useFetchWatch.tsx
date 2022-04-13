@@ -11,16 +11,14 @@ export default function useFetchWatch() {
 
   if (user) {
     useEffect(() => {
-      const {
-        movies: { watch },
-      } = JSON.parse(localStorage.getItem("user") as any);
+      const currentUser = JSON.parse(localStorage.getItem("user") as any);
 
-      watch?.map(async (id: number) => {
+      currentUser.movies.watch?.map(async (id: number) => {
         const data = await fetchDetail(`${id}`);
         setData((current) => current.concat([data]));
       });
       setIsLoading(false);
-    }, [user, data]);
+    }, []);
 
     return { isLoading, data };
   }
