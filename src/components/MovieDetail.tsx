@@ -13,7 +13,7 @@ import { useRecoilValue } from "recoil";
 import { IMAGE_URL } from "../hooks/fetching";
 import { movieIDState } from "../atom";
 import { ICast, IMovieDetails } from "../interfaces";
-import LikeButton from "./Buttons/WatchButton";
+import WatchButton from "./Buttons/WatchButton";
 import GoodBadButton from "./Buttons/GoodBadButton";
 
 interface IDetailProps {
@@ -36,7 +36,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
         <Stack>
           <Flex alignItems="center">
             <Heading mr={5}>{detailData?.title}</Heading>
-            <LikeButton />
+            <WatchButton />
           </Flex>
           <Text>
             <Text as="b">평점 </Text>
