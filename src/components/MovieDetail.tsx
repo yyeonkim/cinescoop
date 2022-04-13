@@ -13,7 +13,7 @@ import { useRecoilValue } from "recoil";
 import { IMAGE_URL } from "../hooks/fetching";
 import { movieIDState } from "../atom";
 import { ICast, IMovieDetails } from "../interfaces";
-import LikeButton from "./Buttons/LikeButton";
+import LikeButton from "./Buttons/WatchButton";
 import GoodBadButton from "./Buttons/GoodBadButton";
 
 interface IDetailProps {
