@@ -43,6 +43,7 @@ const Join: NextPage = () => {
       id,
       username,
       movies: { watch: [], good: [], bad: [] },
+      friends: [],
     };
     try {
       await setDoc(doc(db, "users", id), dbInfo);

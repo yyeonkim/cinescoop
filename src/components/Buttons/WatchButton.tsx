@@ -14,8 +14,9 @@ export default function LikeButton() {
   const movieID = useRecoilValue(movieIDState);
   const {
     id,
-    movies: { good, bad, watch },
     username,
+    friends,
+    movies: { good, bad, watch },
   } = JSON.parse(localStorage.getItem("user") as any); // 사용자 정보 가져오기
 
   // 찜한 영화 불러오기
@@ -29,6 +30,7 @@ export default function LikeButton() {
     const dbInfo = {
       id,
       username,
+      friends,
       movies: {
         watch: movies,
         good,

@@ -28,6 +28,7 @@ export default function GoodBadButton({ type }: IGoodBadButtonProps) {
     id,
     username,
     movies: { watch, good, bad },
+    friends,
   } = JSON.parse(localStorage.getItem("user") as any);
   const [rating, setRating] = useState("");
   const movieID = useRecoilValue(movieIDState);
@@ -51,12 +52,14 @@ export default function GoodBadButton({ type }: IGoodBadButtonProps) {
       dbInfo = {
         id,
         username,
+        friends,
         movies: { watch, good: goodMovies, bad: badMovies },
       };
     } else {
       dbInfo = {
         id,
         username,
+        friends,
         movies: { watch, good: goodMovies, bad: badMovies },
       };
     }
