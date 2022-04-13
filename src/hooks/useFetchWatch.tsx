@@ -20,8 +20,10 @@ export default function useFetchWatch() {
         setData((current) => current.concat([data]));
       });
       setIsLoading(false);
-    }, []);
+    }, [user, data]);
+
+    return { isLoading, data };
   }
 
-  return { isLoading, data };
+  return { isLoading: false, data };
 }

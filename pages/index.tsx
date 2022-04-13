@@ -11,7 +11,7 @@ import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 import ReserveButton from "../src/components/Buttons/ReserveButton";
-import useFetchWatch from "../src/hooks/useFetchLiked";
+import useFetchWatch from "../src/hooks/useFetchWatch";
 import LoadingAnimation from "../src/components/LoadingAnimation";
 
 interface IHomeProps {
@@ -27,10 +27,11 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
-  const user = getAuth().currentUser;
   // 찜한 영화
   const { data, isLoading } = useFetchWatch();
   const { width: windowWidth } = useWindowDimensions();
+
+  const user = getAuth().currentUser;
 
   return (
     <>
