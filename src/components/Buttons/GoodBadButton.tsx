@@ -5,57 +5,98 @@ import {
   RiThumbDownLine,
   RiThumbDownFill,
 } from "react-icons/ri";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { doc, setDoc } from "firebase/firestore";
 
-import {
-  badMoviesState,
-  goodMoviesState,
-  likedMoviesState,
-  movieIDState,
-  ratingState,
-  uidState,
-  userDBState,
-  usernameState,
-} from "../../atom";
+import { movieIDState } from "../../atom";
 import { auth, db } from "../../../firebase";
 import { IUserMovies } from "../../interfaces";
+import { useEffect, useState } from "react";
 
 // 버튼 타입
 interface IGoodBadButtonProps {
   type: "good" | "bad";
 }
 
+// 좋아요 또는 별로예요를 나타내는 컴포넌트
+// type: "good" --> 좋아요 버튼
+// type: "bad" --> 별로예요 버튼
 export default function GoodBadButton({ type }: IGoodBadButtonProps) {
   const toast = useToast();
-  const [rating, setRating] = useRecoilState(ratingState);
+  // localStorage 정보
+  const {
+    id,
+    username,
+    movies: { watch, good, bad },
+  } = JSON.parse(localStorage.getItem("user") as any);
+  const [rating, setRating] = useState("");
   const movieID = useRecoilValue(movieIDState);
-  const userId = useRecoilValue(uidState);
-  const username = useRecoilValue(usernameState);
-  const likedMovies = useRecoilValue(likedMoviesState);
-  const goodMovies = useRecoilValue(goodMoviesState);
-  const badMovies = useRecoilValue(badMoviesState);
-  const setUserDB = useSetRecoilState(userDBState);
+
+  // 좋아요, 별로에요 정보 불러오기
+  useEffect(() => {
+    if (good.includes(movieID)) {
+      setRating("good");
+    }
+    if (bad.includes(movieID)) {
+      setRating("bad");
+    }
+  }, []);
 
   const saveMoviesToDB = async (
-    movies: IUserMovies["good"] | IUserMovies["bad"]
+    goodMovies: IUserMovies["good"],
+    badMovies: IUserMovies["bad"]
   ) => {
     let dbInfo;
     if (type === "good") {
       dbInfo = {
-        id: userId,
+        id,
         username,
-        movies: { watch: likedMovies, good: movies, bad: badMovies },
+        movies: { watch, good: goodMovies, bad: badMovies },
       };
     } else {
       dbInfo = {
-        id: userId,
+        id,
         username,
-        movies: { watch: likedMovies, good: goodMovies, bad: movies },
+        movies: { watch, good: goodMovies, bad: badMovies },
       };
     }
-    await setDoc(doc(db, "users", userId), dbInfo);
-    setUserDB(dbInfo);
+    await setDoc(doc(db, "users", id), dbInfo);
+    localStorage.setItem("user", JSON.stringify(dbInfo));
+  };
+
+  const getUpdatedMovies = () => {
+    let goodMovies = good;
+    let badMovies = bad;
+
+    // 좋아요 버튼을 누르면
+    if (type === "good") {
+      setRating((current) => (current === "good" ? "" : "good"));
+      if (rating === "good") {
+        goodMovies = goodMovies?.filter((id: number) => id !== movieID);
+      }
+      if (rating === "bad" && !goodMovies.includes(movieID)) {
+        goodMovies = goodMovies?.concat([movieID]);
+        badMovies = badMovies?.filter((id: number) => id !== movieID);
+      }
+      if (rating === "" && !goodMovies.includes(movieID)) {
+        goodMovies = goodMovies?.concat([movieID]);
+      }
+    } else {
+      // 별로예요 버튼을 누르면
+      setRating((current) => (current === "bad" ? "" : "bad"));
+      if (rating === "bad") {
+        badMovies = badMovies?.filter((id: number) => id !== movieID);
+      }
+      if (rating === "good" && !badMovies.includes(movieID)) {
+        badMovies = badMovies?.concat([movieID]);
+        goodMovies = goodMovies?.filter((id: number) => id !== movieID);
+      }
+      if (rating === "" && !badMovies.includes(movieID)) {
+        badMovies = badMovies?.concat([movieID]);
+      }
+    }
+
+    return { goodMovies, badMovies };
   };
 
   const onClick = async () => {
@@ -71,25 +112,11 @@ export default function GoodBadButton({ type }: IGoodBadButtonProps) {
         isClosable: true,
       });
     } else {
-      // 로그인 한 사용자
+      // 로그인 한 사용자에 한해서
       // 버튼을 누르면 DB에 영화를 추가하고 해제하면 삭제한다.
-      let movies = [];
-      // 좋아요 버튼을 누르면
-      if (type === "good") {
-        setRating((current) => (current === "good" ? "" : "good"));
-        movies =
-          rating === "good"
-            ? goodMovies?.filter((id) => id !== movieID)
-            : goodMovies?.concat([movieID]);
-      } else {
-        // 별로예요 버튼을 누르면
-        setRating((current) => (current === "bad" ? "" : "bad"));
-        movies =
-          rating === "bad"
-            ? badMovies?.filter((id) => id !== movieID)
-            : badMovies?.concat([movieID]);
-      }
-      saveMoviesToDB(movies);
+      const { goodMovies, badMovies } = getUpdatedMovies();
+
+      saveMoviesToDB(goodMovies, badMovies);
     }
   };
 

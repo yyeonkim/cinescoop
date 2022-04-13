@@ -1,21 +1,29 @@
 import { Circle, useToast } from "@chakra-ui/react";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue } from "recoil";
 import { doc, setDoc } from "firebase/firestore";
 
-import { likedState, movieIDState } from "../../atom";
+import { movieIDState } from "../../atom";
 import { auth, db } from "../../../firebase";
 import { IUserMovies } from "../../interfaces";
+import { useEffect, useState } from "react";
 
 export default function LikeButton() {
   const toast = useToast();
-  const [liked, setLiked] = useRecoilState(likedState);
+  const [liked, setLiked] = useState(false);
   const movieID = useRecoilValue(movieIDState);
   const {
     id,
     movies: { good, bad, watch },
     username,
   } = JSON.parse(localStorage.getItem("user") as any); // 사용자 정보 가져오기
+
+  // 찜한 영화 불러오기
+  useEffect(() => {
+    if (watch.includes(movieID)) {
+      setLiked(true);
+    }
+  }, []);
 
   const saveMoviesToDB = async (movies: IUserMovies["watch"]) => {
     const dbInfo = {
@@ -47,7 +55,7 @@ export default function LikeButton() {
       // 찜하면 DB에 영화를 추가하고 해제하면 삭제한다.
       setLiked((current) => !current);
       const movies = liked
-        ? watch?.filter((movie) => movie !== movieID)
+        ? watch?.filter((movie: number) => movie !== movieID)
         : watch?.concat([movieID]);
       saveMoviesToDB(movies);
     }
