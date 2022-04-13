@@ -5,13 +5,13 @@ import {
   RiThumbDownLine,
   RiThumbDownFill,
 } from "react-icons/ri";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { doc, setDoc } from "firebase/firestore";
 
-import { movieIDState } from "../../atom";
+import { movieIDState, ratingState } from "../../atom";
 import { auth, db } from "../../../firebase";
 import { IUserMovies } from "../../interfaces";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // 버튼 타입
 interface IGoodBadButtonProps {
@@ -30,7 +30,7 @@ export default function GoodBadButton({ type }: IGoodBadButtonProps) {
     movies: { watch, good, bad },
     friends,
   } = JSON.parse(localStorage.getItem("user") as any);
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useRecoilState(ratingState);
   const movieID = useRecoilValue(movieIDState);
 
   // 좋아요, 별로에요 정보 불러오기
@@ -122,6 +122,7 @@ export default function GoodBadButton({ type }: IGoodBadButtonProps) {
       saveMoviesToDB(goodMovies, badMovies);
     }
   };
+  console.log(rating);
 
   // 평가된 영화면 아이콘을 brightBlue 색으로 바꿈
   return (
