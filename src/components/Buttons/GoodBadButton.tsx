@@ -23,22 +23,16 @@ interface IGoodBadButtonProps {
 // type: "bad" --> 별로예요 버튼
 export default function GoodBadButton({ type }: IGoodBadButtonProps) {
   const toast = useToast();
-  // localStorage 정보
-  const {
-    id,
-    username,
-    movies: { watch, good, bad },
-    friends,
-  } = JSON.parse(localStorage.getItem("user") as any);
+  const userItem = JSON.parse(localStorage.getItem("user") as any); // localStorage 사용자 정보
   const [rating, setRating] = useRecoilState(ratingState);
   const movieID = useRecoilValue(movieIDState);
 
   // 좋아요, 별로에요 정보 불러오기
   useEffect(() => {
-    if (good.includes(movieID)) {
+    if (userItem && userItem.movies.good.includes(movieID)) {
       setRating("good");
     }
-    if (bad.includes(movieID)) {
+    if (userItem && userItem.movies.bad.includes(movieID)) {
       setRating("bad");
     }
   }, []);
@@ -50,26 +44,34 @@ export default function GoodBadButton({ type }: IGoodBadButtonProps) {
     let dbInfo;
     if (type === "good") {
       dbInfo = {
-        id,
-        username,
-        friends,
-        movies: { watch, good: goodMovies, bad: badMovies },
+        id: userItem.id,
+        username: userItem.username,
+        friends: userItem.friends,
+        movies: {
+          watch: userItem.movies.watch,
+          good: goodMovies,
+          bad: badMovies,
+        },
       };
     } else {
       dbInfo = {
-        id,
-        username,
-        friends,
-        movies: { watch, good: goodMovies, bad: badMovies },
+        id: userItem.id,
+        username: userItem.username,
+        friends: userItem.friends,
+        movies: {
+          watch: userItem.movies.watch,
+          good: goodMovies,
+          bad: badMovies,
+        },
       };
     }
-    await setDoc(doc(db, "users", id), dbInfo);
+    await setDoc(doc(db, "users", userItem.id), dbInfo);
     localStorage.setItem("user", JSON.stringify(dbInfo));
   };
 
   const getUpdatedMovies = () => {
-    let goodMovies = good;
-    let badMovies = bad;
+    let goodMovies = userItem.movies.good;
+    let badMovies = userItem.movies.bad;
 
     // 좋아요 버튼을 누르면
     if (type === "good") {

@@ -1,5 +1,5 @@
 import { Circle, useToast } from "@chakra-ui/react";
-import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineCheck } from "react-icons/ai";
 import { useRecoilValue } from "recoil";
 import { doc, setDoc } from "firebase/firestore";
 
@@ -12,39 +12,34 @@ export default function LikeButton() {
   const toast = useToast();
   const [liked, setLiked] = useState(false);
   const movieID = useRecoilValue(movieIDState);
-  const {
-    id,
-    username,
-    friends,
-    movies: { good, bad, watch },
-  } = JSON.parse(localStorage.getItem("user") as any); // 사용자 정보 가져오기
+  const userItem = JSON.parse(localStorage.getItem("user") as any); // 사용자 정보 가져오기
 
   // 찜한 영화 불러오기
   useEffect(() => {
-    if (watch.includes(movieID)) {
+    if (userItem && userItem.movies.watch.includes(movieID)) {
       setLiked(true);
     }
   }, []);
 
   const saveMoviesToDB = async (movies: IUserMovies["watch"]) => {
     const dbInfo = {
-      id,
-      username,
-      friends,
+      id: userItem.id,
+      username: userItem.username,
+      friends: userItem.friends,
       movies: {
         watch: movies,
-        good,
-        bad,
+        good: userItem.movies.good,
+        bad: userItem.movies.bad,
       },
     };
-    await setDoc(doc(db, "users", id), dbInfo);
+    await setDoc(doc(db, "users", userItem.id), dbInfo);
     localStorage.setItem("user", JSON.stringify(dbInfo)); // 사용자 정보 저장
   };
 
   const onClick = async () => {
-    const user = auth.currentUser;
+    const currentUser = auth.currentUser;
 
-    if (!user) {
+    if (!currentUser) {
       toast({
         position: "top",
         title: "로그인 해주세요",
@@ -57,8 +52,8 @@ export default function LikeButton() {
       // 찜하면 DB에 영화를 추가하고 해제하면 삭제한다.
       setLiked((current) => !current);
       const movies = liked
-        ? watch?.filter((movie: number) => movie !== movieID)
-        : watch?.concat([movieID]);
+        ? userItem.movies.watch?.filter((movie: number) => movie !== movieID)
+        : userItem.movies.watch?.concat([movieID]);
       saveMoviesToDB(movies);
     }
   };
@@ -71,7 +66,11 @@ export default function LikeButton() {
       _hover={{ cursor: "pointer" }}
       onClick={onClick}
     >
-      {liked ? <AiFillHeart size="1.4rem" /> : <AiOutlineHeart size="1.4rem" />}
+      {liked ? (
+        <AiOutlineCheck size="1.4rem" />
+      ) : (
+        <AiOutlinePlus size="1.4rem" />
+      )}
     </Circle>
   );
 }
