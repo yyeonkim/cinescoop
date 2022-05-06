@@ -5,9 +5,13 @@ import { Heading, Select, Flex, Box, Spacer, Spinner } from "@chakra-ui/react";
 import { genreState } from "../../atom";
 import { BASE_URL, BASE_QUERY } from "../../hooks/fetching";
 import GridList from "./GridList";
-import { IGenreProps } from "./GenreList";
+import { IGenre } from "../../interfaces";
 
-function GenrePlusList({ genres }: IGenreProps) {
+export interface GenreProps {
+  genres: IGenre[];
+}
+
+function GenrePlusList({ genres }: GenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
   const [genreItems, setGenreItems] = useState([]);
   const [page, setPage] = useState(1);

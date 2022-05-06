@@ -2,7 +2,6 @@ import { Circle, Icon, Tooltip, useToast } from "@chakra-ui/react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { AiOutlineCheck, AiOutlinePlus } from "react-icons/ai";
-import { RiThumbUpFill, RiThumbUpLine } from "react-icons/ri";
 import { auth, db } from "../../../firebase";
 import { IMovieId } from "../../interfaces";
 

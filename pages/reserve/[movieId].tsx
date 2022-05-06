@@ -1,15 +1,7 @@
 import { useEffect } from "react";
 import { NextPage } from "next";
 import { useQuery } from "react-query";
-import {
-  Center,
-  Flex,
-  Heading,
-  HStack,
-  Img,
-  Link,
-  Stack,
-} from "@chakra-ui/react";
+import { Center, Flex, Heading, Img, Link } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 
@@ -20,11 +12,9 @@ import {
   fetchDetail,
 } from "../../src/hooks/fetching";
 import { ICast, IMovieDetails } from "../../src/interfaces";
-import Navigation from "../../src/components/Navigation/Navigation";
 import MovieDetail from "../../src/components/MovieDetail";
 import LoadingAnimation from "../../src/components/LoadingAnimation";
 import { movieIDState } from "../../src/atom";
-import useFillButton from "../../src/hooks/useFillButton";
 
 interface IReserveProps {
   isPlaying: boolean;
@@ -42,8 +32,6 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
   } = useRouter(); // string
 
   const setMovieID = useSetRecoilState(movieIDState);
-
-  useFillButton(movieId); // 사용자가 찜한 영화면 좋아요 표시하기
 
   const { data: detailData, isLoading: detailLoading } =
     useQuery<IMovieDetails>(["detail", movieId], () => fetchDetail(movieId));

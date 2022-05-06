@@ -1,15 +1,26 @@
-import { Flex, Img, Text, Box } from "@chakra-ui/react";
-import styled from "styled-components";
+import { Flex, Img, Text, Box, Button } from "@chakra-ui/react";
 import axios from "axios";
+import BadButton from "./Buttons/BadButton";
+import GoodButton from "./Buttons/GoodButton";
+import WatchButton from "./Buttons/WatchButton";
+import GoodBadButton from "./Buttons/GoodBadButton";
+import { useRouter } from "next/router";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { movieIDState } from "../atom";
+import useNowDetail from "../hooks/useNowDetail";
+import ReserveButton from "./Buttons/ReserveButton";
 import { useState, useEffect } from "react";
+import DetailButton from "./Buttons/DetailButton";
+import { IMovie } from "../interfaces";
 
-interface NumberProps {
-  info: any;
+interface HoverProps {
+  info: IMovie;
 }
 
-function HoverCard({ info }: NumberProps) {
-  console.log(info);
+function HoverCard({ info }: HoverProps) {
+  const router = useRouter();
+  const [movieID, setMovieID] = useRecoilState(movieIDState);
+  const { movieDetail } = useNowDetail(info.id);
   const [video, setVideo] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -35,10 +46,16 @@ function HoverCard({ info }: NumberProps) {
 
     getMovieVideos();
   }, [info.id]);
-  console.log(video);
+
+  const seeMovieInfo = (id: number) => {
+    setMovieID(id);
+    router.push(`/movieinfo/${id}`);
+  };
+
+  console.log(movieDetail);
+
   return (
     <>
-      {" "}
       {video[0] ? (
         <Box bgColor="black">
           <Box w="100%">
@@ -47,7 +64,24 @@ function HoverCard({ info }: NumberProps) {
               frameBorder="0"
             />
           </Box>
-          <Text>{info.title}</Text>
+          <Box p={1}>
+            <Flex alignItems="center">
+              <Text textColor="white">{info.title}</Text>
+              <GoodButton />
+              <BadButton />
+              <WatchButton />
+            </Flex>
+            <Text textColor="white">{movieDetail.runtime} 분</Text>
+            <Flex>
+              {movieDetail.genres &&
+                movieDetail.genres.map((genre) => (
+                  <Text textColor="white" mr={1} key={genre.id}>
+                    {genre.name}
+                  </Text>
+                ))}
+            </Flex>
+            <DetailButton info={info} />
+          </Box>
         </Box>
       ) : (
         ""

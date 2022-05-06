@@ -46,14 +46,19 @@ function AccountBox() {
                 : user.email?.slice(0, user.email.indexOf("@"))}
             </Text>
             {user.email ? <Text opacity="0.5">{user.email}</Text> : <></>}
-            <Text color="pink" mt="2rem" onClick={disclosure1.onOpen}>
+            <Text
+              cursor="pointer"
+              color="pink"
+              mt="2rem"
+              onClick={disclosure1.onOpen}
+            >
               비밀번호 변경하기 {">"}
               <ChangePasswordModal
                 isOpen={disclosure1.isOpen}
                 onClose={disclosure1.onClose}
               />
             </Text>
-            <Text color="pink" onClick={disclosure2.onOpen}>
+            <Text cursor="pointer" color="pink" onClick={disclosure2.onOpen}>
               탈퇴하기 {">"}
               <WithdrawalModal
                 isOpen={disclosure2.isOpen}

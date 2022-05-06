@@ -1,11 +1,17 @@
 import { Flex, Img, Text, Button, Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
+import WatchButton from "./Buttons/WatchButton";
+import GoodButton from "./Buttons/GoodButton";
+import BadButton from "./Buttons/BadButton";
+import GoodBadButton from "./Buttons/GoodBadButton";
 import useNowDetail from "../hooks/useNowDetail";
 import { useSetRecoilState } from "recoil";
 import { movieIDState } from "../atom";
 import { IMovieDetails, ICast } from "../interfaces";
 import { Movie } from "./VerCard";
 import StarRating from "./StarRatings";
+import ReserveButton from "./Buttons/ReserveButton";
+import DetailButton from "./Buttons/DetailButton";
 
 interface CardProps {
   info: Movie;
@@ -26,13 +32,8 @@ function NowPlayingCard({ info, page, key }: CardProps) {
     router.push(`/${path}/${id}`);
   };
 
-  const seeMovieInfo = (id: number) => {
-    setMovieID(id);
-    router.push(`/movieinfo/${id}`);
-  };
-
   return (
-    <Box mr={10} ml={10} mt={10} onClick={() => seeMovieInfo(detail.id)}>
+    <Box mr={10} ml={10} mt={10}>
       <Flex mb={10}>
         <Img
           objectFit="contain"
@@ -82,22 +83,19 @@ function NowPlayingCard({ info, page, key }: CardProps) {
             </Flex>
           </Flex>
           <Flex mt="8rem">
-            <Button
-              mr={2}
-              borderColor="pink"
-              borderWidth="0.1rem"
-              bgColor="darkBlue"
-              onClick={() => onClick(info.id, "reserve")}
-            >
-              Buy tickets
-            </Button>
-            <Button
+            <BadButton />
+            <GoodButton />
+            <WatchButton />
+
+            <ReserveButton />
+            <DetailButton info={info} />
+            {/*<Button
               bgColor="pink"
               color="black"
               onClick={() => onClick(info.id, "movieinfo")}
             >
               관련 정보
-            </Button>
+              </Button>*/}
           </Flex>
         </Flex>
       </Flex>

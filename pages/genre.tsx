@@ -10,6 +10,7 @@ import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import GenrePlusList from "../src/components/Lists/GenrePlusList";
+import ScrollTopButton from "../src/components/ScrollTopButton";
 
 interface IProps {
   genres: IGenre[];
@@ -19,6 +20,9 @@ const Genre: NextPage<IProps> = ({ genres }) => {
   return (
     <>
       <GenrePlusList genres={genres} />
+      <Box position="fixed" bottom="2rem" right="2rem">
+        <ScrollTopButton />
+      </Box>
     </>
   );
 };
