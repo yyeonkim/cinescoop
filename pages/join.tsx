@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import {
   FormControl,
-  Text,
   InputRightElement,
   InputGroup,
   Heading,
@@ -16,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, collection, getDocs } from "firebase/firestore";
 
 import { auth, db } from "../firebase";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -77,15 +76,26 @@ const Join: NextPage = () => {
 
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <Text mt="1.2rem">닉네임 *</Text>
-            <Input {...register("username")} />
+            <Input
+              mt="1.2rem"
+              placeholder="닉네임"
+              _placeholder={{ color: "white", opacity: 0.7 }}
+              {...register("username")}
+            />
             <ErrorMessage message={errors?.username?.message} />
-            <Text mt="1.2rem">이메일 *</Text>
-            <Input {...register("email")} />
+
+            <Input
+              mt="1.2rem"
+              placeholder="이메일"
+              _placeholder={{ color: "white", opacity: 0.7 }}
+              {...register("email")}
+            />
             <ErrorMessage message={errors?.email?.message} />
-            <Text mt="1.2rem">비밀번호 *</Text>
-            <InputGroup size="md">
+
+            <InputGroup size="md" mt="1.2rem">
               <Input
+                placeholder="비밀번호"
+                _placeholder={{ color: "white", opacity: 0.7 }}
                 {...register("password")}
                 type={show ? "text" : "password"}
               />
@@ -102,9 +112,11 @@ const Join: NextPage = () => {
               </InputRightElement>
             </InputGroup>
             <ErrorMessage message={errors?.password?.message} />
-            <Text mt="1.2rem">비밀번호 확인 *</Text>
-            <InputGroup size="md">
+
+            <InputGroup size="md" mt="1.2rem">
               <Input
+                placeholder="비밀번호 확인"
+                _placeholder={{ color: "white", opacity: 0.7 }}
                 {...register("confirmation")}
                 type={show ? "text" : "password"}
               />

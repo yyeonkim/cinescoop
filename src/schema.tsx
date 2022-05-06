@@ -24,7 +24,7 @@ export const joinSchema = yup.object({
   username: yup
     .string()
     .required("닉네임을 입력해주세요.")
-    .min(2, "두 글자 이상 입력해주세요."),
+    .min(2, "닉네임은 2글자 이상이어야 합니다."),
   email: yup
     .string()
     .required("이메일을 입력해주세요.")
