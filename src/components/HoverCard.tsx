@@ -69,7 +69,7 @@ function HoverCard({ info }: HoverProps) {
               <Text textColor="white">{info.title}</Text>
               <GoodButton />
               <BadButton />
-              <WatchButton />
+              <WatchButton2 />
             </Flex>
             <Text textColor="white">{movieDetail.runtime} 분</Text>
             <Flex>

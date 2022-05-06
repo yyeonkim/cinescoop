@@ -85,7 +85,7 @@ function NowPlayingCard({ info, page, key }: CardProps) {
           <Flex mt="8rem">
             <BadButton />
             <GoodButton />
-            <WatchButton />
+            <WatchButton2 />
 
             <ReserveButton />
             <DetailButton info={info} />

@@ -8,7 +8,7 @@ import { auth, db } from "../../../firebase";
 import { IUserMovies } from "../../interfaces";
 import { useEffect, useState } from "react";
 
-export default function LikeButton() {
+export default function WatchButton2() {
   const toast = useToast();
   const [liked, setLiked] = useState(false);
   const movieID = useRecoilValue(movieIDState);
