@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import {
   FormControl,
-  Text,
   InputRightElement,
   InputGroup,
   Heading,
@@ -16,23 +15,17 @@ import {
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, collection, getDocs } from "firebase/firestore";
 
 import { auth, db } from "../firebase";
-import Navigation from "../src/components/Navigation/Navigation";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { joinSchema } from "../src/schema";
 import { IJoinForm } from "../src/interfaces";
 import ErrorMessage from "../src/components/Account/ErrorMessage";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { loginState, userDBState, userState } from "../src/atom";
 
 const Join: NextPage = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
-  const setLogin = useSetRecoilState(loginState);
-  const setUser = useSetRecoilState(userState);
-  const setUserDB = useSetRecoilState(userDBState);
 
   const {
     register,
@@ -46,10 +39,11 @@ const Join: NextPage = () => {
       id,
       username,
       movies: { watch: [], good: [], bad: [] },
+      friends: [],
     };
     try {
       await setDoc(doc(db, "users", id), dbInfo);
-      setUserDB(dbInfo);
+      localStorage.setItem("user", JSON.stringify(dbInfo));
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -59,12 +53,10 @@ const Join: NextPage = () => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const {
-          user: { email, uid },
+          user: { uid },
         } = userCredential;
-        const username = email?.slice(0, email?.indexOf("@")) + uid;
 
-        saveUserToDB(uid, username as any);
-        setLogin(true);
+        saveUserToDB(uid, data.username as any);
         router.push("/");
       })
       .catch((error) => {
@@ -84,12 +76,26 @@ const Join: NextPage = () => {
 
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
-            <Text mt="1.2rem">이메일 *</Text>
-            <Input {...register("email")} />
+            <Input
+              mt="1.2rem"
+              placeholder="닉네임"
+              _placeholder={{ color: "white", opacity: 0.7 }}
+              {...register("username")}
+            />
+            <ErrorMessage message={errors?.username?.message} />
+
+            <Input
+              mt="1.2rem"
+              placeholder="이메일"
+              _placeholder={{ color: "white", opacity: 0.7 }}
+              {...register("email")}
+            />
             <ErrorMessage message={errors?.email?.message} />
-            <Text mt="1.2rem">비밀번호 *</Text>
-            <InputGroup size="md">
+
+            <InputGroup size="md" mt="1.2rem">
               <Input
+                placeholder="비밀번호"
+                _placeholder={{ color: "white", opacity: 0.7 }}
                 {...register("password")}
                 type={show ? "text" : "password"}
               />
@@ -106,9 +112,11 @@ const Join: NextPage = () => {
               </InputRightElement>
             </InputGroup>
             <ErrorMessage message={errors?.password?.message} />
-            <Text mt="1.2rem">비밀번호 확인 *</Text>
-            <InputGroup size="md">
+
+            <InputGroup size="md" mt="1.2rem">
               <Input
+                placeholder="비밀번호 확인"
+                _placeholder={{ color: "white", opacity: 0.7 }}
                 {...register("confirmation")}
                 type={show ? "text" : "password"}
               />

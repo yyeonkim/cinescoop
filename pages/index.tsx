@@ -11,11 +11,8 @@ import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 import ReserveButton from "../src/components/Buttons/ReserveButton";
+import useFetchWatch from "../src/hooks/useFetchWatch";
 import LoadingAnimation from "../src/components/LoadingAnimation";
-import useFetchLiked from "../src/hooks/useFetchLiked";
-import { auth } from "../firebase";
-import { useRecoilValue } from "recoil";
-import { likedMoviesState } from "../src/atom";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -30,12 +27,11 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
-  const likedMovies = useRecoilValue(likedMoviesState);
-  // const likedMovies = useRecoilValue(likedMoviesState);
-  const auth = getAuth();
-  const user = auth.currentUser;
+  // 찜한 영화
+  const { data, isLoading } = useFetchWatch();
   const { width: windowWidth } = useWindowDimensions();
-  const { data: likedData, isLoading } = useFetchLiked(); // []
+
+  const user = getAuth().currentUser;
 
   return (
     <>
@@ -43,7 +39,7 @@ const Home: NextPage<IHomeProps> = ({
       <HomeText />
 
       {/* 사용자가 찜한 영화 */}
-      {user && likedData.length !== 0 && (
+      {user && data.length !== 0 && (
         <Box my={20} px={10}>
           <Heading size="lg" mb={10} mr={8}>
             찜한 영화
@@ -51,7 +47,7 @@ const Home: NextPage<IHomeProps> = ({
           {isLoading ? (
             <LoadingAnimation />
           ) : (
-            <SwipeList data={likedData} poster={false} slidesNumber={6} />
+            <SwipeList data={data} poster={false} slidesNumber={6} />
           )}
         </Box>
       )}

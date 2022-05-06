@@ -3,7 +3,6 @@ import {
   Flex,
   FormControl,
   Heading,
-  Icon,
   Input,
   InputGroup,
   InputRightElement,
@@ -15,10 +14,8 @@ import { doc, getDoc } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { useResetRecoilState } from "recoil";
 import styled from "styled-components";
 import { auth, db } from "../../../firebase";
-import { userDBState } from "../../atom";
 import { IForm } from "../../interfaces";
 import ErrorMessage from "../Account/ErrorMessage";
 import ShowIcon from "../ShowIcon";
@@ -31,7 +28,6 @@ function LocalLogin() {
   } = useForm<IForm>();
   const router = useRouter();
   const errorToast = useToast();
-  const setUserDB = useResetRecoilState(userDBState);
   const [show, setShow] = useState(false);
 
   const loginSubmit: SubmitHandler<IForm> = (data) => {
@@ -43,7 +39,7 @@ function LocalLogin() {
         } = userCredential;
         const docRef = doc(db, "users", uid);
         const docSnap = await getDoc(docRef);
-        setUserDB(docSnap.data() as any);
+        localStorage.setItem("user", JSON.stringify(docSnap.data()));
         router.push("/");
       })
       .catch((error) => {

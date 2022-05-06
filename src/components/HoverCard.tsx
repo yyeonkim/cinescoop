@@ -2,7 +2,7 @@ import { Flex, Img, Text, Box, Button } from "@chakra-ui/react";
 import axios from "axios";
 import BadButton from "./Buttons/BadButton";
 import GoodButton from "./Buttons/GoodButton";
-import LikeButton from "./Buttons/LikeButton";
+import WatchButton from "./Buttons/WatchButton";
 import GoodBadButton from "./Buttons/GoodBadButton";
 import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -69,7 +69,7 @@ function HoverCard({ info }: HoverProps) {
               <Text textColor="white">{info.title}</Text>
               <GoodButton />
               <BadButton />
-              <LikeButton />
+              <WatchButton />
             </Flex>
             <Text textColor="white">{movieDetail.runtime} 분</Text>
             <Flex>

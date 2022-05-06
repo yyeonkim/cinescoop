@@ -1,10 +1,11 @@
 import { Circle, Icon, Tooltip, useToast } from "@chakra-ui/react";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { RiThumbDownLine, RiThumbDownFill } from "react-icons/ri";
 import { auth, db } from "../../../firebase";
+import { IMovieId } from "../../interfaces";
 
-function BadButton() {
+function BadButton({ movieId }: IMovieId) {
   const [badState, setBadState] = useState(false);
   const toast = useToast();
 
@@ -20,15 +21,35 @@ function BadButton() {
         duration: 3000,
         isClosable: true,
       });
+      return;
     } else {
-      const dbUser = await getDoc(doc(db, "users", user.uid));
-
-      console.log(dbUser.data().movies);
-      //good 추가
-      //     if (goodState === false) {
-      //       dbUser.
-      //   }
       setBadState(!badState);
+
+      const userRef = doc(db, "users", user.uid);
+      const dbUser = await getDoc(userRef);
+      const dbUserData = dbUser.data();
+
+      let updatedBadList = dbUserData?.movies["bad"];
+
+      if (badState === false) {
+        updatedBadList.push(movieId);
+      } else {
+        updatedBadList = updatedBadList.filter(
+          (item: number) => item !== movieId
+        );
+      }
+
+      const docData = {
+        ...dbUserData,
+        movies: {
+          bad: updatedBadList,
+          good: dbUserData?.movies.bad,
+          watch: dbUserData?.movies.watch,
+        },
+      };
+
+      await setDoc(userRef, docData);
+      console.log("bad list updated");
     }
   };
 
@@ -38,12 +59,15 @@ function BadButton() {
         badState ? "Remove movie from <Bad List>" : "Add movie to <Bad List>"
       }
       aria-label="Description tooltip"
+      hasArrow
+      placement="top-start"
+      color="white"
+      bg="pink"
     >
-      <Circle p="0.8rem" border="1px solid black">
+      <Circle p="0.5rem" border="1px solid black" onClick={updateBadList}>
         <Icon
           as={badState ? RiThumbDownFill : RiThumbDownLine}
-          aria-label={"good button"}
-          onClick={() => setBadState(!badState)}
+          aria-label={"bad button"}
           w="1rem"
           h="1rem"
         />
