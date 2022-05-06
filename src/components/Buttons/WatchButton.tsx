@@ -62,7 +62,7 @@ export default function LikeButton() {
     <Circle
       size="2.5rem"
       bg="white"
-      color="pink"
+      color="black"
       _hover={{ cursor: "pointer" }}
       onClick={onClick}
     >
