@@ -1,10 +1,16 @@
 import { Flex, Img, Text, Box, Button } from "@chakra-ui/react";
 import axios from "axios";
+import BadButton from "./Buttons/BadButton";
+import GoodButton from "./Buttons/GoodButton";
+import LikeButton from "./Buttons/LikeButton";
+import GoodBadButton from "./Buttons/GoodBadButton";
 import { useRouter } from "next/router";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { movieIDState } from "../atom";
 import useNowDetail from "../hooks/useNowDetail";
+import ReserveButton from "./Buttons/ReserveButton";
 import { useState, useEffect } from "react";
+import DetailButton from "./Buttons/DetailButton";
 import { IMovie } from "../interfaces";
 
 interface HoverProps {
@@ -40,16 +46,16 @@ function HoverCard({ info }: HoverProps) {
 
     getMovieVideos();
   }, [info.id]);
-  console.log(video);
 
   const seeMovieInfo = (id: number) => {
     setMovieID(id);
     router.push(`/movieinfo/${id}`);
   };
 
+  console.log(movieDetail);
+
   return (
     <>
-      {" "}
       {video[0] ? (
         <Box bgColor="black">
           <Box w="100%">
@@ -59,22 +65,22 @@ function HoverCard({ info }: HoverProps) {
             />
           </Box>
           <Box p={1}>
-            <Text textColor="white">{info.title}</Text>
+            <Flex alignItems="center">
+              <Text textColor="white">{info.title}</Text>
+              <GoodButton />
+              <BadButton />
+              <LikeButton />
+            </Flex>
+            <Text textColor="white">{movieDetail.runtime} 분</Text>
             <Flex>
               {movieDetail.genres &&
                 movieDetail.genres.map((genre) => (
-                  <Text mr={1} key={genre.id}>
+                  <Text textColor="white" mr={1} key={genre.id}>
                     {genre.name}
                   </Text>
                 ))}
             </Flex>
-            <Button
-              bgColor="pink"
-              color="black"
-              onClick={() => seeMovieInfo(info.id)}
-            >
-              관련 정보
-            </Button>
+            <DetailButton info={info} />
           </Box>
         </Box>
       ) : (
