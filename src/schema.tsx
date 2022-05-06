@@ -19,7 +19,12 @@ export const reauthenticateSchema = yup.object({
 });
 
 const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+
 export const joinSchema = yup.object({
+  username: yup
+    .string()
+    .required("닉네임을 입력해주세요.")
+    .min(2, "두 글자 이상 입력해주세요."),
   email: yup
     .string()
     .required("이메일을 입력해주세요.")

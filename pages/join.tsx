@@ -57,11 +57,10 @@ const Join: NextPage = () => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then((userCredential) => {
         const {
-          user: { email, uid },
+          user: { uid },
         } = userCredential;
-        const username = email?.slice(0, email?.indexOf("@")) + uid;
 
-        saveUserToDB(uid, username as any);
+        saveUserToDB(uid, data.username as any);
         setLogin(true);
         router.push("/");
       })
@@ -82,6 +81,9 @@ const Join: NextPage = () => {
 
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
+            <Text mt="1.2rem">닉네임 *</Text>
+            <Input {...register("username")} />
+            <ErrorMessage message={errors?.username?.message} />
             <Text mt="1.2rem">이메일 *</Text>
             <Input {...register("email")} />
             <ErrorMessage message={errors?.email?.message} />
