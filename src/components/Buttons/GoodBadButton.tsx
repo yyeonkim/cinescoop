@@ -29,11 +29,15 @@ export default function GoodBadButton({ type }: IGoodBadButtonProps) {
 
   // 좋아요, 별로에요 정보 불러오기
   useEffect(() => {
-    if (userItem && userItem.movies.good.includes(movieID)) {
-      setRating("good");
-    }
-    if (userItem && userItem.movies.bad.includes(movieID)) {
-      setRating("bad");
+    if (userItem) {
+      if (userItem.movies.good.includes(movieID)) {
+        setRating("good");
+      }
+      if (userItem.movies.bad.includes(movieID)) {
+        setRating("bad");
+      }
+    } else {
+      setRating("");
     }
   }, []);
 
