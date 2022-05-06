@@ -23,13 +23,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { joinSchema } from "../src/schema";
 import { IJoinForm } from "../src/interfaces";
 import ErrorMessage from "../src/components/Account/ErrorMessage";
-import { useSetRecoilState } from "recoil";
-import { loginState } from "../src/atom";
 
 const Join: NextPage = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
-  const setLogin = useSetRecoilState(loginState);
 
   const {
     register,
@@ -61,7 +58,6 @@ const Join: NextPage = () => {
         } = userCredential;
 
         saveUserToDB(uid, data.username as any);
-        setLogin(true);
         router.push("/");
       })
       .catch((error) => {
