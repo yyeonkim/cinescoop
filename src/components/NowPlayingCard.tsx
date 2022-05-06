@@ -1,6 +1,6 @@
 import { Flex, Img, Text, Button, Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import LikeButton from "./Buttons/LikeButton";
+import WatchButton from "./Buttons/WatchButton";
 import GoodButton from "./Buttons/GoodButton";
 import BadButton from "./Buttons/BadButton";
 import GoodBadButton from "./Buttons/GoodBadButton";
@@ -85,7 +85,7 @@ function NowPlayingCard({ info, page, key }: CardProps) {
           <Flex mt="8rem">
             <BadButton />
             <GoodButton />
-            <LikeButton />
+            <WatchButton />
 
             <ReserveButton />
             <DetailButton info={info} />

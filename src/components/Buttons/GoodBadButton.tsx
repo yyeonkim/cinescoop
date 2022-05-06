@@ -37,6 +37,7 @@ export default function GoodBadButton({ type }: IGoodBadButtonProps) {
         setRating("bad");
       }
     } else {
+      // 로그아웃 사용자이면, rating을 빈 값으로 설정
       setRating("");
     }
   }, []);
