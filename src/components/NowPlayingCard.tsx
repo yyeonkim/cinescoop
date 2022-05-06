@@ -1,8 +1,6 @@
 import { Flex, Img, Text, Button, Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import LikeButton from "./Buttons/LikeButton";
-import GoodButton from "./Buttons/GoodButton";
-import BadButton from "./Buttons/BadButton";
 import GoodBadButton from "./Buttons/GoodBadButton";
 import useNowDetail from "../hooks/useNowDetail";
 import { useSetRecoilState } from "recoil";
@@ -11,7 +9,6 @@ import { IMovieDetails, ICast } from "../interfaces";
 import { Movie } from "./VerCard";
 import StarRating from "./StarRatings";
 import ReserveButton from "./Buttons/ReserveButton";
-import DetailButton from "./Buttons/DetailButton";
 
 interface CardProps {
   info: Movie;
@@ -33,16 +30,21 @@ function NowPlayingCard({ info, page, key }: CardProps) {
   };
 
   return (
-    <Box mr={10} ml={10} mt={10}>
+    <Box mr={10} ml={10} mt={10} minW="60%">
       <Flex mb={10}>
-        <Img
-          objectFit="contain"
-          src={`https:www.themoviedb.org/t/p/w1280${info.poster_path}`}
-          maxW="50%"
-          maxH="75%"
-          w="15rem"
-          borderRadius={5}
-        />
+        <Flex w="15rem" cursor="pointer" direction="column" alignItems="center">
+          <Img
+            src={`https:www.themoviedb.org/t/p/w1280${info.poster_path}`}
+            borderRadius={5}
+          />
+          <Flex mt={5}>
+            <GoodBadButton type="good" />
+            <Box mr={3} ml={3}>
+              <GoodBadButton type="bad" />
+            </Box>
+            <LikeButton />
+          </Flex>
+        </Flex>
         <Flex direction="column" ml={10}>
           <Text fontSize="1.2rem" mb={1}>
             {detail.title}
@@ -82,20 +84,17 @@ function NowPlayingCard({ info, page, key }: CardProps) {
               <Text>{cast[2]?.name}</Text>
             </Flex>
           </Flex>
-          <Flex mt="8rem">
-            <BadButton />
-            <GoodButton />
-            <LikeButton />
-
+          <Flex mt="9rem">
             <ReserveButton />
-            <DetailButton info={info} />
-            {/*<Button
-              bgColor="pink"
-              color="black"
+            <Button
+              ml="1rem"
+              borderColor="pink"
+              borderWidth={1}
+              bgColor="transparent"
               onClick={() => onClick(info.id, "movieinfo")}
             >
               관련 정보
-              </Button>*/}
+            </Button>
           </Flex>
         </Flex>
       </Flex>
