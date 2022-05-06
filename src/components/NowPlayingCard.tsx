@@ -1,8 +1,6 @@
 import { Flex, Img, Text, Button, Box } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import WatchButton from "./Buttons/WatchButton";
-import GoodButton from "./Buttons/GoodButton";
-import BadButton from "./Buttons/BadButton";
 import GoodBadButton from "./Buttons/GoodBadButton";
 import useNowDetail from "../hooks/useNowDetail";
 import { useSetRecoilState } from "recoil";
@@ -44,7 +42,7 @@ function NowPlayingCard({ info, page, key }: CardProps) {
             <Box mr={3} ml={3}>
               <GoodBadButton type="bad" />
             </Box>
-            <LikeButton />
+            <WatchButton movieId={info.id} />
           </Flex>
         </Flex>
         <Flex direction="column" ml={10}>
@@ -86,11 +84,7 @@ function NowPlayingCard({ info, page, key }: CardProps) {
               <Text>{cast[2]?.name}</Text>
             </Flex>
           </Flex>
-          <Flex mt="8rem">
-            <BadButton />
-            <GoodButton />
-            <WatchButton />
-
+          <Flex mt="9rem">
             <ReserveButton />
             <Button
               ml="1rem"
