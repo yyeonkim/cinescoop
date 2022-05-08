@@ -32,7 +32,9 @@ function ThirdPartyLogin() {
         await setDoc(doc(db, "users", id), {
           id: id,
           username: username,
-          movies: [],
+          friends: [],
+          movies: { watch: [], good: [], bad: [] },
+          genres: {},
         });
         console.log("complete to save");
       } catch (e) {

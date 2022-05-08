@@ -3,9 +3,9 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { RiThumbUpFill, RiThumbUpLine } from "react-icons/ri";
 import { auth, db } from "../../../firebase";
-import { IMovieId } from "../../interfaces";
+import { IMovieBtn } from "../../interfaces";
 
-function GoodButton({ movieId }: IMovieId) {
+function GoodButton({ movieId, genres }: IMovieBtn) {
   const [goodState, setGoodState] = useState(false);
   const toast = useToast();
 
@@ -30,17 +30,31 @@ function GoodButton({ movieId }: IMovieId) {
       const dbUserData = dbUser.data();
 
       let updatedGoodList = dbUserData?.movies["good"];
+      let updatedGenresObj = dbUserData?.genres;
 
       if (goodState === false) {
         updatedGoodList.push(movieId);
+        genres.forEach((genre) => {
+          const key = genre.name;
+          if (key in updatedGenresObj) {
+            updatedGenresObj[key]++;
+          } else {
+            updatedGenresObj[key] = 1;
+          }
+        });
       } else {
         updatedGoodList = updatedGoodList.filter(
           (item: number) => item !== movieId
         );
+        genres.forEach((genre) => {
+          const key = genre.name;
+          updatedGenresObj[key]--;
+        });
       }
 
       const docData = {
         ...dbUserData,
+        genres: updatedGenresObj,
         movies: {
           bad: dbUserData?.movies.bad,
           good: updatedGoodList,

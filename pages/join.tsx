@@ -12,6 +12,7 @@ import {
   Button,
   Input,
   Icon,
+  useToast,
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { createUserWithEmailAndPassword } from "firebase/auth";
@@ -26,6 +27,7 @@ import ErrorMessage from "../src/components/Account/ErrorMessage";
 const Join: NextPage = () => {
   const [show, setShow] = useState(false);
   const router = useRouter();
+  const errorToast = useToast();
 
   const {
     register,
@@ -34,12 +36,12 @@ const Join: NextPage = () => {
   } = useForm<IJoinForm>({ resolver: yupResolver(joinSchema) });
 
   const saveUserToDB = async (id: string, username: string) => {
-    //third party user도 계정 추가할 수 있도록 하는 함수 필요(먼저 존재하는 유저인지 확인해야함!)
     const dbInfo = {
-      id,
-      username,
-      movies: { watch: [], good: [], bad: [] },
+      id: id,
+      username: username,
       friends: [],
+      movies: { watch: [], good: [], bad: [] },
+      genres: {},
     };
     try {
       await setDoc(doc(db, "users", id), dbInfo);
@@ -59,9 +61,19 @@ const Join: NextPage = () => {
         saveUserToDB(uid, data.username as any);
         router.push("/");
       })
-      .catch((error) => {
-        console.log(error.code);
-        console.log(error.message);
+      .catch((e) => {
+        if (e.code === "auth/email-already-in-use") {
+          errorToast({
+            title: "해당 이메일은 가입되어 있습니다",
+            description:
+              "해당 이메일은 사용 중입니다. 예전에 가입하신 적이 있을 수 있으니 회원가입이 아닌 로그인을 해주시기 바랍니다. 만약 새로 가입하시는 경우, 이메일을 다시 한번 확인하시거나 다른 이메일을 사용주세요.",
+            status: "error",
+            duration: 15000,
+            isClosable: true,
+          });
+        }
+        console.log(e.code);
+        console.log(e.message);
       });
   };
 
@@ -78,19 +90,18 @@ const Join: NextPage = () => {
           <FormControl>
             <Input
               mt="1.2rem"
-              placeholder="닉네임"
-              _placeholder={{ color: "white", opacity: 0.7 }}
-              {...register("username")}
-            />
-            <ErrorMessage message={errors?.username?.message} />
-
-            <Input
-              mt="1.2rem"
               placeholder="이메일"
               _placeholder={{ color: "white", opacity: 0.7 }}
               {...register("email")}
             />
             <ErrorMessage message={errors?.email?.message} />
+            <Input
+              mt="1.2rem"
+              placeholder="닉네임"
+              _placeholder={{ color: "white", opacity: 0.7 }}
+              {...register("username")}
+            />
+            <ErrorMessage message={errors?.username?.message} />
 
             <InputGroup size="md" mt="1.2rem">
               <Input

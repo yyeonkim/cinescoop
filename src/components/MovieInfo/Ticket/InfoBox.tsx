@@ -45,7 +45,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
           />
           <HStack maxW="min-content" spacing="0.5rem" mt="1rem">
             <WatchButton movieId={details.id} />
-            <GoodButton movieId={details.id} />
+            <GoodButton movieId={details.id} genres={details.genres}/>
             <BadButton movieId={details.id} />
           </HStack>
         </Flex>

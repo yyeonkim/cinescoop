@@ -157,6 +157,7 @@ export interface IUserDB {
   movies?: IUserMovies;
 }
 
-export interface IMovieId {
+export interface IMovieBtn {
   movieId: number;
+  genres: IGenre[];
 }
