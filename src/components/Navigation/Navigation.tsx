@@ -24,17 +24,20 @@ interface navigationProps {
 }
 function Navigation({ search }: navigationProps) {
   return (
-    <Flex gap={30} paddingX={100} m={0} alignItems="center">
+    <Flex gap={35} paddingX={100} m={0} alignItems="center">
       <Link href="/">
         <Image
           src={logo.src}
           boxSize="10rem"
+          h="8rem"
           objectFit="contain"
           mr={2}
           cursor="pointer"
         />
       </Link>
       <PageLink path="/about" name="About" />
+      <PageLink path="/moviebuddy" name="Movie Buddy" />
+      <PageLink path="/nowplaying" name="In Theaters" />
       <Spacer />
       {search && <Search version="short" />}
       <SwitchMode />

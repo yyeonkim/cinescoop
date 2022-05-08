@@ -161,3 +161,8 @@ export interface IMovieBtn {
   movieId: number;
   genres: IGenre[];
 }
+
+export interface IPageTitle{
+  title: string;
+  subtitle: string;
+}

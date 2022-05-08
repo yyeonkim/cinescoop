@@ -18,6 +18,7 @@ const customTheme = extendTheme({
     pink: "#FF5AF1",
     lightPink: "#f7cbf4",
     darkBlue: "#0E0A48",
+    blue: "#242089",
     brightBlue: "#3843CD",
     lightBlue: "#b5baff",
     lightPurple: "#867aa0",
