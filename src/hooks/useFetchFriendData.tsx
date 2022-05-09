@@ -1,20 +1,24 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { db } from "../../firebase";
-import { friendState } from "../atom";
+import { friendState, selectedFriendSelector } from "../atom";
 import { IFriend } from "../interfaces";
 
-function useFetchFriendData({ friendId, friendUsername }: IFriend) {
+function useFetchFriendData() {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [friendData, setFriendData] = useRecoilState(friendState);
+  const friendId = useRecoilValue(selectedFriendSelector);
+
+  // console.log("selectedFriend", selectedFriend);
 
   useEffect(() => {
     const getFriendData = async () => {
       setIsLoading(true);
       setIsError(false);
 
+      console.log("selected id", friendId);
       try {
         const friendRef = doc(db, "users", friendId);
         const dbFriend = await getDoc(friendRef);
@@ -30,7 +34,6 @@ function useFetchFriendData({ friendId, friendUsername }: IFriend) {
     };
 
     getFriendData();
-    console.log("friendData", friendData);
   }, [friendId]);
 
   return { friendData, isLoading, isError };

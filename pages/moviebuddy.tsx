@@ -2,9 +2,9 @@ import { Flex } from "@chakra-ui/react";
 import { onAuthStateChanged } from "firebase/auth";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { auth } from "../firebase";
-import { loginState } from "../src/atom";
+import { loginState, selectedFriendState } from "../src/atom";
 import Analysis from "../src/components/MovieBuddy/Analysis";
 import FriendList from "../src/components/MovieBuddy/FriendList";
 import PageTitle from "../src/components/PageTitle";
@@ -14,10 +14,7 @@ const Moviebuddy: NextPage = () => {
   const user = auth.currentUser;
   const [login, setLogin] = useRecoilState(loginState);
   const { userData, isLoading, isError } = useFetchUserData();
-  const [friend, setFriend] = useState({
-    friendId: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
-    friendUsername: "test",
-  });
+  const selectedFriend = useRecoilValue(selectedFriendState);
   const [isUser, setIsUser] = useState(true);
 
   useEffect(() => {
@@ -44,7 +41,11 @@ const Moviebuddy: NextPage = () => {
           <>
             <Flex flexDir="column" px="10rem">
               <FriendList friends={userData.friends} />
-              <Analysis user={userData} friend={friend} isUser={isUser} />
+              <Analysis
+                user={userData}
+                friend={selectedFriend}
+                isUser={isUser}
+              />
             </Flex>
           </>
         )

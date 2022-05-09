@@ -1,5 +1,5 @@
-import { atom } from "recoil";
-import { IUserDB } from "./interfaces";
+import { atom, selector } from "recoil";
+import { IFriend, IUserDB } from "./interfaces";
 
 export const inputState = atom({
   key: "inputState",
@@ -3016,5 +3016,21 @@ export const friendState = atom<IUserDB>({
     id: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
     movies: { watch: Array(1), bad: Array(1), good: Array(2) },
     username: "정연희",
+  },
+});
+
+export const selectedFriendState = atom<IFriend>({
+  key: "selectedFriendState",
+  default: {
+    friendId: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
+    friendUsername: "test",
+  },
+});
+
+export const selectedFriendSelector = selector<string>({
+  key: "selectedFriendSelector",
+  get: ({ get }) => {
+    const selectedFriend = get(selectedFriendState);
+    return selectedFriend.friendId;
   },
 });

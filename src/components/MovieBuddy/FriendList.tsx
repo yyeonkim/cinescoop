@@ -1,22 +1,12 @@
-import {
-  Avatar,
-  Button,
-  css,
-  Flex,
-  Heading,
-  HStack,
-  Text,
-} from "@chakra-ui/react";
+import { Avatar, Button, Flex, Heading, HStack, Text } from "@chakra-ui/react";
 import { FC } from "react";
+import { useRecoilState } from "recoil";
+import { selectedFriendState } from "../../atom";
 import { IFriendList } from "../../interfaces";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import { Pagination, Navigation } from "swiper";
 
 const FriendList: FC<IFriendList> = ({ friends }) => {
-  console.log("friends", friends);
+  const [selectedFriend, setSelectedFriend] =
+    useRecoilState(selectedFriendState);
   return (
     <Flex flexDir="column" width="100%" mt="2rem">
       <Flex mb="1rem">
@@ -60,6 +50,7 @@ const FriendList: FC<IFriendList> = ({ friends }) => {
             }}
             _active={{ background: "none" }}
             background="none"
+            onClick={() => setSelectedFriend(friend)}
           >
             <Avatar
               name={friend.friendUsername}
