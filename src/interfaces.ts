@@ -1,6 +1,5 @@
 import { User } from "firebase/auth";
 
-
 export interface ITrending {
   poster_path: string;
   overview: string;
@@ -177,7 +176,7 @@ export interface IFriendList {
 export interface IUserDB {
   username: string;
   id: string;
-  friends: IFriendList;
+  friends: IFriend[];
   movies: IUserMovies;
   genres: object;
 }

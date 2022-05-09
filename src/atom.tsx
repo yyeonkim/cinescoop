@@ -1,4 +1,5 @@
 import { atom } from "recoil";
+import { IUserDB } from "./interfaces";
 
 export const inputState = atom({
   key: "inputState",
@@ -2992,13 +2993,26 @@ export const friendListState = atom({
   ],
 });
 
-export const userState = atom({
+export const userState = atom<IUserDB>({
   key: "userState",
   default: {
     friends: [
       { friendId: "DXnxeu4MKrUJQEdKxw425hxKm5E2", friendUsername: "test" },
     ],
     genres: {},
+    id: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
+    movies: { watch: Array(1), bad: Array(1), good: Array(2) },
+    username: "정연희",
+  },
+});
+
+export const friendState = atom<IUserDB>({
+  key: "friendState",
+  default: {
+    friends: [
+      { friendId: "DXnxeu4MKrUJQEdKxw425hxKm5E2", friendUsername: "test" },
+    ],
+    genres: { sample: 1, sample2: 2 },
     id: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
     movies: { watch: Array(1), bad: Array(1), good: Array(2) },
     username: "정연희",
