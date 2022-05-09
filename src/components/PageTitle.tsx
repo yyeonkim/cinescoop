@@ -21,7 +21,7 @@ const PageTitle: FC<IPageTitle> = ({ title, subtitle }) => {
         w="100%"
         mb="1rem"
       >
-        <Heading as="h1" size="2xl">
+        <Heading as="h1" size="3xl">
           {title}
         </Heading>
         <Heading as="h2" size="sm" mt="0.5rem">
