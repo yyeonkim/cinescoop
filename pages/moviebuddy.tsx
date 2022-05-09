@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import { onAuthStateChanged } from "firebase/auth";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -42,10 +42,13 @@ const Moviebuddy: NextPage = () => {
             <Flex flexDir="column" px="10rem">
               <FriendList friends={userData.friends} />
               <Analysis
-                user={userData}
+                userData={userData}
                 friend={selectedFriend}
                 isUser={isUser}
               />
+              <Flex flexDir="column" width="100%" mt="4rem">
+                <Heading size="lg">좋아하는 영화</Heading>
+              </Flex>
             </Flex>
           </>
         )
