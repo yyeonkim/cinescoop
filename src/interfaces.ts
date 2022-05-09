@@ -1,3 +1,6 @@
+import { User } from "firebase/auth";
+
+
 export interface ITrending {
   poster_path: string;
   overview: string;
@@ -152,17 +155,33 @@ export interface IUserMovies {
   bad: number[];
 }
 
-export interface IUserDB {
-  username: string;
-  movies?: IUserMovies;
-}
-
 export interface IMovieBtn {
   movieId: number;
   genres: IGenre[];
 }
 
-export interface IPageTitle{
+export interface IPageTitle {
   title: string;
   subtitle: string;
+}
+
+export interface IFriend {
+  friendId: string;
+  friendUsername: string;
+}
+
+export interface IFriendList {
+  friends: IFriend[];
+}
+
+export interface IUserDB {
+  username: string;
+  id: string;
+  friends: IFriendList;
+  movies: IUserMovies;
+  genres: object;
+}
+
+export interface IUser {
+  user: User | null;
 }
