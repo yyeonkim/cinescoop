@@ -2981,3 +2981,26 @@ export const ratingState = atom<"good" | "bad" | "">({
   key: "ratingState",
   default: "",
 });
+
+export const friendListState = atom({
+  key: "friendListState",
+  default: [
+    {
+      friendId: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
+      friendUsername: "test",
+    },
+  ],
+});
+
+export const userState = atom({
+  key: "userState",
+  default: {
+    friends: [
+      { friendId: "DXnxeu4MKrUJQEdKxw425hxKm5E2", friendUsername: "test" },
+    ],
+    genres: {},
+    id: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
+    movies: { watch: Array(1), bad: Array(1), good: Array(2) },
+    username: "정연희",
+  },
+});
