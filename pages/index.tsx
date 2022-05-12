@@ -1,6 +1,8 @@
 import type { NextPage } from "next";
 import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
 import { getAuth } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { useEffect, useState } from "react";
 
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
@@ -11,8 +13,7 @@ import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 import ReserveButton from "../src/components/Buttons/ReserveButton";
-import useFetchWatch from "../src/hooks/useFetchWatch";
-import LoadingAnimation from "../src/components/LoadingAnimation";
+import { auth, db } from "../firebase";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -27,11 +28,22 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
-  // 찜한 영화
-  const { data, isLoading } = useFetchWatch();
-  const { width: windowWidth } = useWindowDimensions();
+  const currentUser = auth.currentUser; // 현재 사용자
+  const [watchMovies, setWatchMovies] = useState([]); // 사용자가 찜한 영화
 
-  const user = getAuth().currentUser;
+  useEffect(() => {
+    // 로그인 사용자가 있으면 찜한 영화 가져오기
+    (async () => {
+      if (currentUser) {
+        const docRef = doc(db, "users", `${currentUser?.uid}`);
+        const docSnap = await getDoc(docRef);
+        const movies = docSnap?.data()?.movies.watch;
+        setWatchMovies(movies);
+      }
+    })();
+  }, []);
+
+  const { width: windowWidth } = useWindowDimensions();
 
   return (
     <>
@@ -39,16 +51,12 @@ const Home: NextPage<IHomeProps> = ({
       <HomeText />
 
       {/* 사용자가 찜한 영화 */}
-      {user && data.length !== 0 && (
+      {currentUser && watchMovies.length !== 0 && (
         <Box my={20} px={10}>
           <Heading size="lg" mb={10} mr={8}>
             찜한 영화
           </Heading>
-          {isLoading ? (
-            <LoadingAnimation />
-          ) : (
-            <SwipeList data={data} poster={false} slidesNumber={6} />
-          )}
+          <SwipeList data={watchMovies} poster={false} slidesNumber={6} />
         </Box>
       )}
 
