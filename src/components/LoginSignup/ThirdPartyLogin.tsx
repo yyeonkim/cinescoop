@@ -25,11 +25,16 @@ function ThirdPartyLogin() {
     username: string | null
   ) => {
     const dbUser = await getDoc(doc(db, "users", id));
+
     if (dbUser.exists()) {
       console.log("user already exists");
     } else {
+      // username이 없을 경우 랜덤 문자 부여
+      if (!username) {
+        username = Math.random().toString(36).substr(2, 11);
+      }
+
       try {
-        console.log(username);
         await setDoc(doc(db, "users", id), {
           id: id,
           username: username,
