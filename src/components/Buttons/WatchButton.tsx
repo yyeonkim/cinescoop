@@ -29,7 +29,7 @@ function WatchButton({ movieId }: IMovieId) {
       const dbUser = await getDoc(userRef);
       const dbUserData = dbUser.data();
 
-      let updatedWatchList = dbUserData.movies["watch"];
+      let updatedWatchList = dbUserData?.movies["watch"];
 
       if (watchState === false) {
         updatedWatchList.push(movieId);

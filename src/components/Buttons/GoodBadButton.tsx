@@ -16,19 +16,19 @@ import { IUserMovies } from "../../interfaces";
 // 버튼 타입
 interface IGoodBadButtonProps {
   type: "good" | "bad";
+  movieID: number;
 }
 
 // 좋아요 또는 별로예요를 나타내는 컴포넌트
 // type: "good" --> 좋아요 버튼
 // type: "bad" --> 별로예요 버튼
-export default function GoodBadButton({ type }: IGoodBadButtonProps) {
+export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
   const toast = useToast();
   const user = auth.currentUser;
 
   const [rating, setRating] = useRecoilState(ratingState);
   const [goodMovies, setGoodMovies] = useState([]);
   const [badMovies, setBadMovies] = useState([]);
-  const movieID = useRecoilValue(movieIDState);
 
   // 좋아요, 별로에요 정보 불러오기
   useEffect(() => {
