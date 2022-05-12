@@ -5,11 +5,12 @@ import {
   RiThumbDownLine,
   RiThumbDownFill,
 } from "react-icons/ri";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { doc, getDoc, setDoc } from "firebase/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState } from "react";
 
-import { movieIDState, ratingState } from "../../atom";
+import { ratingState } from "../../atom";
 import { auth, db } from "../../../firebase";
 import { IUserMovies } from "../../interfaces";
 
@@ -26,25 +27,32 @@ export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
   const toast = useToast();
   const user = auth.currentUser;
 
+  const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [rating, setRating] = useRecoilState(ratingState);
-  const [goodMovies, setGoodMovies] = useState([]);
-  const [badMovies, setBadMovies] = useState([]);
 
   // 좋아요, 별로에요 정보 불러오기
   useEffect(() => {
-    // 로그인 사용자이면 좋아요/별로예요 영화 가져오기
-    (async () => {
+    // 로그인 상태 확인하기
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
       if (user) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    });
+
+    // 로그인 사용자이면 좋아요/별로예요 평가 설정하기
+    (async () => {
+      if (isLoggedIn) {
         const docRef = doc(db, "users", `${user?.uid}`);
         const docSnap = await getDoc(docRef);
         const { good, bad } = docSnap?.data()?.movies;
-        setGoodMovies(good);
-        setBadMovies(bad);
 
-        if (goodMovies.includes(movieID)) {
+        if (good.includes(movieID)) {
           setRating("good");
         }
-        if (badMovies.includes(movieID)) {
+        if (bad.includes(movieID)) {
           setRating("bad");
         } else {
           // 로그아웃 사용자이면, rating을 빈 값으로 설정
@@ -52,7 +60,7 @@ export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
         }
       }
     })();
-  }, []);
+  }, [isLoggedIn]);
 
   const saveMoviesToDB = async (
     good: IUserMovies["good"],
@@ -78,13 +86,16 @@ export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
     };
 
     await setDoc(doc(db, "users", user?.uid), dbInfo);
-    localStorage.setItem("user", JSON.stringify(dbInfo));
   };
 
   // 업데이트한 좋아요/별로예요 영화 목록 가져오기
-  const getUpdatedMovies = () => {
-    let updatedGood = goodMovies;
-    let updatedBad = badMovies;
+  const getUpdatedMovies = async () => {
+    const docRef = doc(db, "users", `${user?.uid}`);
+    const docSnap = await getDoc(docRef);
+    const { good, bad } = docSnap?.data()?.movies;
+
+    let updatedGood = good;
+    let updatedBad = bad;
 
     // 좋아요 버튼을 누르면
     if (type === "good") {
@@ -114,16 +125,11 @@ export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
       }
     }
 
-    // state 업데이트
-    setGoodMovies(updatedGood);
-    setBadMovies(updatedBad);
-
     return { updatedGood, updatedBad };
   };
 
   const onClick = async () => {
-    console.log(user);
-    if (!user) {
+    if (!isLoggedIn) {
       toast({
         position: "top",
         title: "로그인 해주세요",
@@ -135,7 +141,7 @@ export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
     } else {
       // 로그인 한 사용자에 한해서
       // 버튼을 누르면 DB에 영화를 추가하고 해제하면 삭제한다.
-      const { updatedGood, updatedBad } = getUpdatedMovies();
+      const { updatedGood, updatedBad } = await getUpdatedMovies();
       saveMoviesToDB(updatedGood, updatedBad);
     }
   };
