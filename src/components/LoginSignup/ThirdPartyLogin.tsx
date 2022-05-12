@@ -29,6 +29,7 @@ function ThirdPartyLogin() {
       console.log("user already exists");
     } else {
       try {
+        console.log(username);
         await setDoc(doc(db, "users", id), {
           id: id,
           username: username,
