@@ -1,4 +1,11 @@
-import { Flex, Img, Text, Button, Box } from "@chakra-ui/react";
+import {
+  Flex,
+  Img,
+  Text,
+  Button,
+  Box,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import LikeButton from "./Buttons/LikeButton";
 import GoodButton from "./Buttons/GoodButton";

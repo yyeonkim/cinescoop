@@ -30,9 +30,6 @@ function Footer() {
         <Text>YOUMIN KIM : dskfjelek@gmail.com</Text>
         <Text>YONGYEON KIM : @gmail.com</Text>
       </Flex>
-      <Button variant="ghost" border="1px" borderColor="black">
-        예매하기
-      </Button>
     </Flex>
   );
 }

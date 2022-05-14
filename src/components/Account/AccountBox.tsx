@@ -2,7 +2,7 @@ import React from "react";
 import { Flex, Text, useDisclosure, Avatar } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
 import { auth } from "../../../firebase";
-import ChangeIdModal from "./ChangeIdModal";
+import ChangeNicknameModal from "./ChangeNicknameModal";
 import WithdrawalModal from "./WithdrawalModal";
 import ChangePasswordModal from "./ChangePasswordModal";
 
@@ -54,7 +54,7 @@ function AccountBox() {
               onClick={disclosure3.onOpen}
             >
               닉네임 변경하기 {">"}
-              <ChangeIdModal
+              <ChangeNicknameModal
                 isOpen={disclosure3.isOpen}
                 onClose={disclosure3.onClose}
               />

@@ -10,37 +10,38 @@ import {
   InputRightElement,
   useToast,
 } from "@chakra-ui/react";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { getAuth, updatePassword, updateProfile } from "firebase/auth";
-import { yupResolver } from "@hookform/resolvers/yup";
+import { doc, updateDoc } from "firebase/firestore";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
 
-import { IPasswordCheckForm } from "../../../src/interfaces";
+import { IPasswordCheckForm } from "../../interfaces";
 import { passwordCheckSchema } from "../../schema";
 import ErrorMessage from "./ErrorMessage";
-import { auth } from "../../../firebase";
 import ShowIcon from "../ShowIcon";
+import { auth, db } from "../../../firebase";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { uidState } from "../../atom";
 
-interface NewPasswordFormProps {
+interface NewNickNameProps {
   onClose: any;
 }
 
-function NewIdForm({ onClose }: NewPasswordFormProps) {
+function NewNickNameForm({ onClose }: NewNickNameProps) {
   const toast = useToast();
   const user = auth.currentUser;
+  const userId = useRecoilValue(uidState);
+  console.log(userId);
 
-  const {
-    register,
-    handleSubmit,
-    getValues,
-    formState: { errors },
-  } = useForm<IPasswordCheckForm>({});
+  const changeNickName = async () => {
+    const a = doc(db, "users", userId);
+    await updateDoc(a, { username: "byebye" });
+  };
 
-  const onPasswordUpdateSubmit: SubmitHandler<IPasswordCheckForm> = () => {
+  const onChangeNickName: SubmitHandler<IPasswordCheckForm> = () => {
     console.log("passwordsubmitted");
     if (user != null) {
-      updateProfile(user, { displayName: getValues("newId") })
+      updateDoc(doc(db, "users", userId), { username: "byebye" })
         .then(() => {
           toast({
             title: "닉네임 변경 완료",
@@ -66,7 +67,7 @@ function NewIdForm({ onClose }: NewPasswordFormProps) {
   };
 
   return (
-    <StyledForm onSubmit={handleSubmit(onPasswordUpdateSubmit)}>
+    <StyledForm>
       <Text mb="0.5rem">현재 닉네임</Text>
       <Text mb="1rem" fontSize="1.2rem">
         {user && user.providerData[0].providerId != "password"
@@ -76,15 +77,10 @@ function NewIdForm({ onClose }: NewPasswordFormProps) {
       <Text mb="0.5rem">새 닉네임</Text>
       <InputGroup mb="0.5rem">
         <Flex flexDir="column" w="100%">
-          <Input
-            {...register("newId")}
-            size="lg"
-            placeholder="새 닉네임을 입력해주세요"
-          />
-          <ErrorMessage message={errors?.newPassword?.message} />
+          <Input size="lg" placeholder="새 닉네임을 입력해주세요" />
         </Flex>
       </InputGroup>
-      <ErrorMessage message={errors?.newPasswordCheck?.message} />
+
       <Button color="black" bgColor="pink" type="submit" mt="3rem">
         변경하기
       </Button>
@@ -92,7 +88,7 @@ function NewIdForm({ onClose }: NewPasswordFormProps) {
   );
 }
 
-export default NewIdForm;
+export default NewNickNameForm;
 
 const StyledForm = styled.form`
   width: 100%;

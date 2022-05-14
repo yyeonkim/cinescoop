@@ -9,12 +9,10 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import ReauthenticateForm from "./ReauthenticateForm";
-import NewIdForm from "./NewIdForm";
-import { getAuth } from "firebase/auth";
+import NewIdForm from "./NewNickNameForm";
 import { auth } from "../../../firebase";
 
-function ChangePasswordModal({ isOpen, onClose }: any) {
+function ChangeNickNameModal({ isOpen, onClose }: any) {
   const user = auth.currentUser;
 
   return (
@@ -38,4 +36,4 @@ function ChangePasswordModal({ isOpen, onClose }: any) {
     </Modal>
   );
 }
-export default ChangePasswordModal;
+export default ChangeNickNameModal;
