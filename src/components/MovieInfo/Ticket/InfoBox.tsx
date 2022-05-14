@@ -14,6 +14,7 @@ import StarRating from "../../StarRatings";
 import { ICast, ICrew, IMovieDetails } from "../../../interfaces";
 import GoodButton from "../../Buttons/GoodButton";
 import BadButton from "../../Buttons/BadButton";
+import WatchButton from "../../Buttons/WatchButton";
 
 interface infoBoxprops {
   details: IMovieDetails;
@@ -36,21 +37,22 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
         maxH="min-content"
         padding="2rem 0 3rem 0"
       >
-        <Flex flexDir="column" w="40%">
+        <Flex flexDir="column" w="45%">
           <Image
             src={`https://www.themoviedb.org/t/p/w1280/${details.poster_path} `}
             w="100%"
             h="s"
           />
           <HStack maxW="min-content" spacing="0.5rem" mt="1rem">
-            <GoodButton />
-            <BadButton />
+            <WatchButton movieId={details.id} />
+            <GoodButton movieId={details.id} genres={details.genres}/>
+            <BadButton movieId={details.id} />
           </HStack>
         </Flex>
 
         <Grid
           templateColumns="1fr 2fr"
-          marginLeft="3rem"
+          marginLeft="2rem"
           w="100%"
           h="100%"
           fontWeight="semibold"
@@ -85,7 +87,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
             overflowX="hidden"
           >
             <List gap={2}>
-              {cast.map((castMember, index) => (
+              {cast.map((castMember) => (
                 <Flex flexDir="column" alignItems="right" key={castMember.id}>
                   {castMember.original_name}
                   <Text as="i" color="lightPurple" marginBottom="1">

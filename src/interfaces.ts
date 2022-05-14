@@ -1,3 +1,5 @@
+import { User } from "firebase/auth";
+
 export interface ITrending {
   poster_path: string;
   overview: string;
@@ -132,6 +134,7 @@ export interface IForm {
 }
 
 export interface IJoinForm {
+  username: string;
   email: string;
   password: string;
   confirmation: string;
@@ -151,34 +154,33 @@ export interface IUserMovies {
   bad: number[];
 }
 
-export interface IUserDB {
-  username: string;
-  movies?: IUserMovies;
+export interface IMovieBtn {
+  movieId: number;
+  genres: IGenre[];
 }
 
-// export interface IUserImpl {
-//   uid: string;
-//   emailVerified: boolean;
-//   displayName: string;
-//   isAnonymous: boolean;
-//   photoURL: string;
-//   providerData: [
-//     {
-//       providerId: string;
-//       uid: string;
-//       displayName: string | null;
-//       email: string | null;
-//       phoneNumber: string | null;
-//       photoURL: string | null;
-//     }
-//   ];
-//   stsTokenManager: {
-//     refreshToken: string;
-//     accessToken: string;
-//     expirationTime: number;
-//   };
-//   createdAt: string;
-//   lastLoginAt: string;
-//   apiKey: string;
-//   appName: string;
-// }
+export interface IPageTitle {
+  title: string;
+  subtitle: string;
+}
+
+export interface IFriend {
+  friendId: string;
+  friendUsername: string;
+}
+
+export interface IFriendList {
+  friends: IFriend[];
+}
+
+export interface IUserDB {
+  username: string;
+  id: string;
+  friends: IFriend[];
+  movies: IUserMovies;
+  genres: object;
+}
+
+export interface IUser {
+  user: User | null;
+}

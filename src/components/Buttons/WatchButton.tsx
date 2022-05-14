@@ -1,15 +1,15 @@
 import { Circle, Icon, Tooltip, useToast } from "@chakra-ui/react";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useState } from "react";
-import { RiThumbDownLine, RiThumbDownFill } from "react-icons/ri";
+import { AiOutlineCheck, AiOutlinePlus } from "react-icons/ai";
 import { auth, db } from "../../../firebase";
 import { IMovieId } from "../../interfaces";
 
-function BadButton({ movieId }: IMovieId) {
-  const [badState, setBadState] = useState(false);
+function WatchButton({ movieId }: IMovieId) {
+  const [watchState, setWatchState] = useState(false);
   const toast = useToast();
 
-  const updateBadList = async () => {
+  const updateWatchList = async () => {
     const user = auth.currentUser;
 
     if (!user) {
@@ -23,18 +23,18 @@ function BadButton({ movieId }: IMovieId) {
       });
       return;
     } else {
-      setBadState(!badState);
+      setWatchState(!watchState);
 
       const userRef = doc(db, "users", user.uid);
       const dbUser = await getDoc(userRef);
       const dbUserData = dbUser.data();
 
-      let updatedBadList = dbUserData?.movies["bad"];
+      let updatedWatchList = dbUserData.movies["watch"];
 
-      if (badState === false) {
-        updatedBadList.push(movieId);
+      if (watchState === false) {
+        updatedWatchList.push(movieId);
       } else {
-        updatedBadList = updatedBadList.filter(
+        updatedWatchList = updatedWatchList.filter(
           (item: number) => item !== movieId
         );
       }
@@ -42,21 +42,23 @@ function BadButton({ movieId }: IMovieId) {
       const docData = {
         ...dbUserData,
         movies: {
-          bad: updatedBadList,
-          good: dbUserData?.movies.bad,
-          watch: dbUserData?.movies.watch,
+          bad: dbUserData?.movies.bad,
+          good: dbUserData?.movies.good,
+          watch: updatedWatchList,
         },
       };
 
       await setDoc(userRef, docData);
-      console.log("bad list updated");
+      console.log("watch list updated");
     }
   };
 
   return (
     <Tooltip
       label={
-        badState ? "Remove movie from <Bad List>" : "Add movie to <Bad List>"
+        watchState
+          ? "Remove movie from <Watchlist>"
+          : "Add movie to <Watchlist>"
       }
       aria-label="Description tooltip"
       hasArrow
@@ -64,10 +66,10 @@ function BadButton({ movieId }: IMovieId) {
       color="white"
       bg="pink"
     >
-      <Circle p="0.5rem" border="1px solid black" onClick={updateBadList}>
+      <Circle p="0.5rem" border="1px solid black" onClick={updateWatchList}>
         <Icon
-          as={badState ? RiThumbDownFill : RiThumbDownLine}
-          aria-label={"bad button"}
+          as={watchState ? AiOutlineCheck : AiOutlinePlus}
+          aria-label={"watch button"}
           w="1rem"
           h="1rem"
         />
@@ -76,4 +78,4 @@ function BadButton({ movieId }: IMovieId) {
   );
 }
 
-export default BadButton;
+export default WatchButton;

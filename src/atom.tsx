@@ -1,5 +1,5 @@
 import { atom, selector } from "recoil";
-import { IUserMovies } from "./interfaces";
+import { IFriend, IUserDB } from "./interfaces";
 
 export const inputState = atom({
   key: "inputState",
@@ -2978,74 +2978,59 @@ export const loginState = atom({
   default: false,
 });
 
-export const userDBState = atom({
-  key: "userDBState",
-  default: {
-    id: "",
-    username: "",
-    movies: {
-      watch: [] as number[],
-      good: [] as number[],
-      bad: [] as number[],
-    },
-  },
-});
-
-export const uidState = selector({
-  key: "uidState",
-  get: ({ get }) => {
-    return get(userDBState).id;
-  },
-});
-
-export const likedMoviesState = selector<IUserMovies["watch"]>({
-  key: "likedMoviesState",
-
-  get: ({ get }) => {
-    return get(userDBState).movies.watch;
-  },
-});
-
-export const goodMoviesState = selector<IUserMovies["good"]>({
-  key: "likedMoviesState",
-
-  get: ({ get }) => {
-    return get(userDBState).movies.good;
-  },
-});
-
-export const badMoviesState = selector<IUserMovies["bad"]>({
-  key: "likedMoviesState",
-
-  get: ({ get }) => {
-    return get(userDBState).movies.bad;
-  },
-});
-
-export const usernameState = selector({
-  key: "usernameState",
-  get: ({ get }) => {
-    return get(userDBState).username;
-  },
-});
-
-export const userState = atom({
-  key: "userState",
-  default: {
-    thirdParty: false,
-    emailVerified: false,
-    email: "",
-    displayName: "",
-    photoURL: "",
-  },
-});
-
-export const likedState = atom({
-  key: "likedState",
-  default: false,
-});
-
 export const ratingState = atom<"good" | "bad" | "">({
   key: "ratingState",
   default: "",
+});
+
+export const friendListState = atom({
+  key: "friendListState",
+  default: [
+    {
+      friendId: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
+      friendUsername: "test",
+    },
+  ],
+});
+
+export const userState = atom<IUserDB>({
+  key: "userState",
+  default: {
+    friends: [
+      { friendId: "DXnxeu4MKrUJQEdKxw425hxKm5E2", friendUsername: "test" },
+    ],
+    genres: {},
+    id: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
+    movies: { watch: Array(1), bad: Array(1), good: Array(2) },
+    username: "정연희",
+  },
+});
+
+export const friendState = atom<IUserDB>({
+  key: "friendState",
+  default: {
+    friends: [
+      { friendId: "DXnxeu4MKrUJQEdKxw425hxKm5E2", friendUsername: "test" },
+    ],
+    genres: { sample: 1, sample2: 2 },
+    id: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
+    movies: { watch: Array(1), bad: Array(1), good: Array(2) },
+    username: "정연희",
+  },
+});
+
+export const selectedFriendState = atom<IFriend>({
+  key: "selectedFriendState",
+  default: {
+    friendId: "DXnxeu4MKrUJQEdKxw425hxKm5E2",
+    friendUsername: "test",
+  },
+});
+
+export const selectedFriendSelector = selector<string>({
+  key: "selectedFriendSelector",
+  get: ({ get }) => {
+    const selectedFriend = get(selectedFriendState);
+    return selectedFriend.friendId;
+  },
 });
