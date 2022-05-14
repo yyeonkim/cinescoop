@@ -36,7 +36,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
         <Stack>
           <Flex alignItems="center">
             <Heading mr={5}>{detailData?.title}</Heading>
-            <WatchButton />
+            <WatchButton movieId={movieID} />
           </Flex>
           <Text>
             <Text as="b">평점 </Text>
