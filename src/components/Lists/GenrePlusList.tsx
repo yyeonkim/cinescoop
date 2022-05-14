@@ -6,6 +6,7 @@ import { genreState } from "../../atom";
 import { BASE_URL, BASE_QUERY } from "../../hooks/fetching";
 import GridList from "./GridList";
 import { IGenre } from "../../interfaces";
+import { useLocation } from "react-router-dom";
 
 export interface GenreProps {
   genres: IGenre[];
@@ -15,7 +16,12 @@ function GenrePlusList({ genres }: GenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
   const [genreItems, setGenreItems] = useState([]);
   const [page, setPage] = useState(1);
+  const [scrollY, setScrollY] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    window.scrollTo(0, scrollY);
+  }, []);
 
   const selectGenre = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const { selectedIndex } = event.currentTarget.options;
@@ -72,6 +78,7 @@ function GenrePlusList({ genres }: GenreProps) {
     return () => {
       window.removeEventListener("scroll", handleScroll, true);
     };
+    setScrollY(window.scrollY);
   }, [handleScroll]);
 
   return (

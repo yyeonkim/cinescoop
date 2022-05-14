@@ -57,7 +57,7 @@ function SwipeList({ data, poster, slidesNumber, hover }: ISwipeProps) {
           (movie) =>
             movie.poster_path && (
               <SwiperSlide key={movie.id} className="wrapper__navigation">
-                <SwipeCard isPoster={isPoster} movie={movie} hover={hover} />
+                <SwipeCard isPoster={isPoster} movie={movie} hover={false} />
 
                 {/* <Link>
                   {isPoster ? (

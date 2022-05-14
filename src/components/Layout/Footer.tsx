@@ -1,9 +1,11 @@
 import React from "react";
 import { Flex, Text, Button } from "@chakra-ui/react";
+import { useColorModeValue } from "@chakra-ui/react";
 import Image from "next/image";
 import logo from "../../../public/logo.png";
 
 function Footer() {
+  const color = useColorModeValue("white", "white");
   return (
     <Flex
       backgroundColor="brightBlue"
@@ -11,6 +13,7 @@ function Footer() {
       p="1rem"
       mt="10rem"
       justify="center"
+      color={color}
     >
       <Flex flexDir="column" boxSize="12rem">
         <Image src={logo} objectFit="contain" />
@@ -30,9 +33,6 @@ function Footer() {
         <Text>YOUMIN KIM : dskfjelek@gmail.com</Text>
         <Text>YONGYEON KIM : @gmail.com</Text>
       </Flex>
-      <Button variant="ghost" border="1px" borderColor="black">
-        예매하기
-      </Button>
     </Flex>
   );
 }
