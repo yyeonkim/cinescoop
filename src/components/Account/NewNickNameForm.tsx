@@ -29,9 +29,8 @@ interface NewNickNameProps {
 function NewNickNameForm({ onClose }: NewNickNameProps) {
   const toast = useToast();
   const user = auth.currentUser;
-  console.log(userId);
 
-  const changeNickName = async () => {
+  /*const changeNickName = async () => {
     const a = doc(db, "users", userId);
     await updateDoc(a, { username: "byebye" });
   };
@@ -62,7 +61,7 @@ function NewNickNameForm({ onClose }: NewNickNameProps) {
           });
         });
     }
-  };
+  };*/
 
   return (
     <StyledForm>
