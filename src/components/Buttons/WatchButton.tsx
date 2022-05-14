@@ -3,9 +3,12 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { AiOutlineCheck, AiOutlinePlus } from "react-icons/ai";
 import { auth, db } from "../../../firebase";
-import { IMovieId } from "../../interfaces";
 
-function WatchButton({ movieId }: IMovieId) {
+interface IWatchBottonProps {
+  movieId: number;
+}
+
+function WatchButton({ movieId }: IWatchBottonProps) {
   const [watchState, setWatchState] = useState(false);
   const toast = useToast();
 
@@ -66,12 +69,18 @@ function WatchButton({ movieId }: IMovieId) {
       color="white"
       bg="pink"
     >
-      <Circle p="0.5rem" border="1px solid black" onClick={updateWatchList}>
+      <Circle
+        size="2.5rem"
+        border="1px solid black"
+        onClick={updateWatchList}
+        bg="white"
+      >
         <Icon
           as={watchState ? AiOutlineCheck : AiOutlinePlus}
           aria-label={"watch button"}
           w="1rem"
           h="1rem"
+          color="black"
         />
       </Circle>
     </Tooltip>

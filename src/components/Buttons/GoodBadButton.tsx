@@ -154,6 +154,7 @@ export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
       _hover={{ cursor: "pointer" }}
       onClick={onClick}
       color="black"
+      border="1px"
     >
       {type === "good" ? (
         rating === "good" ? (
