@@ -21,7 +21,6 @@ import ErrorMessage from "./ErrorMessage";
 import ShowIcon from "../ShowIcon";
 import { auth, db } from "../../../firebase";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { uidState } from "../../atom";
 
 interface NewNickNameProps {
   onClose: any;
@@ -30,7 +29,6 @@ interface NewNickNameProps {
 function NewNickNameForm({ onClose }: NewNickNameProps) {
   const toast = useToast();
   const user = auth.currentUser;
-  const userId = useRecoilValue(uidState);
   console.log(userId);
 
   const changeNickName = async () => {

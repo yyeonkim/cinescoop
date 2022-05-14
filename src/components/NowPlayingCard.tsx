@@ -24,6 +24,8 @@ interface CardProps {
 }
 
 function NowPlayingCard({ info, page, key }: CardProps) {
+  const color = useColorModeValue("#FF5AF1", "#FF5AF1");
+
   const router = useRouter();
   const setMovieID = useSetRecoilState(movieIDState);
   const { movieDetail, cast, isLoading, isError } = useNowDetail(info.id);
@@ -105,7 +107,8 @@ function NowPlayingCard({ info, page, key }: CardProps) {
           </Flex>
         </Flex>
       </Flex>
-      <hr color="#FF5AF1" />
+
+      <hr color={color} />
     </Box>
   );
 }

@@ -21,6 +21,12 @@ interface CardProps {
 function SwipeCard({ movie, isPoster, hover }: CardProps) {
   const router = useRouter();
   const [isHover, setIsHover] = useState(0);
+  const [movieID, setMovieID] = useRecoilState(movieIDState);
+
+  const seeMovieInfo = (id: number) => {
+    setMovieID(id);
+    router.push(`/movieinfo/${id}`);
+  };
 
   return (
     <>
@@ -36,7 +42,10 @@ function SwipeCard({ movie, isPoster, hover }: CardProps) {
         </Flex>
       ) : (
         <Link>
-          <Box onMouseOver={() => setIsHover(1)}>
+          <Box
+            onMouseOver={() => setIsHover(1)}
+            onClick={() => seeMovieInfo(movie.id)}
+          >
             {isPoster ? (
               <Image
                 src={`${IMAGE_URL}/w300/${movie.poster_path}`}

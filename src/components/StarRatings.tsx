@@ -1,4 +1,5 @@
 import StarRatings from "react-star-ratings";
+import { useColorModeValue } from "@chakra-ui/react";
 
 interface RatingProps {
   voteAverage: number;
@@ -6,10 +7,12 @@ interface RatingProps {
 }
 
 const StarRating = ({ voteAverage, starSize }: RatingProps) => {
+  const color = useColorModeValue("orange", "yellow");
+
   return (
     <StarRatings
       rating={voteAverage / 2}
-      starRatedColor="yellow"
+      starRatedColor={color}
       starDimension={starSize}
       starSpacing="0rem"
     />
