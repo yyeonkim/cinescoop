@@ -1,8 +1,5 @@
 import type { NextPage } from "next";
-import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
-import { getAuth } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { Box, Center, Divider, Flex, Heading } from "@chakra-ui/react";
 
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
@@ -13,7 +10,9 @@ import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 import ReserveButton from "../src/components/Buttons/ReserveButton";
-import { auth, db } from "../firebase";
+import { auth } from "../firebase";
+import useFetchWatchData from "../src/hooks/useFetchWatchData";
+import LoadingAnimation from "../src/components/LoadingAnimation";
 
 interface IHomeProps {
   trending: ITrending[];
@@ -28,21 +27,9 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
-  const currentUser = auth.currentUser; // 현재 사용자
-  const [watchMovies, setWatchMovies] = useState([]); // 사용자가 찜한 영화
+  const user = auth.currentUser; // 현재 사용자
 
-  useEffect(() => {
-    // 로그인 사용자가 있으면 찜한 영화 가져오기
-    (async () => {
-      if (currentUser) {
-        const docRef = doc(db, "users", `${currentUser?.uid}`);
-        const docSnap = await getDoc(docRef);
-        const movies = docSnap?.data()?.movies.watch;
-        setWatchMovies(movies);
-      }
-    })();
-  }, []);
-
+  const { isLoading, watchData } = useFetchWatchData(); // 찜한 영화 목록
   const { width: windowWidth } = useWindowDimensions();
 
   return (
@@ -51,12 +38,20 @@ const Home: NextPage<IHomeProps> = ({
       <HomeText />
 
       {/* 사용자가 찜한 영화 */}
-      {currentUser && watchMovies.length !== 0 && (
+      {user && (
         <Box my={20} px={10}>
           <Heading size="lg" mb={10} mr={8}>
             찜한 영화
           </Heading>
-          <SwipeList data={watchMovies} poster={false} slidesNumber={6} />
+          {isLoading ? (
+            <Center>
+              <LoadingAnimation />
+            </Center>
+          ) : watchData.length === 0 ? (
+            <Center>아직 찜한 영화가 없습니다</Center>
+          ) : (
+            <SwipeList data={watchData} poster={false} slidesNumber={6} />
+          )}
         </Box>
       )}
 

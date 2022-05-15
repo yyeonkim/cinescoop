@@ -6,14 +6,14 @@ import styled from "styled-components";
 import "animate.css";
 import HoverCard from "./HoverCard";
 import { Image, Link } from "@chakra-ui/react";
-import { IMovie } from "../interfaces";
+import { IMovie, IMovieDetails } from "../interfaces";
 // Import Swiper
 import useNowDetail from "../hooks/useNowDetail";
 import { IMAGE_URL } from "../hooks/fetching";
 import { movieIDState } from "../atom";
 
 interface CardProps {
-  movie: IMovie;
+  movie: IMovie | IMovieDetails;
   isPoster: boolean;
   hover: boolean;
 }
