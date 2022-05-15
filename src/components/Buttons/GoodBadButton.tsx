@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 
 import { auth, db } from "../../../firebase";
 import { IUserMovies, IGenre } from "../../interfaces";
+import { useRecoilState } from "recoil";
+import { ratingState } from "../../atom";
 
 interface IGoodBadButtonProps {
   type: "good" | "bad";
@@ -28,7 +30,7 @@ export default function GoodBadButton({
 }: IGoodBadButtonProps) {
   const user = auth.currentUser;
   const toast = useToast();
-  const [rating, setRating] = useState("");
+  const [rating, setRating] = useRecoilState(ratingState);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
