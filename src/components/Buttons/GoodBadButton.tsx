@@ -12,18 +12,23 @@ import { useEffect, useState } from "react";
 
 import { ratingState } from "../../atom";
 import { auth, db } from "../../../firebase";
-import { IUserMovies } from "../../interfaces";
+import { IUserMovies, IGenre } from "../../interfaces";
 
 // 버튼 타입
 interface IGoodBadButtonProps {
   type: "good" | "bad";
   movieID: number;
+  genres: IGenre[] | undefined;
 }
 
 // 좋아요 또는 별로예요를 나타내는 컴포넌트
 // type: "good" --> 좋아요 버튼
 // type: "bad" --> 별로예요 버튼
-export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
+export default function GoodBadButton({
+  type,
+  movieID,
+  genres,
+}: IGoodBadButtonProps) {
   const toast = useToast();
   const user = auth.currentUser;
 
@@ -64,7 +69,8 @@ export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
 
   const saveMoviesToDB = async (
     good: IUserMovies["good"],
-    bad: IUserMovies["bad"]
+    bad: IUserMovies["bad"],
+    updatedGenresObj: IGenre[]
   ) => {
     const docRef = doc(db, "users", `${user?.uid}`);
     const docSnap = await getDoc(docRef);
@@ -78,6 +84,7 @@ export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
       id: user?.uid,
       username,
       friends,
+      genres: updatedGenresObj,
       movies: {
         watch,
         good,
@@ -128,6 +135,44 @@ export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
     return { updatedGood, updatedBad };
   };
 
+  const getUpdatedGenres = async () => {
+    const docRef = doc(db, "users", `${user?.uid}`);
+    const docSnap = await getDoc(docRef);
+    const updatedGenresObj = docSnap?.data()?.genres;
+
+    // 좋아요 버튼을 누르면
+    if (type === "good") {
+      if (rating === "good") {
+        // '좋아요'를 해제하는 경우, 장르를 제거한다.
+        genres.forEach((genre) => {
+          const key = genre.name;
+          updatedGenresObj[key]--;
+        });
+      } else {
+        // '좋아요' 평가를 하는 경우, 장르를 추가한다.
+        genres.forEach((genre) => {
+          const key = genre.name;
+          if (key in updatedGenresObj) {
+            updatedGenresObj[key]++;
+          } else {
+            updatedGenresObj[key] = 1;
+          }
+        });
+      }
+    } else {
+      // '좋아요'로 평가한 상태에서 별로예요 버튼을 누르면
+      if (rating === "good") {
+        // 장르를 제거한다.
+        genres.forEach((genre) => {
+          const key = genre.name;
+          updatedGenresObj[key]--;
+        });
+      }
+    }
+
+    return updatedGenresObj;
+  };
+
   const onClick = async () => {
     if (!isLoggedIn) {
       toast({
@@ -140,9 +185,11 @@ export default function GoodBadButton({ type, movieID }: IGoodBadButtonProps) {
       });
     } else {
       // 로그인 한 사용자에 한해서
-      // 버튼을 누르면 DB에 영화를 추가하고 해제하면 삭제한다.
+      // 버튼을 누르면 DB에 영화를 추가/삭제한다.
+      // 좋아요 한 영화 장르를 DB에 반영한다.
       const { updatedGood, updatedBad } = await getUpdatedMovies();
-      saveMoviesToDB(updatedGood, updatedBad);
+      const updatedGenresObj = await getUpdatedGenres();
+      saveMoviesToDB(updatedGood, updatedBad, updatedGenresObj);
     }
   };
 

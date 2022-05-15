@@ -56,8 +56,16 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
           <Button onClick={clickInfo} w="8rem" bg="brightBlue">
             관련 정보
           </Button>
-          <GoodBadButton type="good" movieID={movieID} />
-          <GoodBadButton type="bad" movieID={movieID} />
+          <GoodBadButton
+            type="good"
+            movieID={movieID}
+            genres={detailData?.genres}
+          />
+          <GoodBadButton
+            type="bad"
+            movieID={movieID}
+            genres={detailData?.genres}
+          />
         </HStack>
       </Flex>
     </Flex>
