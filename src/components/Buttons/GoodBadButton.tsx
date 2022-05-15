@@ -8,7 +8,7 @@ import {
 import { useRecoilState } from "recoil";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { ratingState } from "../../atom";
 import { auth, db } from "../../../firebase";
@@ -32,24 +32,14 @@ export default function GoodBadButton({
   const toast = useToast();
   const user = auth.currentUser;
 
-  const [isLoggedIn, setIsLoggedIn] = useState(user ? true : false);
   const [rating, setRating] = useRecoilState(ratingState);
 
-  // 좋아요, 별로에요 정보 불러오기
   useEffect(() => {
     // 로그인 상태 확인하기
     const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
+    onAuthStateChanged(auth, async (user) => {
+      // 로그인 사용자이면 좋아요/별로예요 평가 설정하기
       if (user) {
-        setIsLoggedIn(true);
-      } else {
-        setIsLoggedIn(false);
-      }
-    });
-
-    // 로그인 사용자이면 좋아요/별로예요 평가 설정하기
-    (async () => {
-      if (isLoggedIn) {
         const docRef = doc(db, "users", `${user?.uid}`);
         const docSnap = await getDoc(docRef);
         const { good, bad } = docSnap?.data()?.movies;
@@ -59,13 +49,13 @@ export default function GoodBadButton({
         }
         if (bad.includes(movieID)) {
           setRating("bad");
-        } else {
-          // 로그아웃 사용자이면, rating을 빈 값으로 설정
-          setRating("");
         }
+      } else {
+        // 로그아웃 사용자이면, rating을 빈 값으로 설정
+        setRating("");
       }
-    })();
-  }, [isLoggedIn]);
+    });
+  }, []);
 
   const saveMoviesToDB = async (
     good: IUserMovies["good"],
@@ -106,7 +96,6 @@ export default function GoodBadButton({
 
     // 좋아요 버튼을 누르면
     if (type === "good") {
-      setRating((current) => (current === "good" ? "" : "good"));
       if (rating === "good") {
         updatedGood = updatedGood?.filter((id: number) => id !== movieID);
       }
@@ -119,7 +108,6 @@ export default function GoodBadButton({
       }
     } else {
       // 별로예요 버튼을 누르면
-      setRating((current) => (current === "bad" ? "" : "bad"));
       if (rating === "bad") {
         updatedBad = updatedBad?.filter((id: number) => id !== movieID);
       }
@@ -144,13 +132,13 @@ export default function GoodBadButton({
     if (type === "good") {
       if (rating === "good") {
         // '좋아요'를 해제하는 경우, 장르를 제거한다.
-        genres.forEach((genre) => {
+        genres?.forEach((genre) => {
           const key = genre.name;
           updatedGenresObj[key]--;
         });
       } else {
         // '좋아요' 평가를 하는 경우, 장르를 추가한다.
-        genres.forEach((genre) => {
+        genres?.forEach((genre) => {
           const key = genre.name;
           if (key in updatedGenresObj) {
             updatedGenresObj[key]++;
@@ -163,7 +151,7 @@ export default function GoodBadButton({
       // '좋아요'로 평가한 상태에서 별로예요 버튼을 누르면
       if (rating === "good") {
         // 장르를 제거한다.
-        genres.forEach((genre) => {
+        genres?.forEach((genre) => {
           const key = genre.name;
           updatedGenresObj[key]--;
         });
@@ -174,12 +162,11 @@ export default function GoodBadButton({
   };
 
   const onClick = async () => {
-    if (!isLoggedIn) {
+    if (!user) {
       toast({
-        position: "top",
         title: "로그인 해주세요",
         description: "로그인이 필요한 서비스입니다.",
-        status: "info",
+        status: "warning",
         duration: 3000,
         isClosable: true,
       });
@@ -190,6 +177,13 @@ export default function GoodBadButton({
       const { updatedGood, updatedBad } = await getUpdatedMovies();
       const updatedGenresObj = await getUpdatedGenres();
       saveMoviesToDB(updatedGood, updatedBad, updatedGenresObj);
+
+      // rating state 바꾸기
+      if (type === "good") {
+        setRating((current) => (current === "good" ? "" : "good"));
+      } else {
+        setRating((current) => (current === "bad" ? "" : "bad"));
+      }
     }
   };
 
