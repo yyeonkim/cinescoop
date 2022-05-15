@@ -46,21 +46,6 @@ function NowPlayingCard({ info, page, key }: CardProps) {
             src={`https:www.themoviedb.org/t/p/w1280${info.poster_path}`}
             borderRadius={5}
           />
-          <Flex mt={5}>
-            <GoodBadButton
-              type="good"
-              movieId={info.id}
-              genres={detail.genres}
-            />
-            <Box mr={3} ml={3}>
-              <GoodBadButton
-                type="bad"
-                movieId={info.id}
-                genres={detail.genres}
-              />
-            </Box>
-            <WatchButton movieId={info.id} />
-          </Flex>
         </Flex>
         <Flex direction="column" ml={10}>
           <Text fontSize="1.2rem" mb={1}>
@@ -104,7 +89,7 @@ function NowPlayingCard({ info, page, key }: CardProps) {
           <Flex mt="9rem">
             <ReserveButton />
             <Button
-              ml="1rem"
+              mx="1rem"
               borderColor="pink"
               borderWidth={1}
               bgColor="transparent"
@@ -112,6 +97,7 @@ function NowPlayingCard({ info, page, key }: CardProps) {
             >
               관련 정보
             </Button>
+            <WatchButton movieId={info.id} />
           </Flex>
         </Flex>
       </Flex>
