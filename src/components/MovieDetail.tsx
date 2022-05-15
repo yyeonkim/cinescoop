@@ -23,10 +23,10 @@ interface IDetailProps {
 
 const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
   const router = useRouter();
-  const movieID = useRecoilValue(movieIDState);
+  const movieId = useRecoilValue(movieIDState);
 
   const clickInfo = () => {
-    router.push(`/movieinfo/${movieID}`);
+    router.push(`/movieinfo/${movieId}`);
   };
 
   return (
@@ -36,7 +36,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
         <Stack>
           <Flex alignItems="center">
             <Heading mr={5}>{detailData?.title}</Heading>
-            <WatchButton movieId={movieID} />
+            <WatchButton movieId={movieId} />
           </Flex>
           <Text>
             <Text as="b">평점 </Text>
@@ -58,12 +58,12 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
           </Button>
           <GoodBadButton
             type="good"
-            movieID={movieID}
+            movieId={movieId}
             genres={detailData?.genres}
           />
           <GoodBadButton
             type="bad"
-            movieID={movieID}
+            movieId={movieId}
             genres={detailData?.genres}
           />
         </HStack>

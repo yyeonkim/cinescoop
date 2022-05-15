@@ -10,11 +10,11 @@ import {
   ListItem,
   Text,
 } from "@chakra-ui/react";
+
 import StarRating from "../../StarRatings";
 import { ICast, ICrew, IMovieDetails } from "../../../interfaces";
-import GoodButton from "../../Buttons/GoodButton";
-import BadButton from "../../Buttons/BadButton";
 import WatchButton from "../../Buttons/WatchButton";
+import GoodBadButton from "../../Buttons/GoodBadButton";
 
 interface infoBoxprops {
   details: IMovieDetails;
@@ -45,8 +45,16 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
           />
           <HStack maxW="min-content" spacing="0.5rem" mt="1rem">
             <WatchButton movieId={details.id} />
-            <GoodButton movieId={details.id} genres={details.genres}/>
-            <BadButton movieId={details.id} />
+            <GoodBadButton
+              type="good"
+              movieId={details.id}
+              genres={details.genres}
+            />
+            <GoodBadButton
+              type="bad"
+              movieId={details.id}
+              genres={details.genres}
+            />
           </HStack>
         </Flex>
 

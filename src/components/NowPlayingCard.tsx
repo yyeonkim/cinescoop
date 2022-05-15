@@ -47,9 +47,17 @@ function NowPlayingCard({ info, page, key }: CardProps) {
             borderRadius={5}
           />
           <Flex mt={5}>
-            <GoodBadButton type="good" />
+            <GoodBadButton
+              type="good"
+              movieId={info.id}
+              genres={detail.genres}
+            />
             <Box mr={3} ml={3}>
-              <GoodBadButton type="bad" />
+              <GoodBadButton
+                type="bad"
+                movieId={info.id}
+                genres={detail.genres}
+              />
             </Box>
             <WatchButton movieId={info.id} />
           </Flex>

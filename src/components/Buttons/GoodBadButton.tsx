@@ -5,18 +5,16 @@ import {
   RiThumbDownLine,
   RiThumbDownFill,
 } from "react-icons/ri";
-import { useRecoilState } from "recoil";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useEffect } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
 
-import { ratingState } from "../../atom";
 import { auth, db } from "../../../firebase";
 import { IUserMovies, IGenre } from "../../interfaces";
 
 interface IGoodBadButtonProps {
   type: "good" | "bad";
-  movieID: number;
+  movieId: number;
   genres: IGenre[] | undefined;
 }
 
@@ -25,16 +23,14 @@ interface IGoodBadButtonProps {
 // type: "bad" --> 별로예요 버튼
 export default function GoodBadButton({
   type,
-  movieID,
+  movieId,
   genres,
 }: IGoodBadButtonProps) {
   const toast = useToast();
   const user = auth.currentUser;
 
-  const [rating, setRating] = useRecoilState(ratingState);
-
+  const [rating, setRating] = useState("");
   useEffect(() => {
-    const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
       // 로그인 사용자이면 좋아요/별로예요 평가 설정하기
       if (user) {
@@ -42,11 +38,13 @@ export default function GoodBadButton({
         const docSnap = await getDoc(docRef);
         const { good, bad } = docSnap?.data()?.movies;
 
-        if (good.includes(movieID)) {
+        if (good.includes(movieId)) {
           setRating("good");
-        }
-        if (bad.includes(movieID)) {
+        } else if (bad.includes(movieId)) {
           setRating("bad");
+        } else {
+          // 평가를 하지 않았으면
+          setRating("");
         }
       } else {
         // 로그아웃 사용자이면, rating을 빈 값으로 설정
@@ -95,26 +93,26 @@ export default function GoodBadButton({
     // 좋아요 버튼을 누르면
     if (type === "good") {
       if (rating === "good") {
-        updatedGood = updatedGood?.filter((id: number) => id !== movieID);
+        updatedGood = updatedGood?.filter((id: number) => id !== movieId);
       }
-      if (rating === "bad" && !updatedGood.includes(movieID)) {
-        updatedGood = updatedGood?.concat([movieID]);
-        updatedBad = updatedBad?.filter((id: number) => id !== movieID);
+      if (rating === "bad" && !updatedGood.includes(movieId)) {
+        updatedGood = updatedGood?.concat([movieId]);
+        updatedBad = updatedBad?.filter((id: number) => id !== movieId);
       }
-      if (rating === "" && !updatedGood.includes(movieID)) {
-        updatedGood = updatedGood?.concat([movieID]);
+      if (rating === "" && !updatedGood.includes(movieId)) {
+        updatedGood = updatedGood?.concat([movieId]);
       }
     } else {
       // 별로예요 버튼을 누르면
       if (rating === "bad") {
-        updatedBad = updatedBad?.filter((id: number) => id !== movieID);
+        updatedBad = updatedBad?.filter((id: number) => id !== movieId);
       }
-      if (rating === "good" && !updatedBad.includes(movieID)) {
-        updatedBad = updatedBad?.concat([movieID]);
-        updatedGood = updatedGood?.filter((id: number) => id !== movieID);
+      if (rating === "good" && !updatedBad.includes(movieId)) {
+        updatedBad = updatedBad?.concat([movieId]);
+        updatedGood = updatedGood?.filter((id: number) => id !== movieId);
       }
-      if (rating === "" && !updatedBad.includes(movieID)) {
-        updatedBad = updatedBad?.concat([movieID]);
+      if (rating === "" && !updatedBad.includes(movieId)) {
+        updatedBad = updatedBad?.concat([movieId]);
       }
     }
 

@@ -33,6 +33,12 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
 
   const setMovieID = useSetRecoilState(movieIDState);
 
+  // movieId를 정수로 설정하기
+  useEffect(() => {
+    const id = parseInt(movieId as any, 10);
+    setMovieID(id);
+  }, []);
+
   const { data: detailData, isLoading: detailLoading } =
     useQuery<IMovieDetails>(["detail", movieId], () => fetchDetail(movieId));
   const { data: creditData, isLoading: creditLoading } = useQuery<ICast[]>(
@@ -40,6 +46,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
     () => fetchCredit(movieId)
   );
 
+  const isLoading = detailLoading || creditLoading;
   // 상영관 정보
   const cinemas: ICinema[] = [
     {
@@ -58,14 +65,6 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
       href: "https://www.lottecinema.co.kr/NLCHS/Ticketing",
     },
   ];
-
-  const isLoading = detailLoading || creditLoading;
-
-  // movieId를 정수로 설정하기
-  useEffect(() => {
-    const id = parseInt(movieId as any, 10);
-    setMovieID(id);
-  }, [movieId]);
 
   return (
     <>
