@@ -1,4 +1,4 @@
-import { Circle, useToast } from "@chakra-ui/react";
+import { Circle, Tooltip, useToast } from "@chakra-ui/react";
 import {
   RiThumbUpFill,
   RiThumbUpLine,
@@ -187,25 +187,38 @@ export default function GoodBadButton({
 
   // 평가된 영화면 아이콘을 brightBlue 색으로 바꿈
   return (
-    <Circle
-      size="2.5rem"
-      bg="white"
-      _hover={{ cursor: "pointer" }}
-      onClick={onClick}
-      color="black"
-      border="1px"
+    <Tooltip
+      label={
+        type === "good"
+          ? "'좋아요' 영화에 추가됩니다"
+          : "'별로예요' 영화에 추가됩니다"
+      }
+      aria-label="Description tooltip"
+      hasArrow
+      placement="top-start"
+      color="white"
+      bg="pink"
     >
-      {type === "good" ? (
-        rating === "good" ? (
-          <RiThumbUpFill size="1.4rem" />
+      <Circle
+        size="2.5rem"
+        bg="white"
+        _hover={{ cursor: "pointer" }}
+        onClick={onClick}
+        color="black"
+        border="1px"
+      >
+        {type === "good" ? (
+          rating === "good" ? (
+            <RiThumbUpFill size="1.4rem" />
+          ) : (
+            <RiThumbUpLine size="1.4rem" />
+          )
+        ) : rating === "bad" ? (
+          <RiThumbDownFill size="1.4rem" />
         ) : (
-          <RiThumbUpLine size="1.4rem" />
-        )
-      ) : rating === "bad" ? (
-        <RiThumbDownFill size="1.4rem" />
-      ) : (
-        <RiThumbDownLine size="1.4rem" />
-      )}
-    </Circle>
+          <RiThumbDownLine size="1.4rem" />
+        )}
+      </Circle>
+    </Tooltip>
   );
 }
