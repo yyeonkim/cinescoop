@@ -1,6 +1,7 @@
 import { Circle, Icon, Tooltip, useToast } from "@chakra-ui/react";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AiOutlineCheck, AiOutlinePlus } from "react-icons/ai";
 import { auth, db } from "../../../firebase";
 
@@ -11,6 +12,22 @@ interface IWatchBottonProps {
 function WatchButton({ movieId }: IWatchBottonProps) {
   const [watchState, setWatchState] = useState(false);
   const toast = useToast();
+
+  useEffect(() => {
+    // 로그인 사용자이면 찜하기 설정하기
+    const auth = getAuth();
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const docRef = doc(db, "users", `${user?.uid}`);
+        const docSnap = await getDoc(docRef);
+        const watch = docSnap?.data()?.movies.watch;
+
+        if (watch.includes(movieId)) {
+          setWatchState(true);
+        }
+      }
+    });
+  }, []);
 
   const updateWatchList = async () => {
     const user = auth.currentUser;

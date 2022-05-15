@@ -14,7 +14,6 @@ import { ratingState } from "../../atom";
 import { auth, db } from "../../../firebase";
 import { IUserMovies, IGenre } from "../../interfaces";
 
-// 버튼 타입
 interface IGoodBadButtonProps {
   type: "good" | "bad";
   movieID: number;
@@ -35,7 +34,6 @@ export default function GoodBadButton({
   const [rating, setRating] = useRecoilState(ratingState);
 
   useEffect(() => {
-    // 로그인 상태 확인하기
     const auth = getAuth();
     onAuthStateChanged(auth, async (user) => {
       // 로그인 사용자이면 좋아요/별로예요 평가 설정하기
