@@ -15,11 +15,14 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setDoc, doc, collection, getDocs } from "firebase/firestore";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { yupResolver } from "@hookform/resolvers/yup";
 
 import { auth, db } from "../firebase";
-import { yupResolver } from "@hookform/resolvers/yup";
 import { joinSchema } from "../src/schema";
 import { IJoinForm } from "../src/interfaces";
 import ErrorMessage from "../src/components/Account/ErrorMessage";
@@ -37,15 +40,15 @@ const Join: NextPage = () => {
 
   const saveUserToDB = async (id: string, username: string) => {
     const dbInfo = {
-      id: id,
+      id,
       username: username,
       friends: [],
       movies: { watch: [], good: [], bad: [] },
       genres: {},
     };
+
     try {
       await setDoc(doc(db, "users", id), dbInfo);
-      localStorage.setItem("user", JSON.stringify(dbInfo));
     } catch (e) {
       console.error("Error adding document: ", e);
     }
@@ -53,13 +56,14 @@ const Join: NextPage = () => {
 
   const onSubmit: SubmitHandler<IJoinForm> = (data) => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
-      .then((userCredential) => {
-        const {
-          user: { uid },
-        } = userCredential;
-
-        saveUserToDB(uid, data.username as any);
-        router.push("/");
+      .then(async () => {
+        const user = auth.currentUser;
+        // 인증 메일 보내기
+        await sendEmailVerification(user as any);
+        // DB에 사용자 정보 저장
+        await saveUserToDB(user?.uid as string, data.username);
+        // 메일 인증 페이지로 이동
+        router.push("/email-verification");
       })
       .catch((e) => {
         if (e.code === "auth/email-already-in-use") {
@@ -72,7 +76,6 @@ const Join: NextPage = () => {
             isClosable: true,
           });
         }
-        console.log(e.code);
         console.log(e.message);
       });
   };
@@ -89,12 +92,12 @@ const Join: NextPage = () => {
         <StyledForm onSubmit={handleSubmit(onSubmit)}>
           <FormControl>
             <Input
-              mt="1.2rem"
               placeholder="이메일"
               _placeholder={{ color: "white", opacity: 0.7 }}
               {...register("email")}
             />
             <ErrorMessage message={errors?.email?.message} />
+
             <Input
               mt="1.2rem"
               placeholder="닉네임"
