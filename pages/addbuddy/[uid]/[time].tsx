@@ -39,10 +39,10 @@ const AddBuddy: NextPage = () => {
 
       const buddyRef = doc(db, "users", buddyUid);
       const dbBuddy = await getDoc(buddyRef);
-      const dbBuddyData = await dbBuddy.data();
+      const buddyData = await dbBuddy.data();
 
       let userUpdatedFriendList = userData?.friends;
-      let buddyUpdatedFriendList = userData?.friends;
+      let buddyUpdatedFriendList = buddyData?.friends;
       userUpdatedFriendList.push({
         friendId: buddyUid,
         friendUsername: buddyName,
@@ -58,7 +58,7 @@ const AddBuddy: NextPage = () => {
       };
 
       const buddyDocData = {
-        ...dbBuddyData,
+        ...buddyData,
         friends: buddyUpdatedFriendList,
       };
 
