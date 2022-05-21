@@ -1,6 +1,14 @@
 import type { NextPage } from "next";
-import { Box, Center, Divider, Flex, Heading } from "@chakra-ui/react";
-
+import {
+  Box,
+  Center,
+  Divider,
+  Flex,
+  Heading,
+  useColorModeValue,
+  Button,
+} from "@chakra-ui/react";
+import Link from "next/link";
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
@@ -28,7 +36,7 @@ const Home: NextPage<IHomeProps> = ({
   genres,
 }) => {
   const user = auth.currentUser; // 현재 사용자
-
+  const color = useColorModeValue("white", "white");
   const { isLoading, watchData } = useFetchWatchData(); // 찜한 영화 목록
   const { width: windowWidth } = useWindowDimensions();
 
@@ -58,10 +66,14 @@ const Home: NextPage<IHomeProps> = ({
       {/* 상영 중인 영화 */}
       <Box bgColor="brightBlue" p={10} py={20}>
         <Flex>
-          <Heading size="lg" mb={10} mr={8}>
+          <Heading color={color} size="lg" mb={10} mr={8}>
             상영 중인 영화
           </Heading>
-          <ReserveButton />
+          <Link href="./nowplaying">
+            <Button bg="pink" color="darkBlue" px={5}>
+              예매하기
+            </Button>
+          </Link>
         </Flex>
         <Divider borderColor="gray.50" mb={10} />
         <SwipeList
@@ -69,6 +81,7 @@ const Home: NextPage<IHomeProps> = ({
           poster={true}
           slidesNumber={5}
           hover={true}
+          white={true}
         />
       </Box>
 
@@ -82,6 +95,7 @@ const Home: NextPage<IHomeProps> = ({
           poster={false}
           slidesNumber={6}
           hover={true}
+          white={false}
         />
       </Box>
 

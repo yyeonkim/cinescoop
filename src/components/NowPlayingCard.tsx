@@ -102,7 +102,7 @@ function NowPlayingCard({ info, page, key }: CardProps) {
             </Flex>
           </Flex>
           <Flex mt="9rem">
-            <ReserveButton />
+            <ReserveButton id={info.id} path={"reserve"} />
             <Button
               ml="1rem"
               borderColor="pink"
