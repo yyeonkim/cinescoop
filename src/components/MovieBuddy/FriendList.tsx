@@ -1,16 +1,28 @@
-import { Avatar, Button, Flex, Heading, HStack, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Button,
+  Flex,
+  Heading,
+  HStack,
+  Popover,
+  Text,
+} from "@chakra-ui/react";
 import { FC } from "react";
 import { useRecoilState } from "recoil";
 import { selectedFriendState } from "../../atom";
 import { IFriendList } from "../../interfaces";
+import AddBuddyLink from "./AddBuddyLink";
 
 const FriendList: FC<IFriendList> = ({ friends }) => {
   const [selectedFriend, setSelectedFriend] =
     useRecoilState(selectedFriendState);
   return (
     <Flex flexDir="column" width="100%" mt="2rem">
-      <Flex mb="1rem">
-        <Heading size="lg">내 무비버디</Heading>
+      <Flex mb="1rem" align="baseline">
+        <Heading size="lg" mr="1rem">
+          내 무비버디
+        </Heading>
+        <AddBuddyLink />
       </Flex>
       <HStack
         spacing="2rem"
