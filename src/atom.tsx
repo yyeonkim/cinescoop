@@ -82,7 +82,21 @@ export const movieInfoState = atom({
         order: 0,
       },
     ],
-    crew: [],
+    crew: [
+      {
+        adult: false,
+        gender: 2,
+        id: 1071,
+        known_for_department: "Directing",
+        name: "Tom Tykwer",
+        original_name: "Tom Tykwer",
+        popularity: 12.47,
+        profile_path: "/9jGSRfOnJTt8xvHtajWl4ZHRV0r.jpg",
+        credit_id: "61380b98e93e95002bc15f63",
+        department: "Sound",
+        job: "Original Music Composer",
+      },
+    ],
     videos: [
       {
         iso_639_1: "en",
@@ -97,7 +111,25 @@ export const movieInfoState = atom({
         id: "61c700d566a0d3001cac18fe",
       },
     ],
-    similarMovies: [],
+    similarMovies: [
+      {
+        adult: false,
+        backdrop_path: "/nnMXaofDjdWszZ7rbN9hKwK2PNg.jpg",
+        genre_ids: [16, 10751, 12, 35],
+        id: 7484,
+        title: "Open Season",
+        original_language: "en",
+        original_title: "Open Season",
+        overview:
+          "Boog, a domesticated 900lb. Grizzly bear finds himself stranded in the woods 3 days before Open Season. Forced to rely on Elliot, a fast-talking mule deer, the two form an unlikely friendship and must quickly rally other forest animals if they are to form a rag-tag army against the hunters.",
+        popularity: 26.069,
+        poster_path: "/w5Lctmkc1yah215Luxmci4djaiW.jpg",
+        release_date: "2006-09-29",
+        video: false,
+        vote_average: 6.138,
+        vote_count: 2132,
+      },
+    ],
   },
 });
 
@@ -162,3 +194,5 @@ export const selectedFriendSelector = selector<string>({
     return selectedFriend.friendId;
   },
 });
+
+// export const
