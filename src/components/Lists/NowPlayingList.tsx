@@ -1,5 +1,5 @@
 import useFetchNow from "../../hooks/useFetchNow";
-import { Heading, Grid, Flex, Box, Spacer, Spinner } from "@chakra-ui/react";
+import { Heading, Grid, Flex, Box, Spinner } from "@chakra-ui/react";
 import NowPlayingCard from "../NowPlayingCard";
 import type { Movie } from "../VerCard";
 
@@ -17,7 +17,7 @@ function NowPlayingList() {
         <Box borderWidth="0.1rem" borderColor="pink" maxW="70rem">
           <Grid gap={10} marginX={"auto"}>
             {items &&
-              items.map((item: Movie, index: number) => (
+              items.map((item: Movie) => (
                 <>
                   <NowPlayingCard key={item.id} info={item} page={page} />
                 </>

@@ -1,156 +1,219 @@
-import { Circle, useToast } from "@chakra-ui/react";
+import { Circle, Tooltip, useToast } from "@chakra-ui/react";
 import {
   RiThumbUpFill,
   RiThumbUpLine,
   RiThumbDownLine,
   RiThumbDownFill,
 } from "react-icons/ri";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { useEffect, useState } from "react";
 
-import { movieIDState, ratingState } from "../../atom";
 import { auth, db } from "../../../firebase";
-import { IUserMovies } from "../../interfaces";
-import { useEffect } from "react";
+import { IUserMovies, IGenre } from "../../interfaces";
+import { useRecoilState } from "recoil";
+import { ratingState } from "../../atom";
 
-// 버튼 타입
 interface IGoodBadButtonProps {
   type: "good" | "bad";
+  movieId: number;
+  genres: IGenre[] | undefined;
 }
 
 // 좋아요 또는 별로예요를 나타내는 컴포넌트
 // type: "good" --> 좋아요 버튼
 // type: "bad" --> 별로예요 버튼
-export default function GoodBadButton({ type }: IGoodBadButtonProps) {
+export default function GoodBadButton({
+  type,
+  movieId,
+  genres,
+}: IGoodBadButtonProps) {
+  const user = auth.currentUser;
   const toast = useToast();
-  const userItem = JSON.parse(localStorage.getItem("user") as any); // localStorage 사용자 정보
   const [rating, setRating] = useRecoilState(ratingState);
-  const movieID = useRecoilValue(movieIDState);
 
-  // 좋아요, 별로에요 정보 불러오기
   useEffect(() => {
-    if (userItem) {
-      if (userItem.movies.good.includes(movieID)) {
-        setRating("good");
+    onAuthStateChanged(auth, async (user) => {
+      // 로그인 사용자이면 좋아요/별로예요 평가 설정하기
+      if (user) {
+        const docRef = doc(db, "users", `${user?.uid}`);
+        const docSnap = await getDoc(docRef);
+        const { good, bad } = docSnap?.data()?.movies;
+
+        if (good.includes(movieId)) {
+          setRating("good");
+        } else if (bad.includes(movieId)) {
+          setRating("bad");
+        } else {
+          // 평가를 하지 않았으면
+          setRating("");
+        }
+      } else {
+        // 로그아웃 사용자이면, rating을 빈 값으로 설정
+        setRating("");
       }
-      if (userItem.movies.bad.includes(movieID)) {
-        setRating("bad");
-      }
-    } else {
-      // 로그아웃 사용자이면, rating을 빈 값으로 설정
-      setRating("");
-    }
+    });
   }, []);
 
   const saveMoviesToDB = async (
-    goodMovies: IUserMovies["good"],
-    badMovies: IUserMovies["bad"]
+    good: IUserMovies["good"],
+    bad: IUserMovies["bad"],
+    updatedGenresObj: IGenre[]
   ) => {
-    let dbInfo;
-    if (type === "good") {
-      dbInfo = {
-        id: userItem.id,
-        username: userItem.username,
-        friends: userItem.friends,
-        movies: {
-          watch: userItem.movies.watch,
-          good: goodMovies,
-          bad: badMovies,
-        },
-      };
-    } else {
-      dbInfo = {
-        id: userItem.id,
-        username: userItem.username,
-        friends: userItem.friends,
-        movies: {
-          watch: userItem.movies.watch,
-          good: goodMovies,
-          bad: badMovies,
-        },
-      };
-    }
-    await setDoc(doc(db, "users", userItem.id), dbInfo);
-    localStorage.setItem("user", JSON.stringify(dbInfo));
+    const docRef = doc(db, "users", `${user?.uid}`);
+    const docSnap = await getDoc(docRef);
+    const {
+      friends,
+      username,
+      movies: { watch },
+    }: any = docSnap?.data();
+
+    const dbInfo = {
+      id: user?.uid,
+      username,
+      friends,
+      genres: updatedGenresObj,
+      movies: {
+        watch,
+        good,
+        bad,
+      },
+    };
+
+    await setDoc(doc(db, "users", user?.uid), dbInfo);
   };
 
-  const getUpdatedMovies = () => {
-    let goodMovies = userItem.movies.good;
-    let badMovies = userItem.movies.bad;
+  // 업데이트한 좋아요/별로예요 영화 목록 가져오기
+  const getUpdatedMovies = async () => {
+    const docRef = doc(db, "users", `${user?.uid}`);
+    const docSnap = await getDoc(docRef);
+    const { good, bad } = docSnap?.data()?.movies;
+
+    let updatedGood = good;
+    let updatedBad = bad;
 
     // 좋아요 버튼을 누르면
     if (type === "good") {
       setRating((current) => (current === "good" ? "" : "good"));
       if (rating === "good") {
-        goodMovies = goodMovies?.filter((id: number) => id !== movieID);
+        updatedGood = updatedGood?.filter((id: number) => id !== movieId);
       }
-      if (rating === "bad" && !goodMovies.includes(movieID)) {
-        goodMovies = goodMovies?.concat([movieID]);
-        badMovies = badMovies?.filter((id: number) => id !== movieID);
+      if (rating === "bad" && !updatedGood.includes(movieId)) {
+        updatedGood = updatedGood?.concat([movieId]);
+        updatedBad = updatedBad?.filter((id: number) => id !== movieId);
       }
-      if (rating === "" && !goodMovies.includes(movieID)) {
-        goodMovies = goodMovies?.concat([movieID]);
+      if (rating === "" && !updatedGood.includes(movieId)) {
+        updatedGood = updatedGood?.concat([movieId]);
       }
     } else {
       // 별로예요 버튼을 누르면
       setRating((current) => (current === "bad" ? "" : "bad"));
       if (rating === "bad") {
-        badMovies = badMovies?.filter((id: number) => id !== movieID);
+        updatedBad = updatedBad?.filter((id: number) => id !== movieId);
       }
-      if (rating === "good" && !badMovies.includes(movieID)) {
-        badMovies = badMovies?.concat([movieID]);
-        goodMovies = goodMovies?.filter((id: number) => id !== movieID);
+      if (rating === "good" && !updatedBad.includes(movieId)) {
+        updatedBad = updatedBad?.concat([movieId]);
+        updatedGood = updatedGood?.filter((id: number) => id !== movieId);
       }
-      if (rating === "" && !badMovies.includes(movieID)) {
-        badMovies = badMovies?.concat([movieID]);
+      if (rating === "" && !updatedBad.includes(movieId)) {
+        updatedBad = updatedBad?.concat([movieId]);
       }
     }
 
-    return { goodMovies, badMovies };
+    return { updatedGood, updatedBad };
+  };
+
+  const getUpdatedGenres = async () => {
+    const docRef = doc(db, "users", `${user?.uid}`);
+    const docSnap = await getDoc(docRef);
+    const updatedGenresObj = docSnap?.data()?.genres;
+
+    // 좋아요 버튼을 누르면
+    if (type === "good") {
+      if (rating === "good") {
+        // '좋아요'를 해제하는 경우, 장르를 제거한다.
+        genres?.forEach((genre) => {
+          const key = genre.name;
+          updatedGenresObj[key]--;
+        });
+      } else {
+        // '좋아요' 평가를 하는 경우, 장르를 추가한다.
+        genres?.forEach((genre) => {
+          const key = genre.name;
+          if (key in updatedGenresObj) {
+            updatedGenresObj[key]++;
+          } else {
+            updatedGenresObj[key] = 1;
+          }
+        });
+      }
+    } else {
+      // '좋아요'로 평가한 상태에서 별로예요 버튼을 누르면
+      if (rating === "good") {
+        // 장르를 제거한다.
+        genres?.forEach((genre) => {
+          const key = genre.name;
+          updatedGenresObj[key]--;
+        });
+      }
+    }
+
+    return updatedGenresObj;
   };
 
   const onClick = async () => {
-    const user = auth.currentUser;
-
     if (!user) {
       toast({
-        position: "top",
         title: "로그인 해주세요",
         description: "로그인이 필요한 서비스입니다.",
-        status: "info",
+        status: "warning",
         duration: 3000,
         isClosable: true,
       });
     } else {
       // 로그인 한 사용자에 한해서
-      // 버튼을 누르면 DB에 영화를 추가하고 해제하면 삭제한다.
-      const { goodMovies, badMovies } = getUpdatedMovies();
-
-      saveMoviesToDB(goodMovies, badMovies);
+      // 버튼을 누르면 DB에 영화를 추가/삭제한다.
+      // 좋아요 한 영화 장르를 DB에 반영한다.
+      const { updatedGood, updatedBad } = await getUpdatedMovies();
+      const updatedGenresObj = await getUpdatedGenres();
+      saveMoviesToDB(updatedGood, updatedBad, updatedGenresObj);
     }
   };
-  console.log(rating);
 
   // 평가된 영화면 아이콘을 brightBlue 색으로 바꿈
   return (
-    <Circle
-      size="2.5rem"
-      bg="white"
-      _hover={{ cursor: "pointer" }}
-      onClick={onClick}
-      color="black"
+    <Tooltip
+      label={
+        type === "good"
+          ? "'좋아요' 영화에 추가됩니다"
+          : "'별로예요' 영화에 추가됩니다"
+      }
+      aria-label="Description tooltip"
+      hasArrow
+      placement="top-start"
+      color="white"
+      bg="pink"
     >
-      {type === "good" ? (
-        rating === "good" ? (
-          <RiThumbUpFill size="1.4rem" />
+      <Circle
+        size="2.5rem"
+        bg="white"
+        _hover={{ cursor: "pointer" }}
+        onClick={onClick}
+        color="black"
+        border="1px"
+      >
+        {type === "good" ? (
+          rating === "good" ? (
+            <RiThumbUpFill size="1.4rem" color="brightBlue" />
+          ) : (
+            <RiThumbUpLine size="1.4rem" />
+          )
+        ) : rating === "bad" ? (
+          <RiThumbDownFill size="1.4rem" color="brightBlue" />
         ) : (
-          <RiThumbUpLine size="1.4rem" />
-        )
-      ) : rating === "bad" ? (
-        <RiThumbDownFill size="1.4rem" />
-      ) : (
-        <RiThumbDownLine size="1.4rem" />
-      )}
-    </Circle>
+          <RiThumbDownLine size="1.4rem" />
+        )}
+      </Circle>
+    </Tooltip>
   );
 }

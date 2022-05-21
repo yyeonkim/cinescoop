@@ -3,9 +3,12 @@ import { doc, getDoc, setDoc } from "firebase/firestore";
 import { useState } from "react";
 import { RiThumbDownLine, RiThumbDownFill } from "react-icons/ri";
 import { auth, db } from "../../../firebase";
-import { IMovieId } from "../../interfaces";
 
-function BadButton({ movieId }: IMovieId) {
+interface IBadButtonProps {
+  movieId: number;
+}
+
+function BadButton({ movieId }: IBadButtonProps) {
   const [badState, setBadState] = useState(false);
   const toast = useToast();
 

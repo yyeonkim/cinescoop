@@ -1,7 +1,14 @@
 import { useEffect } from "react";
 import { NextPage } from "next";
 import { useQuery } from "react-query";
-import { Center, Flex, Heading, Img, Link } from "@chakra-ui/react";
+import {
+  Center,
+  Flex,
+  Heading,
+  Img,
+  Link,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 
@@ -30,8 +37,14 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
   const {
     query: { movieId },
   } = useRouter(); // string
-
+  const color = useColorModeValue("white", "white");
   const setMovieID = useSetRecoilState(movieIDState);
+
+  // movieId를 정수로 설정하기
+  useEffect(() => {
+    const id = parseInt(movieId as any, 10);
+    setMovieID(id);
+  }, []);
 
   const { data: detailData, isLoading: detailLoading } =
     useQuery<IMovieDetails>(["detail", movieId], () => fetchDetail(movieId));
@@ -40,6 +53,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
     () => fetchCredit(movieId)
   );
 
+  const isLoading = detailLoading || creditLoading;
   // 상영관 정보
   const cinemas: ICinema[] = [
     {
@@ -58,14 +72,6 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
       href: "https://www.lottecinema.co.kr/NLCHS/Ticketing",
     },
   ];
-
-  const isLoading = detailLoading || creditLoading;
-
-  // movieId를 정수로 설정하기
-  useEffect(() => {
-    const id = parseInt(movieId as any, 10);
-    setMovieID(id);
-  }, [movieId]);
 
   return (
     <>
@@ -95,6 +101,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
                     isExternal
                     mr={5}
                     mb={5}
+                    color={color}
                   >
                     <Img
                       src={cinema.logo}
@@ -102,7 +109,9 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
                       objectFit="contain"
                       mr={5}
                     />
-                    <Heading fontSize="lg">{cinema.name}</Heading>
+                    <Heading fontSize="lg" color={color}>
+                      {cinema.name}
+                    </Heading>
                   </Link>
                 ))}
               </Flex>

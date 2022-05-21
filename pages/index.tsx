@@ -1,7 +1,17 @@
 import type { NextPage } from "next";
-import { Box, Divider, Flex, Heading } from "@chakra-ui/react";
-import { getAuth } from "firebase/auth";
-
+import {
+  Box,
+  Center,
+  Divider,
+  Flex,
+  Heading,
+  useColorModeValue,
+  Button,
+  useToast,
+} from "@chakra-ui/react";
+import Link from "next/link";
+import { useEffect } from "react";
+import { sendEmailVerification } from "firebase/auth";
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
@@ -10,8 +20,8 @@ import GenreList from "../src/components/Lists/GenreList";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
-import ReserveButton from "../src/components/Buttons/ReserveButton";
-import useFetchWatch from "../src/hooks/useFetchWatch";
+import { auth } from "../firebase";
+import useFetchWatchData from "../src/hooks/useFetchWatchData";
 import LoadingAnimation from "../src/components/LoadingAnimation";
 
 interface IHomeProps {
@@ -27,11 +37,32 @@ const Home: NextPage<IHomeProps> = ({
   topRated,
   genres,
 }) => {
-  // 찜한 영화
-  const { data, isLoading } = useFetchWatch();
+  const user = auth.currentUser; // 현재 사용자
+  const color = useColorModeValue("white", "white");
+  const toast = useToast();
+
+  const { isLoading, watchData } = useFetchWatchData(); // 찜한 영화 목록
   const { width: windowWidth } = useWindowDimensions();
 
-  const user = getAuth().currentUser;
+  // 인증된 메일인지 확인
+  useEffect(() => {
+    if (user && !user?.emailVerified) {
+      sendEmailVerification(user)
+        .then(() => {
+          toast({
+            title: "메일을 보냈습니다 ✉",
+            description:
+              "메일을 인증해주세요. 일부 기능이 작동하지 않을 수 있습니다.",
+            status: "warning",
+            duration: 5000,
+            isClosable: true,
+          });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  }, []);
 
   return (
     <>
@@ -39,15 +70,19 @@ const Home: NextPage<IHomeProps> = ({
       <HomeText />
 
       {/* 사용자가 찜한 영화 */}
-      {user && data.length !== 0 && (
+      {user && (
         <Box my={20} px={10}>
           <Heading size="lg" mb={10} mr={8}>
             찜한 영화
           </Heading>
           {isLoading ? (
-            <LoadingAnimation />
+            <Center>
+              <LoadingAnimation />
+            </Center>
+          ) : watchData.length === 0 ? (
+            <Center>아직 찜한 영화가 없습니다</Center>
           ) : (
-            <SwipeList data={data} poster={false} slidesNumber={6} />
+            <SwipeList data={watchData} poster={false} slidesNumber={6} />
           )}
         </Box>
       )}
@@ -55,10 +90,14 @@ const Home: NextPage<IHomeProps> = ({
       {/* 상영 중인 영화 */}
       <Box bgColor="brightBlue" p={10} py={20}>
         <Flex>
-          <Heading size="lg" mb={10} mr={8}>
+          <Heading color={color} size="lg" mb={10} mr={8}>
             상영 중인 영화
           </Heading>
-          <ReserveButton />
+          <Link href="./nowplaying">
+            <Button bg="pink" color="darkBlue" px={5}>
+              예매하기
+            </Button>
+          </Link>
         </Flex>
         <Divider borderColor="gray.50" mb={10} />
         <SwipeList
@@ -66,6 +105,7 @@ const Home: NextPage<IHomeProps> = ({
           poster={true}
           slidesNumber={5}
           hover={true}
+          white={true}
         />
       </Box>
 
@@ -79,6 +119,7 @@ const Home: NextPage<IHomeProps> = ({
           poster={false}
           slidesNumber={6}
           hover={true}
+          white={false}
         />
       </Box>
 

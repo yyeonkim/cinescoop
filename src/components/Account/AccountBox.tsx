@@ -2,13 +2,14 @@ import React from "react";
 import { Flex, Text, useDisclosure, Avatar } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
 import { auth } from "../../../firebase";
-
+import ChangeNicknameModal from "./ChangeNicknameModal";
 import WithdrawalModal from "./WithdrawalModal";
 import ChangePasswordModal from "./ChangePasswordModal";
 
 function AccountBox() {
   const disclosure1 = useDisclosure();
   const disclosure2 = useDisclosure();
+  const disclosure3 = useDisclosure();
   const user = auth.currentUser;
 
   return (
@@ -50,8 +51,15 @@ function AccountBox() {
               cursor="pointer"
               color="pink"
               mt="2rem"
-              onClick={disclosure1.onOpen}
+              onClick={disclosure3.onOpen}
             >
+              닉네임 변경하기 {">"}
+              <ChangeNicknameModal
+                isOpen={disclosure3.isOpen}
+                onClose={disclosure3.onClose}
+              />
+            </Text>
+            <Text cursor="pointer" color="pink" onClick={disclosure1.onOpen}>
               비밀번호 변경하기 {">"}
               <ChangePasswordModal
                 isOpen={disclosure1.isOpen}
