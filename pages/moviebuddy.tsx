@@ -14,13 +14,18 @@ const Moviebuddy: NextPage = () => {
   const user = auth.currentUser;
   const [login, setLogin] = useRecoilState(loginState);
   const { userData, isLoading, isError } = useFetchUserData();
-  const selectedFriend = useRecoilValue(selectedFriendState);
+  const [selectedFriend, setSelectedFriend] =
+    useRecoilState(selectedFriendState);
   const [isUser, setIsUser] = useState(true);
 
   useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setLogin(true);
+        setSelectedFriend({
+          friendId: userData.id,
+          friendUsername: userData.username,
+        });
       } else {
         setLogin(false);
       }
