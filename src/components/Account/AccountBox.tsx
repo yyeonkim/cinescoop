@@ -5,12 +5,15 @@ import { auth } from "../../../firebase";
 import ChangeNicknameModal from "./ChangeNicknameModal";
 import WithdrawalModal from "./WithdrawalModal";
 import ChangePasswordModal from "./ChangePasswordModal";
+import { useRecoilValue } from "recoil";
+import { userState } from "../../atom";
 
 function AccountBox() {
   const disclosure1 = useDisclosure();
   const disclosure2 = useDisclosure();
   const disclosure3 = useDisclosure();
   const user = auth.currentUser;
+  const userData = useRecoilValue(userState);
 
   return (
     <Flex
@@ -18,7 +21,7 @@ function AccountBox() {
       h="15rem"
       w="50rem"
       p="3rem"
-      m="2rem"
+      mt="1rem"
       color="white"
       borderRadius="0.5rem"
     >
@@ -41,11 +44,7 @@ function AccountBox() {
             icon={<AiOutlineUser fontSize="1.5rem" />}
           />
           <Flex flexDir="column" ml="2rem">
-            <Text fontSize="1.5rem">
-              {user.providerData[0].providerId != "password"
-                ? user.providerData[0].displayName
-                : user.email?.slice(0, user.email.indexOf("@"))}
-            </Text>
+            <Text fontSize="1.5rem">{userData.username}</Text>
             {user.email ? <Text opacity="0.5">{user.email}</Text> : <></>}
             <Text
               cursor="pointer"
