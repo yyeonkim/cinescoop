@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import {
   Flex,
@@ -6,39 +6,51 @@ import {
   Button,
   Icon,
   Input,
+  FormControl,
   InputGroup,
   InputRightElement,
   useToast,
 } from "@chakra-ui/react";
-import { getAuth, updatePassword, updateProfile } from "firebase/auth";
-import { doc, updateDoc } from "firebase/firestore";
-import { SubmitHandler, useForm } from "react-hook-form";
-import styled from "styled-components";
-
-import { IPasswordCheckForm } from "../../interfaces";
-import { passwordCheckSchema } from "../../schema";
-import ErrorMessage from "./ErrorMessage";
-import ShowIcon from "../ShowIcon";
+import {
+  collection,
+  doc,
+  updateDoc,
+  setDoc,
+  onSnapshot,
+  getDoc,
+} from "firebase/firestore";
 import { auth, db } from "../../../firebase";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 interface NewNickNameProps {
   onClose: any;
 }
 
 function NewNickNameForm({ onClose }: NewNickNameProps) {
+  const [inputText, setInputText] = useState();
+  const [docSnap, setDocSnap] = useState([]);
   const toast = useToast();
   const user = auth.currentUser;
 
-  /*const changeNickName = async () => {
-    const a = doc(db, "users", userId);
-    await updateDoc(a, { username: "byebye" });
+  // useEffect(() => {
+  //   const fetchUser = async () => {
+  //     const userRef = doc(db, "users", user.uid);
+  //     const unsub = onSnapshot(userRef, (document) => {
+  //       setDocSnap(document.data());
+  //     });
+  //     return unsub;
+  //   };
+  //   fetchUser();
+  // }, []);
+
+  const handleChange = (e: any) => {
+    setInputText(e.target.value);
   };
 
-  const onChangeNickName: SubmitHandler<IPasswordCheckForm> = () => {
-    console.log("passwordsubmitted");
+  const onChangeNickName = () => {
     if (user != null) {
-      updateDoc(doc(db, "users", userId), { username: "byebye" })
+      updateDoc(doc(db, "users", user?.uid), {
+        username: inputText,
+      })
         .then(() => {
           toast({
             title: "닉네임 변경 완료",
@@ -61,32 +73,35 @@ function NewNickNameForm({ onClose }: NewNickNameProps) {
           });
         });
     }
-  };*/
+  };
 
   return (
-    <StyledForm>
+    <FormControl>
       <Text mb="0.5rem">현재 닉네임</Text>
       <Text mb="1rem" fontSize="1.2rem">
-        {user && user.providerData[0].providerId != "password"
-          ? user.providerData[0].displayName
-          : user.email?.slice(0, user.email.indexOf("@"))}
+        {/* {docSnap} */}
       </Text>
       <Text mb="0.5rem">새 닉네임</Text>
       <InputGroup mb="0.5rem">
         <Flex flexDir="column" w="100%">
-          <Input size="lg" placeholder="새 닉네임을 입력해주세요" />
+          <Input
+            onChange={handleChange}
+            size="lg"
+            placeholder="새 닉네임을 입력해주세요"
+          />
         </Flex>
       </InputGroup>
-
-      <Button color="black" bgColor="pink" type="submit" mt="3rem">
+      <Button
+        onClick={onChangeNickName}
+        color="black"
+        bgColor="pink"
+        type="submit"
+        mt="3rem"
+      >
         변경하기
       </Button>
-    </StyledForm>
+    </FormControl>
   );
 }
 
 export default NewNickNameForm;
-
-const StyledForm = styled.form`
-  width: 100%;
-`;
