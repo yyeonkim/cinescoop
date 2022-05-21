@@ -94,7 +94,7 @@ export const movieInfoState = atom({
         profile_path: "/9jGSRfOnJTt8xvHtajWl4ZHRV0r.jpg",
         credit_id: "61380b98e93e95002bc15f63",
         department: "Sound",
-        job: "Original Music Composer",
+        job: "Director",
       },
     ],
     videos: [
