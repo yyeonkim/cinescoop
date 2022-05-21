@@ -7,8 +7,11 @@ import {
   Heading,
   useColorModeValue,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useEffect } from "react";
+import { sendEmailVerification } from "firebase/auth";
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
@@ -17,7 +20,6 @@ import GenreList from "../src/components/Lists/GenreList";
 import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
-import ReserveButton from "../src/components/Buttons/ReserveButton";
 import { auth } from "../firebase";
 import useFetchWatchData from "../src/hooks/useFetchWatchData";
 import LoadingAnimation from "../src/components/LoadingAnimation";
@@ -37,8 +39,30 @@ const Home: NextPage<IHomeProps> = ({
 }) => {
   const user = auth.currentUser; // 현재 사용자
   const color = useColorModeValue("white", "white");
+  const toast = useToast();
+
   const { isLoading, watchData } = useFetchWatchData(); // 찜한 영화 목록
   const { width: windowWidth } = useWindowDimensions();
+
+  // 인증된 메일인지 확인
+  useEffect(() => {
+    if (user && !user?.emailVerified) {
+      sendEmailVerification(user)
+        .then(() => {
+          toast({
+            title: "메일을 보냈습니다 ✉",
+            description:
+              "메일을 인증해주세요. 일부 기능이 작동하지 않을 수 있습니다.",
+            status: "warning",
+            duration: 5000,
+            isClosable: true,
+          });
+        })
+        .catch((error) => {
+          console.log(error.message);
+        });
+    }
+  }, []);
 
   return (
     <>

@@ -34,10 +34,10 @@ function WatchButton({ movieId }: IWatchBottonProps) {
 
     if (!user) {
       toast({
-        position: "top",
+        position: "bottom",
         title: "로그인 해주세요",
         description: "로그인이 필요한 서비스입니다.",
-        status: "info",
+        status: "warning",
         duration: 3000,
         isClosable: true,
       });

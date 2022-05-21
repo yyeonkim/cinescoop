@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 
 import { auth, db } from "../../../firebase";
 import { IUserMovies, IGenre } from "../../interfaces";
+import { useRecoilState } from "recoil";
+import { ratingState } from "../../atom";
 
 interface IGoodBadButtonProps {
   type: "good" | "bad";
@@ -26,10 +28,10 @@ export default function GoodBadButton({
   movieId,
   genres,
 }: IGoodBadButtonProps) {
-  const toast = useToast();
   const user = auth.currentUser;
+  const toast = useToast();
+  const [rating, setRating] = useRecoilState(ratingState);
 
-  const [rating, setRating] = useState("");
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       // 로그인 사용자이면 좋아요/별로예요 평가 설정하기
@@ -92,6 +94,7 @@ export default function GoodBadButton({
 
     // 좋아요 버튼을 누르면
     if (type === "good") {
+      setRating((current) => (current === "good" ? "" : "good"));
       if (rating === "good") {
         updatedGood = updatedGood?.filter((id: number) => id !== movieId);
       }
@@ -104,6 +107,7 @@ export default function GoodBadButton({
       }
     } else {
       // 별로예요 버튼을 누르면
+      setRating((current) => (current === "bad" ? "" : "bad"));
       if (rating === "bad") {
         updatedBad = updatedBad?.filter((id: number) => id !== movieId);
       }
@@ -173,13 +177,6 @@ export default function GoodBadButton({
       const { updatedGood, updatedBad } = await getUpdatedMovies();
       const updatedGenresObj = await getUpdatedGenres();
       saveMoviesToDB(updatedGood, updatedBad, updatedGenresObj);
-
-      // rating state 바꾸기
-      if (type === "good") {
-        setRating((current) => (current === "good" ? "" : "good"));
-      } else {
-        setRating((current) => (current === "bad" ? "" : "bad"));
-      }
     }
   };
 
@@ -207,12 +204,12 @@ export default function GoodBadButton({
       >
         {type === "good" ? (
           rating === "good" ? (
-            <RiThumbUpFill size="1.4rem" />
+            <RiThumbUpFill size="1.4rem" color="brightBlue" />
           ) : (
             <RiThumbUpLine size="1.4rem" />
           )
         ) : rating === "bad" ? (
-          <RiThumbDownFill size="1.4rem" />
+          <RiThumbDownFill size="1.4rem" color="brightBlue" />
         ) : (
           <RiThumbDownLine size="1.4rem" />
         )}
