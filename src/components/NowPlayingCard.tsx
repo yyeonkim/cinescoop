@@ -39,7 +39,7 @@ function NowPlayingCard({ info, page, key }: CardProps) {
   };
 
   return (
-    <Box mr={10} ml={10} mt={10} minW="60%">
+    <Box mr={10} ml={10}>
       <Flex mb={10}>
         <Flex w="15rem" cursor="pointer" direction="column" alignItems="center">
           <Img

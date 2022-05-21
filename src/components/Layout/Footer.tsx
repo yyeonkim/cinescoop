@@ -1,5 +1,5 @@
 import React from "react";
-import { Flex, Text, Button } from "@chakra-ui/react";
+import { Flex, Text, Link } from "@chakra-ui/react";
 import { useColorModeValue } from "@chakra-ui/react";
 import Image from "next/image";
 import logo from "../../../public/logo.png";
@@ -22,16 +22,18 @@ function Footer() {
         <Text fontSize="1.5rem" mb="0.5rem">
           Quick Menu
         </Text>
-        <Text>Home</Text>
-        <Text>About</Text>
+        <Link href="./">Home</Link>
+        <Link href="./about">About</Link>
+        <Link href="./moviebuddy">Movie Buddy</Link>
+        <Link href="./nowplaying">In Theaters</Link>
       </Flex>
       <Flex flexDir="column" mr="10rem">
         <Text fontSize="1.5rem" mb="0.5rem">
           Contact
         </Text>
-        <Text>YEONHEE JUNG :@gmail.com </Text>
-        <Text>YOUMIN KIM : dskfjelek@gmail.com</Text>
-        <Text>YONGYEON KIM : @gmail.com</Text>
+        <Text>YEONHEE JUNG : spig0126@gmail.com</Text>
+        <Text>YOUMIN KIM : march02198@gmail.com</Text>
+        <Text>YONGYEON KIM : seyeon.dev@gmail.com</Text>
       </Flex>
     </Flex>
   );

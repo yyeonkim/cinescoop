@@ -1,5 +1,6 @@
 import useFetchNow from "../../hooks/useFetchNow";
 import { Heading, Grid, Flex, Box, Spinner } from "@chakra-ui/react";
+import LoadingAnimation from "../LoadingAnimation";
 import NowPlayingCard from "../NowPlayingCard";
 import type { Movie } from "../VerCard";
 
@@ -18,7 +19,15 @@ function NowPlayingList() {
                 </>
               ))}
           </Grid>
-          <Flex justifyContent="center">{isLoading ? <Spinner /> : ""}</Flex>
+          <Flex justifyContent="center">
+            {isLoading ? (
+              <Box mb={10}>
+                <LoadingAnimation />
+              </Box>
+            ) : (
+              <></>
+            )}
+          </Flex>
         </Box>
       </Box>
     </Flex>
