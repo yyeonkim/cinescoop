@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { auth, db } from "../../../firebase";
 import { loginState } from "../../../src/atom";
+import { IFriend, IFriendList } from "../../../src/interfaces";
 
 const AddBuddy: NextPage = () => {
   const router = useRouter();
@@ -31,6 +32,13 @@ const AddBuddy: NextPage = () => {
     return currTime - parseInt(createdTime) <= 3600 * 1000 * 24;
   };
 
+  const isAlreadyBuddies = (buddy: IFriend, userFriendList: IFriend[]) => {
+    return userFriendList.find((friend) => {
+      if (friend.friendId === buddyUid) return true;
+      return false;
+    });
+  };
+
   const addBuddy = async () => {
     if (user != null) {
       const userRef = doc(db, "users", user.uid);
@@ -43,39 +51,56 @@ const AddBuddy: NextPage = () => {
 
       let userUpdatedFriendList = userData?.friends;
       let buddyUpdatedFriendList = buddyData?.friends;
-      userUpdatedFriendList.push({
-        friendId: buddyUid,
-        friendUsername: buddyName,
-      });
-      buddyUpdatedFriendList.push({
-        friendId: user.uid,
-        friendUsername: userData?.username,
-      });
 
-      const userDocData = {
-        ...userData,
-        friends: userUpdatedFriendList,
-      };
+      if (
+        isAlreadyBuddies(
+          { friendId: buddyUid, friendUsername: buddyData?.username },
+          userUpdatedFriendList
+        )
+      ) {
+        toast({
+          position: "bottom",
+          title: "이미 등록된 무비버디입니다",
+          description: `${buddyName}님은 이미 무비버디이므로 또다시 추가할 수 없습니다.`,
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        userUpdatedFriendList.push({
+          friendId: buddyUid,
+          friendUsername: buddyName,
+        });
+        buddyUpdatedFriendList.push({
+          friendId: user.uid,
+          friendUsername: userData?.username,
+        });
 
-      const buddyDocData = {
-        ...buddyData,
-        friends: buddyUpdatedFriendList,
-      };
+        const userDocData = {
+          ...userData,
+          friends: userUpdatedFriendList,
+        };
 
-      await setDoc(userRef, userDocData);
-      await setDoc(buddyRef, buddyDocData);
+        const buddyDocData = {
+          ...buddyData,
+          friends: buddyUpdatedFriendList,
+        };
+
+        await setDoc(userRef, userDocData);
+        await setDoc(buddyRef, buddyDocData);
+
+        toast({
+          position: "bottom",
+          title: "무비버디 추가 완료",
+          description: `${buddyName}님이 무비버디로 추가되었습니다`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+
+        router.push("/");
+      }
     }
-
-    toast({
-      position: "bottom",
-      title: "무비버디 추가 완료",
-      description: `${buddyName}님이 무비버디로 추가되었습니다`,
-      status: "success",
-      duration: 3000,
-      isClosable: true,
-    });
-
-    router.push("/");
   };
 
   useEffect(() => {
@@ -87,7 +112,6 @@ const AddBuddy: NextPage = () => {
         setLogin(false);
       }
     });
-    console.log(login);
   }, [user, login, buddyName]);
 
   return (
