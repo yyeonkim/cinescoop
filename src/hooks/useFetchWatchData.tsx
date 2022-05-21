@@ -19,12 +19,12 @@ export default function useFetchWatchData() {
         const ids = docSnap?.data()?.movies.watch; // 찜한 영화 id
 
         // 찜한 영화 정보 가져오기
-        for (let i = 0; i < ids.length; i++) {
-          const data = await fetchDetail(ids[i]);
+        ids?.forEach(async (id: number) => {
+          const data = await fetchDetail(id);
           setWatchData((current) => current.concat(data));
-        }
-        setIsLoading(false);
+        });
       }
+      setIsLoading(false);
     });
   }, []);
 
