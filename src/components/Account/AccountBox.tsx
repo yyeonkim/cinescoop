@@ -1,19 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Flex, Text, useDisclosure, Avatar } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
 import { auth } from "../../../firebase";
 import ChangeNicknameModal from "./ChangeNicknameModal";
 import WithdrawalModal from "./WithdrawalModal";
 import ChangePasswordModal from "./ChangePasswordModal";
-import { useRecoilValue } from "recoil";
-import { userState } from "../../atom";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { loginState, userState } from "../../atom";
+import { onAuthStateChanged } from "firebase/auth";
+import useFetchUserData from "../../hooks/useFetchUserData";
 
 function AccountBox() {
   const disclosure1 = useDisclosure();
   const disclosure2 = useDisclosure();
   const disclosure3 = useDisclosure();
   const user = auth.currentUser;
-  const userData = useRecoilValue(userState);
+  const { userData, isLoading, isError } = useFetchUserData();
+  const [login, setLogin] = useRecoilState(loginState);
+
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLogin(true);
+      } else {
+        setLogin(false);
+      }
+    });
+  }, [user, login]);
 
   return (
     <Flex
@@ -25,7 +38,7 @@ function AccountBox() {
       color="white"
       borderRadius="0.5rem"
     >
-      {user ? (
+      {login && user ? (
         <Flex alignItems="center">
           <Avatar
             size="2xl"
