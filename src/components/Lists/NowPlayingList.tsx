@@ -7,13 +7,8 @@ function NowPlayingList() {
   const { items, isLoading, page } = useFetchNow();
 
   return (
-    <Flex justifyContent="center">
+    <Flex justifyContent="center" mt="2rem">
       <Box>
-        <Flex mb={10} direction="column">
-          <Heading size="lg" mb={5}>
-            상영중인 영화
-          </Heading>
-        </Flex>
         <Box borderWidth="0.1rem" borderColor="pink" maxW="70rem">
           <Grid gap={10} marginX={"auto"}>
             {items &&
