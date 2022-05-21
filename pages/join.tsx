@@ -15,10 +15,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import {
-  createUserWithEmailAndPassword,
-  sendEmailVerification,
-} from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
 import { yupResolver } from "@hookform/resolvers/yup";
 
@@ -58,12 +55,10 @@ const Join: NextPage = () => {
     createUserWithEmailAndPassword(auth, data.email, data.password)
       .then(async () => {
         const user = auth.currentUser;
-        // 인증 메일 보내기
-        await sendEmailVerification(user as any);
         // DB에 사용자 정보 저장
         await saveUserToDB(user?.uid as string, data.username);
-        // 메일 인증 페이지로 이동
-        router.push("/email-verification");
+        // 홈으로 이동
+        router.push("/");
       })
       .catch((e) => {
         if (e.code === "auth/email-already-in-use") {
