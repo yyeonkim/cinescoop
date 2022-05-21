@@ -1,7 +1,14 @@
 import { useEffect } from "react";
 import { NextPage } from "next";
 import { useQuery } from "react-query";
-import { Center, Flex, Heading, Img, Link } from "@chakra-ui/react";
+import {
+  Center,
+  Flex,
+  Heading,
+  Img,
+  Link,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 
@@ -30,7 +37,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
   const {
     query: { movieId },
   } = useRouter(); // string
-
+  const color = useColorModeValue("white", "white");
   const setMovieID = useSetRecoilState(movieIDState);
 
   // movieId를 정수로 설정하기
@@ -94,6 +101,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
                     isExternal
                     mr={5}
                     mb={5}
+                    color={color}
                   >
                     <Img
                       src={cinema.logo}
@@ -101,7 +109,9 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
                       objectFit="contain"
                       mr={5}
                     />
-                    <Heading fontSize="lg">{cinema.name}</Heading>
+                    <Heading fontSize="lg" color={color}>
+                      {cinema.name}
+                    </Heading>
                   </Link>
                 ))}
               </Flex>

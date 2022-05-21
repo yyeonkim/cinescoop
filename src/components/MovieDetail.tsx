@@ -53,7 +53,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
           <Text>{detailData?.overview}</Text>
         </Stack>
         <HStack spacing={5}>
-          <Button onClick={clickInfo} w="8rem" bg="brightBlue">
+          <Button color="white" onClick={clickInfo} w="8rem" bg="brightBlue">
             관련 정보
           </Button>
           <GoodBadButton

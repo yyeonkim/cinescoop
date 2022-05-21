@@ -20,9 +20,10 @@ interface ISwipeProps {
   poster: boolean;
   slidesNumber: number;
   hover: boolean;
+  white: boolean;
 }
 
-function SwipeList({ data, poster, slidesNumber, hover }: ISwipeProps) {
+function SwipeList({ data, poster, slidesNumber, hover, white }: ISwipeProps) {
   const [isPoster, setIsPoster] = useState(poster);
   const setMovieID = useSetRecoilState(movieIDState);
   const router = useRouter();
@@ -57,7 +58,12 @@ function SwipeList({ data, poster, slidesNumber, hover }: ISwipeProps) {
           (movie) =>
             movie.poster_path && (
               <SwiperSlide key={movie.id} className="wrapper__navigation">
-                <SwipeCard isPoster={isPoster} movie={movie} hover={false} />
+                <SwipeCard
+                  isPoster={isPoster}
+                  movie={movie}
+                  hover={false}
+                  isWhite={white}
+                />
 
                 {/* <Link>
                   {isPoster ? (

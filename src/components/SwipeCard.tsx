@@ -1,4 +1,4 @@
-import { Flex, Img, Text, Box } from "@chakra-ui/react";
+import { Flex, Img, Text, Box, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useRecoilState } from "recoil";
@@ -16,10 +16,12 @@ interface CardProps {
   movie: IMovie | IMovieDetails;
   isPoster: boolean;
   hover: boolean;
+  isWhite: boolean;
 }
 
-function SwipeCard({ movie, isPoster, hover }: CardProps) {
+function SwipeCard({ movie, isPoster, hover, isWhite }: CardProps) {
   const router = useRouter();
+  const color = useColorModeValue("white", "white");
   const [isHover, setIsHover] = useState(0);
   const [movieID, setMovieID] = useRecoilState(movieIDState);
 
@@ -61,10 +63,15 @@ function SwipeCard({ movie, isPoster, hover }: CardProps) {
                 objectFit="cover"
               />
             )}
-
-            <Text fontSize="md" align="center" mt={1}>
-              {movie.title}
-            </Text>
+            {isWhite ? (
+              <Text fontSize="md" align="center" mt={1} color={color}>
+                {movie.title}
+              </Text>
+            ) : (
+              <Text fontSize="md" align="center" mt={1}>
+                {movie.title}
+              </Text>
+            )}
           </Box>
         </Link>
       )}
