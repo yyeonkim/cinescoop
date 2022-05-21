@@ -32,7 +32,7 @@ const Analysis: FC<AnalysisProps> = ({ userData, isUser, friend }) => {
 
   const calCosineSimilarity = () => {
     if (genreSum === 0) return 0;
-  
+
     const allGenres = Object.keys({ ...userData.genres, ...friendData.genres });
     let userCnt: number[] = [];
     let friendCnt: number[] = [];
@@ -94,7 +94,7 @@ const Analysis: FC<AnalysisProps> = ({ userData, isUser, friend }) => {
               {sortedGenres.map((genre) => {
                 const name = genre[0];
                 const val = genre[1];
-                const percentage = (val / genreSum) * 100;
+                const percentage = Math.round((val / genreSum) * 100);
 
                 return (
                   <Box
