@@ -19,13 +19,13 @@ const Moviebuddy: NextPage = () => {
   const [isUser, setIsUser] = useState(true);
 
   useEffect(() => {
+    setSelectedFriend({
+      friendId: userData.id,
+      friendUsername: userData.username,
+    });
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setLogin(true);
-        setSelectedFriend({
-          friendId: userData.id,
-          friendUsername: userData.username,
-        });
       } else {
         setLogin(false);
       }
