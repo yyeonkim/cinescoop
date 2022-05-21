@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   CircularProgress,
   CircularProgressLabel,
   Divider,
@@ -9,6 +10,8 @@ import {
   Wrap,
 } from "@chakra-ui/react";
 import { FC } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { selectedFriendState } from "../../atom";
 import useFetchFriendData from "../../hooks/useFetchFriendData";
 import { IFriend, IUserDB } from "../../interfaces";
 
@@ -20,6 +23,8 @@ interface AnalysisProps {
 
 const Analysis: FC<AnalysisProps> = ({ userData, isUser, friend }) => {
   const { friendData, isLoading, isError } = useFetchFriendData();
+  const setSelectedFriend = useSetRecoilState(selectedFriendState);
+
   var similarity = require("compute-cosine-similarity");
 
   const genreSum = Object.values(friendData.genres).reduce(
@@ -29,6 +34,13 @@ const Analysis: FC<AnalysisProps> = ({ userData, isUser, friend }) => {
   const sortedGenres = Object.entries(friendData.genres)
     .filter((genre) => genre[1] != 0)
     .sort((a, b) => b[1] - a[1]);
+
+  const showUserGenres = () => {
+    setSelectedFriend({
+      friendId: userData.id,
+      friendUsername: userData.username,
+    });
+  };
 
   const calCosineSimilarity = () => {
     if (genreSum === 0) return 0;
@@ -58,9 +70,22 @@ const Analysis: FC<AnalysisProps> = ({ userData, isUser, friend }) => {
 
   return (
     <Flex flexDir="column" width="100%" mt="4rem">
-      <Heading size="lg">{friend.friendUsername}님의 영화</Heading>
+      <Flex align="baseline">
+        <Heading size="lg" flexGrow={1}>
+          {friend.friendUsername}님의 영화
+        </Heading>
+        <Button
+          bg="none"
+          _focus={{ outline: "none" }}
+          _hover={{ background: "none", color: "pink" }}
+          _active={{ background: "none", color: "lightBlue" }}
+          onClick={showUserGenres}
+        >
+          내 영화 취향&gt;
+        </Button>
+      </Flex>
       <Flex
-        mt="1rem"
+        mt="0.3rem"
         bgColor="brightBlue"
         w="100%"
         p="2rem 3rem"
