@@ -19,7 +19,7 @@ const FriendList: FC<IFriendList> = ({ friends }) => {
   return (
     <Flex flexDir="column" width="100%" mt="2rem">
       <Flex mb="1rem" align="baseline">
-        <Heading size="lg" mr="1rem">
+        <Heading size="lg" mr="1rem" flexGrow={1}>
           내 무비버디
         </Heading>
         <AddBuddyLink />

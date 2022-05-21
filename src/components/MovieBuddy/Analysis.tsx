@@ -76,6 +76,7 @@ const Analysis: FC<AnalysisProps> = ({ userData, isUser, friend }) => {
         </Heading>
         <Button
           bg="none"
+          fontWeight="light"
           _focus={{ outline: "none" }}
           _hover={{ background: "none", color: "pink" }}
           _active={{ background: "none", color: "lightBlue" }}

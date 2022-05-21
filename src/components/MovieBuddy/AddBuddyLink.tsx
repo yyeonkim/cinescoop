@@ -20,7 +20,6 @@ import { BsCheckAll } from "react-icons/bs";
 
 function AddBuddyLink() {
   const initialFocusRef = useRef<HTMLDivElement>(null);
-  const linkRef = useRef();
   const currTime = new Date().getTime();
   const user = auth.currentUser;
   const [copied, setCopied] = useState(false);
@@ -55,11 +54,7 @@ function AddBuddyLink() {
         <PopoverCloseButton />
         <PopoverBody>
           <InputGroup variant="outline" borderColor="lightBlue">
-            <Input
-              value={createLink()}
-              ref={linkRef}
-              _placeholder={{ color: "black" }}
-            />
+            <Input value={createLink()} _placeholder={{ color: "black" }} />
             <InputRightAddon bgColor="lightBlue" p="0" w="4rem" align="center">
               <Button onClick={copyLink} _focus={{ border: "none" }} w="100%">
                 {copied ? (
