@@ -43,33 +43,43 @@ function WatchButton({ movieId }: IWatchBottonProps) {
       });
       return;
     } else {
-      setWatchState(!watchState);
-
-      const userRef = doc(db, "users", user.uid);
-      const dbUser = await getDoc(userRef);
-      const dbUserData = dbUser.data();
-
-      let updatedWatchList = dbUserData?.movies["watch"];
-
-      if (watchState === false) {
-        updatedWatchList.push(movieId);
+      if (!user.emailVerified) {
+        toast({
+          title: "인증되지 않은 메일입니다 ✉",
+          description: "메일을 인증한 후, 다시 시도해주세요.",
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+        });
       } else {
-        updatedWatchList = updatedWatchList.filter(
-          (item: number) => item !== movieId
-        );
+        setWatchState(!watchState);
+
+        const userRef = doc(db, "users", user.uid);
+        const dbUser = await getDoc(userRef);
+        const dbUserData = dbUser.data();
+
+        let updatedWatchList = dbUserData?.movies["watch"];
+
+        if (watchState === false) {
+          updatedWatchList.push(movieId);
+        } else {
+          updatedWatchList = updatedWatchList.filter(
+            (item: number) => item !== movieId
+          );
+        }
+
+        const docData = {
+          ...dbUserData,
+          movies: {
+            bad: dbUserData?.movies.bad,
+            good: dbUserData?.movies.good,
+            watch: updatedWatchList,
+          },
+        };
+
+        await setDoc(userRef, docData);
+        console.log("watch list updated");
       }
-
-      const docData = {
-        ...dbUserData,
-        movies: {
-          bad: dbUserData?.movies.bad,
-          good: dbUserData?.movies.good,
-          watch: updatedWatchList,
-        },
-      };
-
-      await setDoc(userRef, docData);
-      console.log("watch list updated");
     }
   };
 

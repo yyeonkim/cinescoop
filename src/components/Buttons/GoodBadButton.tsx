@@ -7,7 +7,7 @@ import {
 } from "react-icons/ri";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { auth, db } from "../../../firebase";
 import { IUserMovies, IGenre } from "../../interfaces";
@@ -171,16 +171,25 @@ export default function GoodBadButton({
         isClosable: true,
       });
     } else {
-      // 로그인 한 사용자에 한해서
-      // 버튼을 누르면 DB에 영화를 추가/삭제한다.
-      // 좋아요 한 영화 장르를 DB에 반영한다.
-      const { updatedGood, updatedBad } = await getUpdatedMovies();
-      const updatedGenresObj = await getUpdatedGenres();
-      saveMoviesToDB(updatedGood, updatedBad, updatedGenresObj);
+      if (!user.emailVerified) {
+        toast({
+          title: "인증되지 않은 메일입니다 ✉",
+          description: "메일을 인증한 후, 다시 시도해주세요.",
+          status: "warning",
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        // 인증된 메일을 사용하는 사용자만 서비스 이용이 가능하다.
+        // 버튼을 누르면 DB에 영화를 추가/삭제한다.
+        // 좋아요 한 영화 장르를 DB에 반영한다.
+        const { updatedGood, updatedBad } = await getUpdatedMovies();
+        const updatedGenresObj = await getUpdatedGenres();
+        saveMoviesToDB(updatedGood, updatedBad, updatedGenresObj);
+      }
     }
   };
 
-  // 평가된 영화면 아이콘을 brightBlue 색으로 바꿈
   return (
     <Tooltip
       label={
