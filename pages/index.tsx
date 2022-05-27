@@ -21,7 +21,7 @@ import HomeText from "../src/components/HomeText";
 import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 import { auth } from "../firebase";
-import useFetchWatchData from "../src/hooks/useFetchWatchData";
+import useFetchListData from "../src/hooks/useFetchListData";
 import LoadingAnimation from "../src/components/LoadingAnimation";
 
 interface IHomeProps {
@@ -41,7 +41,7 @@ const Home: NextPage<IHomeProps> = ({
   const color = useColorModeValue("white", "white");
   const toast = useToast();
 
-  const { isLoading, watchData } = useFetchWatchData(); // 찜한 영화 목록
+  const { isLoading, watchData } = useFetchListData(); // 찜한 영화 목록
   const { width: windowWidth } = useWindowDimensions();
 
   // 인증된 메일인지 확인

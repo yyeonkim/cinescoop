@@ -5,15 +5,18 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { auth } from "../firebase";
 import { loginState, selectedFriendState } from "../src/atom";
+import SwipeList from "../src/components/Lists/SwipeList";
 import Analysis from "../src/components/MovieBuddy/Analysis";
 import FriendList from "../src/components/MovieBuddy/FriendList";
 import PageTitle from "../src/components/PageTitle";
+import useFetchListData from "../src/hooks/useFetchListData";
 import useFetchUserData from "../src/hooks/useFetchUserData";
 
 const Moviebuddy: NextPage = () => {
   const user = auth.currentUser;
   const [login, setLogin] = useRecoilState(loginState);
   const { userData, isLoading, isError } = useFetchUserData();
+  const { isLoading: goodIsLoading, goodData } = useFetchListData(); // 찜한 영화 목록
   const [selectedFriend, setSelectedFriend] =
     useRecoilState(selectedFriendState);
   const [isUser, setIsUser] = useState(true);
@@ -52,7 +55,10 @@ const Moviebuddy: NextPage = () => {
                 isUser={isUser}
               />
               <Flex flexDir="column" width="100%" mt="4rem">
-                <Heading size="lg">좋아하는 영화</Heading>
+                <Heading size="lg" mb="1rem">
+                  좋아하는 영화
+                </Heading>
+                <SwipeList data={goodData} poster={false} slidesNumber={6} />
               </Flex>
             </Flex>
           </>
