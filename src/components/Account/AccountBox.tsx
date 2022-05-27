@@ -1,5 +1,12 @@
 import React, { useEffect } from "react";
-import { Flex, Text, useDisclosure, Avatar } from "@chakra-ui/react";
+import {
+  Flex,
+  Text,
+  useDisclosure,
+  Avatar,
+  Button,
+  Circle,
+} from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
 import { auth } from "../../../firebase";
 import ChangeNicknameModal from "./ChangeNicknameModal";
@@ -9,8 +16,11 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { loginState, userState } from "../../atom";
 import { onAuthStateChanged } from "firebase/auth";
 import useFetchUserData from "../../hooks/useFetchUserData";
+import { useRouter } from "next/router";
+import { CheckIcon } from "@chakra-ui/icons";
 
 function AccountBox() {
+  const router = useRouter();
   const disclosure1 = useDisclosure();
   const disclosure2 = useDisclosure();
   const disclosure3 = useDisclosure();
@@ -27,6 +37,10 @@ function AccountBox() {
       }
     });
   }, [user, login]);
+
+  const verifyEmail = () => {
+    router.push("/"); // Home으로 가면 인증 메일이 보내진다.
+  };
 
   return (
     <Flex
@@ -58,7 +72,24 @@ function AccountBox() {
           />
           <Flex flexDir="column" ml="2rem">
             <Text fontSize="1.5rem">{userData.username}</Text>
-            {user.email ? <Text opacity="0.5">{user.email}</Text> : <></>}
+            {user.email ? (
+              <Flex alignItems="center">
+                <Text opacity="0.5" mr=".5rem">
+                  {user.email}
+                </Text>
+                {user.emailVerified ? (
+                  <Circle size="1rem" bg="rgba(255, 255, 255, .2)">
+                    <CheckIcon w={3} h={3} />
+                  </Circle>
+                ) : (
+                  <Button onClick={verifyEmail} size="xs">
+                    인증하기
+                  </Button>
+                )}
+              </Flex>
+            ) : (
+              <></>
+            )}
             <Text
               cursor="pointer"
               color="pink"
