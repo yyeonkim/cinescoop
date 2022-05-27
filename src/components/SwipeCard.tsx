@@ -47,6 +47,9 @@ function SwipeCard({ movie, isPoster, hover, isWhite }: CardProps) {
           <Box
             onMouseOver={() => setIsHover(1)}
             onClick={() => seeMovieInfo(movie.id)}
+            display="Flex"
+            flexDirection="column"
+            alignItems="center"
           >
             {isPoster ? (
               <Image
