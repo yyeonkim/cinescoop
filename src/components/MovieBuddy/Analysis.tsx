@@ -58,10 +58,10 @@ const Analysis: FC<AnalysisProps> = ({ userData, isUser, friend }) => {
           )
         : friendCnt.push(0);
     });
-    console.log("userCnt", userCnt);
-    console.log("friendCnt", friendCnt);
+    // console.log("userCnt", userCnt);
+    // console.log("friendCnt", friendCnt);
 
-    console.log(allGenres);
+    // console.log(allGenres);
 
     return Math.round(similarity(userCnt, friendCnt) * 100);
   };

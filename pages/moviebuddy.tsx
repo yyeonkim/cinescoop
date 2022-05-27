@@ -2,10 +2,12 @@ import { Flex, Heading } from "@chakra-ui/react";
 import { onAuthStateChanged } from "firebase/auth";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
+
 import { auth } from "../firebase";
 import { loginState, selectedFriendState } from "../src/atom";
 import SwipeList from "../src/components/Lists/SwipeList";
+import LoadingAnimation from "../src/components/LoadingAnimation";
 import Analysis from "../src/components/MovieBuddy/Analysis";
 import FriendList from "../src/components/MovieBuddy/FriendList";
 import PageTitle from "../src/components/PageTitle";
@@ -16,10 +18,10 @@ const Moviebuddy: NextPage = () => {
   const user = auth.currentUser;
   const [login, setLogin] = useRecoilState(loginState);
   const { userData, isLoading, isError } = useFetchUserData();
-  const { isLoading: goodIsLoading, goodData } = useFetchListData(); // 찜한 영화 목록
   const [selectedFriend, setSelectedFriend] =
     useRecoilState(selectedFriendState);
   const [isUser, setIsUser] = useState(true);
+  const { isLoading: listIsLoading, friendGoodData } = useFetchListData(); // 친구가 좋아요 한 영화 목록
 
   useEffect(() => {
     setSelectedFriend({
@@ -33,7 +35,6 @@ const Moviebuddy: NextPage = () => {
         setLogin(false);
       }
     });
-    console.log(login);
   }, [user, login]);
 
   return (
@@ -58,7 +59,15 @@ const Moviebuddy: NextPage = () => {
                 <Heading size="lg" mb="1rem">
                   좋아하는 영화
                 </Heading>
-                <SwipeList data={goodData} poster={false} slidesNumber={6} />
+                {listIsLoading ? (
+                  <LoadingAnimation />
+                ) : (
+                  <SwipeList
+                    data={friendGoodData}
+                    poster={false}
+                    slidesNumber={6}
+                  />
+                )}
               </Flex>
             </Flex>
           </>

@@ -12,6 +12,7 @@ import {
 import Link from "next/link";
 import { useEffect } from "react";
 import { sendEmailVerification } from "firebase/auth";
+
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
