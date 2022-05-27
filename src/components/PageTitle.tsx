@@ -10,7 +10,7 @@ const PageTitle: FC<IPageTitle> = ({ title, subtitle }) => {
         w="100%"
         position="absolute"
         h="10rem"
-        zIndex="-1"
+        zIndex="-5"
         top="0"
       />
       <Flex
