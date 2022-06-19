@@ -1,21 +1,18 @@
-import { VStack, Heading, Box, Center } from "@chakra-ui/react";
+import { VStack, Heading, Box, Center, Text, Link } from "@chakra-ui/react";
 
 function HomeText() {
   return (
     <VStack m={20}>
-      <Heading color="pink">분산된 영화 정보를 한 번에</Heading>
+      <Heading color="pink">친구와 영화 취향을 비교해보세요</Heading>
       <Box>
-        <Center fontSize="xl" m={2}>
-          인기 있는 영화,
+        <Center fontSize="xl" mt={2}>
+          친구가 좋아하는 영화를 확인하고
         </Center>
-        <Center fontSize="xl" m={2}>
-          현재 상영 중인 영화,
+        <Center fontSize="xl" mt={2}>
+          서로의 취향을 장르별로 분석해보세요
         </Center>
-        <Center fontSize="xl" m={2}>
-          보고 싶은 영화를
-        </Center>
-        <Center fontSize="xl" m={2}>
-          찜하거나 바로 예매하세요
+        <Center fontSize="md" mt={4} opacity={0.8}>
+          <Link href="/moviebuddy">MovieBuddy에서 확인하기 &#x3e;</Link>
         </Center>
       </Box>
     </VStack>

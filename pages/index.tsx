@@ -19,7 +19,6 @@ import PageList from "../src/components/Lists/PageList";
 import SwipeList from "../src/components/Lists/SwipeList";
 import GenreList from "../src/components/Lists/GenreList";
 import HomeText from "../src/components/HomeText";
-import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 import { auth } from "../firebase";
 import useFetchListData from "../src/hooks/useFetchListData";
@@ -126,7 +125,6 @@ const Home: NextPage<IHomeProps> = ({
 
       {/* 장르별 영화 */}
       <GenreList genres={genres} windowWidth={windowWidth} />
-      <Cinema />
     </>
   );
 };
