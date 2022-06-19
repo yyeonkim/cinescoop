@@ -6,7 +6,6 @@ import Profile from "./Profile";
 import Search from "./Search";
 import PageLink from "./PageLink";
 import SwitchMode from "./SwitchMode";
-import { User } from "firebase/auth";
 
 export interface SearchProps {
   version: string;
@@ -35,7 +34,6 @@ function Navigation({ search }: navigationProps) {
           cursor="pointer"
         />
       </Link>
-      <PageLink path="/about" name="About" />
       <PageLink path="/moviebuddy" name="Movie Buddy" />
       <PageLink path="/nowplaying" name="In Theaters" />
       <Spacer />
