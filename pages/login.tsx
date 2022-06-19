@@ -4,10 +4,6 @@ import LocalLogin from "../src/components/LoginSignup/LocalLogin";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 
-interface LoginProps {
-  slideDir: string;
-}
-
 const Login: NextPage = () => {
   const router = useRouter();
 
