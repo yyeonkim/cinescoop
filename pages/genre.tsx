@@ -8,7 +8,6 @@ import SwipeList from "../src/components/Lists/SwipeList";
 import GenreList from "../src/components/Lists/GenreList";
 import Navigation from "../src/components/Navigation/Navigation";
 import HomeText from "../src/components/HomeText";
-import Cinema from "../src/components/Cinema";
 import GenrePlusList from "../src/components/Lists/GenrePlusList";
 import ScrollTopButton from "../src/components/ScrollTopButton";
 

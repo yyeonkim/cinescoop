@@ -25,7 +25,7 @@ function useFetchFriendData() {
         const dbFriendData = await dbFriend.data();
         //   console.log(dbUserData);
 
-        dbFriendData != undefined && setFriendData(dbFriendData);
+        dbFriendData != undefined && setFriendData(dbFriendData as any);
         setIsLoading(false);
       } catch (e) {
         setIsError(true);

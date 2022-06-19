@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useRecoilState } from "recoil";
 import styled from "styled-components";
 import "animate.css";
-import HoverCard from "./HoverCard";
 import { Image, Link } from "@chakra-ui/react";
 import { IMovie, IMovieDetails } from "../interfaces";
 // Import Swiper
@@ -38,9 +37,7 @@ function SwipeCard({ movie, isPoster, hover, isWhite }: CardProps) {
             className="animate__animated animate__zoomIn"
             zIndex={1}
             position="absolute"
-          >
-            <HoverCard info={movie} />
-          </Box>
+          ></Box>
         </Flex>
       ) : (
         <Link color={color}>

@@ -80,7 +80,7 @@ export default function GoodBadButton({
       },
     };
 
-    await setDoc(doc(db, "users", user?.uid), dbInfo);
+    await setDoc(doc(db, "users", user?.uid as string), dbInfo);
   };
 
   // 업데이트한 좋아요/별로예요 영화 목록 가져오기
