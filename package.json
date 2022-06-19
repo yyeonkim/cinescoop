@@ -2,7 +2,6 @@
   "name": "cinescoop-web",
   "private": true,
   "scripts": {
-    "server": "nodemon server.js",
     "dev": "next dev",
     "build": "next build",
     "start": "NODE_ENV=production node server.js"
@@ -25,8 +24,6 @@
     "firebaseui": "^6.0.1",
     "framer-motion": "^5.6.0",
     "next": "^12.1.0",
-    "nodemon": "^2.0.15",
-    "puppeteer": "^13.3.2",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "^7.24.0",
