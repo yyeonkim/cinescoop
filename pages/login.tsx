@@ -25,9 +25,6 @@ const Login: NextPage = () => {
       <Flex
         as={motion.div}
         initial={false}
-        // animation={
-        //   slideDir === "left" ? slideLeftAnimation : slideRightAnimation
-        // }
         flexDir="column"
         width="40%"
         borderRadius="0.3rem"
@@ -69,8 +66,6 @@ const Login: NextPage = () => {
         zIndex={1}
       >
         <LocalLogin />
-        <Divider w="100%" my="2rem" opacity="0.2" borderColor="white" />
-        <ThirdPartyLogin />
       </Flex>
     </Flex>
   );
