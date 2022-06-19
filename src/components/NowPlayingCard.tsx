@@ -8,7 +8,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import WatchButton from "./Buttons/WatchButton";
-import GoodBadButton from "./Buttons/GoodBadButton";
 import useNowDetail from "../hooks/useNowDetail";
 import { useSetRecoilState } from "recoil";
 import { movieIDState } from "../atom";
@@ -16,6 +15,7 @@ import { IMovieDetails, ICast } from "../interfaces";
 import { Movie } from "./VerCard";
 import StarRating from "./StarRatings";
 import ReserveButton from "./Buttons/ReserveButton";
+import { IMAGE_URL } from "../hooks/fetching";
 
 interface CardProps {
   info: Movie;
@@ -43,7 +43,7 @@ function NowPlayingCard({ info, page, key }: CardProps) {
       <Flex mb={10}>
         <Flex w="15rem" cursor="pointer" direction="column" alignItems="center">
           <Img
-            src={`https:www.themoviedb.org/t/p/w1280${info.poster_path}`}
+            src={`${IMAGE_URL}/w1280/${info.poster_path}`}
             borderRadius={5}
           />
         </Flex>
