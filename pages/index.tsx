@@ -82,12 +82,7 @@ const Home: NextPage<IHomeProps> = ({
           ) : watchData.length === 0 ? (
             <Center>아직 찜한 영화가 없습니다</Center>
           ) : (
-            <SwipeList
-              data={watchData}
-              poster={false}
-              slidesNumber={6}
-              white={false}
-            />
+            <SwipeList data={watchData} poster={false} slidesNumber={6} />
           )}
         </Box>
       )}
