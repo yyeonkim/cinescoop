@@ -12,13 +12,13 @@ import {
 import Link from "next/link";
 import { useEffect } from "react";
 import { sendEmailVerification } from "firebase/auth";
+
 import { BASE_QUERY, BASE_URL } from "../src/hooks/fetching";
 import { IMovie, ITrending, IGenre } from "../src/interfaces";
 import PageList from "../src/components/Lists/PageList";
 import SwipeList from "../src/components/Lists/SwipeList";
 import GenreList from "../src/components/Lists/GenreList";
 import HomeText from "../src/components/HomeText";
-import Cinema from "../src/components/Cinema";
 import useWindowDimensions from "../src/hooks/useWindowDimensions";
 import { auth } from "../firebase";
 import useFetchListData from "../src/hooks/useFetchListData";
@@ -125,18 +125,18 @@ const Home: NextPage<IHomeProps> = ({
 
       {/* 장르별 영화 */}
       <GenreList genres={genres} windowWidth={windowWidth} />
-      <Cinema />
     </>
   );
 };
 
+// Pre-render home page at build time using movie data
 export async function getStaticProps() {
-  //Trending movies
+  // Trending movies
   const { results: trending } = await (
     await fetch(`${BASE_URL}/trending/movie/day?${BASE_QUERY}`)
   ).json();
 
-  //Now playing movies
+  // Now playing movies
   let nowPlaying = [];
   for (let i = 1; i <= 3; i++) {
     const { results } = await (

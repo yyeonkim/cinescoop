@@ -63,6 +63,8 @@ function GenreList({ genres, windowWidth }: IGenreProps) {
         <Heading size="lg" mr={10}>
           장르별 영화
         </Heading>
+
+        {/* Dropdown genre menu */}
         <Select size="sm" w="7rem" value={genre.id} onChange={selectGenre}>
           {genres.map((genre) => (
             <option key={genre.id} value={genre.id}>
@@ -77,6 +79,8 @@ function GenreList({ genres, windowWidth }: IGenreProps) {
             <ChevronRightIcon />
           </Link>
         </NextLink>
+
+        {/* 영화 리스트 */}
       </Flex>
       {isLoading ? (
         <Flex justifyContent="center" h="10rem" alignItems="center">

@@ -18,7 +18,7 @@ function useFetchFriendData() {
       setIsLoading(true);
       setIsError(false);
 
-      console.log("selected id", friendId);
+      // console.log("selected id", friendId);
       try {
         const friendRef = doc(db, "users", friendId);
         const dbFriend = await getDoc(friendRef);

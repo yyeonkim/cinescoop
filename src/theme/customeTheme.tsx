@@ -11,8 +11,8 @@ const customTheme = extendTheme({
   config,
   styles,
   fonts: {
-    body: "Nanum Gothic",
-    heading: "Nanum Gothic",
+    body: "Noto Sans Korean",
+    heading: "Noto Sans Korean",
   },
   colors: {
     pink: "#FF5AF1",
