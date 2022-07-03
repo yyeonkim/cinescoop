@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 import DetailButton from "./Buttons/DetailButton";
 import useNowDetail from "../hooks/useNowDetail";
 import { movieIDState } from "../atom";
-import { IMovie } from "../interfaces";
+import { IGenre, IMovie, IMovieDetails } from "../interfaces";
 import GoodBadButton from "./Buttons/GoodBadButton";
 import WatchButton from "./Buttons/WatchButton";
 
