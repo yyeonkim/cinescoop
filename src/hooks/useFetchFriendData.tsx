@@ -1,9 +1,9 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
+
 import { db } from "../../firebase";
 import { friendState, selectedFriendSelector } from "../atom";
-import { IFriend } from "../interfaces";
 
 function useFetchFriendData() {
   const [isLoading, setIsLoading] = useState(false);
@@ -21,7 +21,7 @@ function useFetchFriendData() {
         const dbFriend = await getDoc(friendRef);
         const dbFriendData = await dbFriend.data();
 
-        dbFriendData != undefined && setFriendData(dbFriendData);
+        dbFriendData != undefined && setFriendData(dbFriendData as any);
         setIsLoading(false);
       } catch (e) {
         setIsError(true);
