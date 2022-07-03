@@ -30,7 +30,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
   };
 
   return (
-    <Flex>
+    <Flex mt={10} maxW="1200px">
       <Image src={`${IMAGE_URL}/w300/${detailData?.poster_path}`} />
       <Flex direction="column" justifyContent="space-between" ml="2rem">
         <Stack>

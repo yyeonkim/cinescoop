@@ -80,27 +80,25 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
           <LoadingAnimation />
         </Flex>
       ) : (
-        <Flex direction="column" alignItems="center" px={20}>
-          <MovieDetail detailData={detailData} creditData={creditData} />
-
+        <Flex direction="column" alignItems="center" w="100%" px={10}>
           {/* 상영관 정보 */}
-          <Flex w="100%" mt={10} flexDir="column">
-            <Heading mb={10} color="pink" size="lg" mr={10}>
-              상영관
+          <Flex w="100%" mt={10} flexDir="column" maxW="1200px">
+            <Heading mb={10} mr={10} size="lg" textAlign="center">
+              상영관을 선택하세요
             </Heading>
             {isPlaying ? (
-              <Flex flexWrap="wrap">
+              <Flex flexWrap="wrap" justifyContent="space-between" mb={5}>
                 {cinemas.map((cinema) => (
                   <Link
+                    flexWrap="wrap"
                     href={cinema.href}
                     display="flex"
-                    px={5}
+                    w="30%"
                     alignItems="center"
+                    justifyContent="center"
                     bg="brightBlue"
                     borderRadius="1rem"
                     isExternal
-                    mr={5}
-                    mb={5}
                     color={color}
                   >
                     <Img
@@ -119,6 +117,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
               <Center>상영하는 영화관이 없습니다 😭</Center>
             )}
           </Flex>
+          <MovieDetail detailData={detailData} creditData={creditData} />
         </Flex>
       )}
     </>
