@@ -7,7 +7,6 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
-import { HiOutlineSearch } from "react-icons/hi";
 import { SearchingProps } from "../hooks/useFetchMovie";
 
 function SearchBar({ handleChange }: SearchingProps) {
