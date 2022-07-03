@@ -1,14 +1,12 @@
-import { Flex, Img, Text, Box, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Text, Box, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { useRecoilState } from "recoil";
-import styled from "styled-components";
+import { useSetRecoilState } from "recoil";
 import "animate.css";
+
 import HoverCard from "./HoverCard";
 import { Image, Link } from "@chakra-ui/react";
 import { IMovie, IMovieDetails } from "../interfaces";
-// Import Swiper
-import useNowDetail from "../hooks/useNowDetail";
 import { IMAGE_URL } from "../hooks/fetching";
 import { movieIDState } from "../atom";
 
@@ -23,7 +21,7 @@ function SwipeCard({ movie, isPoster, hover, isWhite }: CardProps) {
   const router = useRouter();
   const color = useColorModeValue("white", "white");
   const [isHover, setIsHover] = useState(0);
-  const [movieID, setMovieID] = useRecoilState(movieIDState);
+  const setMovieID = useSetRecoilState(movieIDState);
 
   const seeMovieInfo = (id: number) => {
     setMovieID(id);

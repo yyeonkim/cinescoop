@@ -11,19 +11,15 @@ function useFetchFriendData() {
   const [friendData, setFriendData] = useRecoilState(friendState);
   const friendId = useRecoilValue(selectedFriendSelector);
 
-  // console.log("selectedFriend", selectedFriend);
-
   useEffect(() => {
     const getFriendData = async () => {
       setIsLoading(true);
       setIsError(false);
 
-      // console.log("selected id", friendId);
       try {
         const friendRef = doc(db, "users", friendId);
         const dbFriend = await getDoc(friendRef);
         const dbFriendData = await dbFriend.data();
-        //   console.log(dbUserData);
 
         dbFriendData != undefined && setFriendData(dbFriendData);
         setIsLoading(false);
