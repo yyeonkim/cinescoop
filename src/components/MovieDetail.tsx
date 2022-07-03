@@ -32,8 +32,11 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
 
   return (
     <Flex mt={10} maxW="1200px">
-      <Image src={`${IMAGE_URL}/w300/${detailData?.poster_path}`} />
-      <Flex direction="column" justifyContent="space-between" ml="2rem">
+      {/* 영화 포스터 */}
+      <Image h="450px" src={`${IMAGE_URL}/w300/${detailData?.poster_path}`} />
+
+      {/* 영화 정보 */}
+      <Flex direction="column" justifyContent="space-between" ml={10}>
         <Stack spacing={4}>
           <Flex alignItems="center">
             <Heading mr={5}>{detailData?.title}</Heading>
@@ -46,29 +49,43 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
               voteAverage={detailData?.vote_average}
               starSize="1.3rem"
             />
-            &nbsp;&nbsp;
+            &ensp;
             {detailData?.vote_average}
           </Text>
           <Text display="flex" alignItems="center" fontWeight="light">
             <Text fontWeight="normal" fontSize="lg">
               개요 &nbsp;
             </Text>
-            {detailData?.genres && `${detailData.genres[0].name} | `}
+            {detailData?.genres &&
+              detailData?.genres.map((genre) => genre.name + " ")}
+            | &nbsp;
             {detailData?.runtime}분 | {detailData?.release_date} 개봉
           </Text>
-          <Text display="flex" alignItems="center" fontWeight="light">
+          <Text display="flex" fontWeight="light">
             <Text fontWeight="normal" fontSize="lg">
               출연 &nbsp;
             </Text>
-            {creditData && creditData[0].name}
+            <Stack>
+              {creditData?.map((credit, i) => {
+                // 출연진 다섯 명까지만 출력
+                if (i < 5) return <Text>{credit.name}</Text>;
+              })}
+            </Stack>
           </Text>
           <Text>{detailData?.overview}</Text>
         </Stack>
 
         {/* 버튼 */}
-        <HStack spacing={5}>
-          <Button color="white" onClick={clickInfo} w="8rem" bg="brightBlue">
-            상세정보
+        <HStack spacing={5} mt={5}>
+          <Button
+            color="white"
+            onClick={clickInfo}
+            w="8rem"
+            borderColor="pink"
+            borderWidth={1}
+            bgColor="transparent"
+          >
+            관련 정보
           </Button>
           <WatchButton movieId={movieId} />
           <GoodBadButton
