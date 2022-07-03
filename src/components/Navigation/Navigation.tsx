@@ -35,7 +35,6 @@ function Navigation({ search }: navigationProps) {
           cursor="pointer"
         />
       </Link>
-      <PageLink path="/about" name="About" />
       <PageLink path="/moviebuddy" name="Movie Buddy" />
       <PageLink path="/nowplaying" name="In Theaters" />
       <Spacer />
