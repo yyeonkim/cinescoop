@@ -129,13 +129,14 @@ const Home: NextPage<IHomeProps> = ({
   );
 };
 
+// Pre-render home page at build time using movie data
 export async function getStaticProps() {
-  //Trending movies
+  // Trending movies
   const { results: trending } = await (
     await fetch(`${BASE_URL}/trending/movie/day?${BASE_QUERY}`)
   ).json();
 
-  //Now playing movies
+  // Now playing movies
   let nowPlaying = [];
   for (let i = 1; i <= 3; i++) {
     const { results } = await (
