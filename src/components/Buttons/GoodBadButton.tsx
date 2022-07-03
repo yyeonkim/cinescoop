@@ -17,7 +17,7 @@ import { ratingState } from "../../atom";
 interface IGoodBadButtonProps {
   type: "good" | "bad";
   movieId: number;
-  genres: IGenre[] | undefined;
+  genres: IGenre[] | undefined | never[];
 }
 
 // 좋아요 또는 별로예요를 나타내는 컴포넌트

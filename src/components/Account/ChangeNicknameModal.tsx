@@ -9,7 +9,6 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import NewIdForm from "./NewNickNameForm";
-import { auth } from "../../../firebase";
 
 function ChangeNickNameModal({ isOpen, onClose }: any) {
   return (

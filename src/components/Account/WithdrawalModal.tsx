@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
-import { deleteUser, getAuth } from "firebase/auth";
+import { deleteUser } from "firebase/auth";
 import { useRouter } from "next/router";
 
 import { IPasswordForm } from "../../interfaces";
