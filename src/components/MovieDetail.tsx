@@ -46,7 +46,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
               평점 &nbsp;
             </Text>
             <StarRating
-              voteAverage={detailData?.vote_average}
+              voteAverage={detailData?.vote_average as number}
               starSize="1.3rem"
             />
             &ensp;
