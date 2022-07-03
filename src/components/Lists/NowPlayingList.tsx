@@ -1,5 +1,5 @@
 import useFetchNow from "../../hooks/useFetchNow";
-import { Heading, Grid, Flex, Box, Spinner } from "@chakra-ui/react";
+import { Grid, Flex, Box } from "@chakra-ui/react";
 import LoadingAnimation from "../LoadingAnimation";
 import NowPlayingCard from "../NowPlayingCard";
 import type { Movie } from "../VerCard";

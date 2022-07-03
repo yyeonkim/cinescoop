@@ -4,13 +4,12 @@ import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 import { useState, useEffect } from "react";
 
-import BadButton from "./Buttons/BadButton";
-import GoodButton from "./Buttons/GoodButton";
-import WatchButton from "./Buttons/WatchButton";
 import DetailButton from "./Buttons/DetailButton";
 import useNowDetail from "../hooks/useNowDetail";
 import { movieIDState } from "../atom";
 import { IMovie } from "../interfaces";
+import GoodBadButton from "./Buttons/GoodBadButton";
+import WatchButton from "./Buttons/WatchButton";
 
 interface HoverProps {
   info: IMovie;
@@ -64,9 +63,17 @@ function HoverCard({ info }: HoverProps) {
           <Box p={1}>
             <Flex alignItems="center">
               <Text textColor="white">{info.title}</Text>
-              <GoodButton />
-              <BadButton />
-              <WatchButton />
+              <GoodBadButton
+                type="good"
+                movieId={movieID}
+                genres={movieDetail.genres}
+              />
+              <GoodBadButton
+                type="bad"
+                movieId={movieID}
+                genres={movieDetail.genres}
+              />
+              <WatchButton movieId={movieID} />
             </Flex>
             <Text textColor="white">{movieDetail.runtime} 분</Text>
             <Flex>

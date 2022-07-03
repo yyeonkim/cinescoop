@@ -39,7 +39,7 @@ function AccountBox() {
   }, [user, login]);
 
   const verifyEmail = () => {
-    router.push("/"); // Home으로 가면 인증 메일이 보내진다.
+    router.push("/"); 
   };
 
   return (

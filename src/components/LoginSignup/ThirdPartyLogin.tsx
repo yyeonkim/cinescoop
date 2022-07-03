@@ -27,7 +27,6 @@ function ThirdPartyLogin() {
     const dbUser = await getDoc(doc(db, "users", id));
 
     if (dbUser.exists()) {
-      console.log("user already exists");
     } else {
       // username이 없을 경우 랜덤 문자 부여
       if (!username) {
@@ -42,7 +41,6 @@ function ThirdPartyLogin() {
           movies: { watch: [], good: [], bad: [] },
           genres: {},
         });
-        console.log("complete to save");
       } catch (e) {
         console.error("Error adding document: ", e);
       }
@@ -62,7 +60,6 @@ function ThirdPartyLogin() {
       .then((result) => {
         const googleUser = result.user;
 
-        console.log("login success with Google");
         saveThirdPartyUserToDb(googleUser.uid, googleUser.displayName);
         router.push("/");
       })
@@ -76,7 +73,6 @@ function ThirdPartyLogin() {
       .then((result) => {
         const facebookUser = result.user;
 
-        console.log("login success with Facebook");
         saveThirdPartyUserToDb(facebookUser.uid, facebookUser.displayName);
         router.push("/");
       })
@@ -90,7 +86,6 @@ function ThirdPartyLogin() {
       .then((result) => {
         const twitterUser = result.user;
 
-        console.log("login success with Twitter");
         saveThirdPartyUserToDb(twitterUser.uid, twitterUser.displayName);
         router.push("/");
       })

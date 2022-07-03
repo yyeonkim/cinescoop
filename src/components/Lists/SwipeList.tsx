@@ -1,7 +1,4 @@
 import { useState } from "react";
-// Import Chakra
-import { Image, Link, Text, Flex, Box } from "@chakra-ui/react";
-// Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -9,10 +6,6 @@ import SwipeCard from "../SwipeCard";
 import SwiperCore, { Navigation } from "swiper";
 
 import { IMovie, IMovieDetails } from "../../interfaces";
-import { IMAGE_URL } from "../../hooks/fetching";
-import { useSetRecoilState } from "recoil";
-import { movieIDState } from "../../atom";
-import { useRouter } from "next/router";
 SwiperCore.use([Navigation]);
 
 interface ISwipeProps {
@@ -25,8 +18,6 @@ interface ISwipeProps {
 
 function SwipeList({ data, poster, slidesNumber, hover, white }: ISwipeProps) {
   const [isPoster, setIsPoster] = useState(poster);
-  const setMovieID = useSetRecoilState(movieIDState);
-  const router = useRouter();
 
   return (
     <>
@@ -64,28 +55,6 @@ function SwipeList({ data, poster, slidesNumber, hover, white }: ISwipeProps) {
                   hover={false}
                   isWhite={white}
                 />
-
-                {/* <Link>
-                  {isPoster ? (
-                    <Image
-                      src={`${IMAGE_URL}/w300/${movie.poster_path}`}
-                      alt={movie.title}
-                      objectFit="cover"
-                      h="450px"
-                      maxH="450px"
-                    />
-                  ) : (
-                    <Image
-                      src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
-                      alt={movie.title}
-                      objectFit="cover"
-                    />
-                  )}
-
-                  <Text fontSize="md" align="center" mt={1}>
-                    {movie.title}
-                  </Text>
-                </Link> */}
               </SwiperSlide>
             )
         )}
