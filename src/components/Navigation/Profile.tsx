@@ -12,15 +12,11 @@ import {
 import { AiOutlineUser } from "react-icons/ai";
 import { onAuthStateChanged, signOut, User } from "firebase/auth";
 import { useRouter } from "next/router";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 
 import { loginState } from "../../atom";
 import { auth } from "../../../firebase";
 import { useEffect } from "react";
-
-interface profileProps {
-  user: User | null;
-}
 
 function Profile() {
   const user = auth.currentUser;
@@ -36,7 +32,6 @@ function Profile() {
         setLogin(false);
       }
     });
-    console.log(login);
   }, [user, login]);
 
   const logout = () => {
@@ -44,7 +39,6 @@ function Profile() {
       .then(() => {
         setLogin(false);
         localStorage.removeItem("user");
-        console.log("User logged out");
         router.push("/");
         toast({
           title: "로그아웃 완료",

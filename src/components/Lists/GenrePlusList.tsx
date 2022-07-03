@@ -1,12 +1,11 @@
 import axios from "axios";
 import { useRecoilState } from "recoil";
 import { useState, useEffect, useCallback } from "react";
-import { Heading, Select, Flex, Box, Spacer, Spinner } from "@chakra-ui/react";
+import { Heading, Select, Flex, Box, Spinner } from "@chakra-ui/react";
 import { genreState } from "../../atom";
 import { BASE_URL, BASE_QUERY } from "../../hooks/fetching";
 import GridList from "./GridList";
 import { IGenre } from "../../interfaces";
-import { useLocation } from "react-router-dom";
 
 export interface GenreProps {
   genres: IGenre[];

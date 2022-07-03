@@ -11,7 +11,6 @@ import {
 } from "@chakra-ui/react";
 import ReauthenticateForm from "./ReauthenticateForm";
 import NewPasswordForm from "./NewPasswordForm";
-import { getAuth } from "firebase/auth";
 import { auth } from "../../../firebase";
 
 function ChangePasswordModal({ isOpen, onClose }: any) {

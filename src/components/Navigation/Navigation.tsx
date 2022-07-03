@@ -6,7 +6,6 @@ import Profile from "./Profile";
 import Search from "./Search";
 import PageLink from "./PageLink";
 import SwitchMode from "./SwitchMode";
-import { User } from "firebase/auth";
 
 export interface SearchProps {
   version: string;

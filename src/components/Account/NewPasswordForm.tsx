@@ -4,14 +4,12 @@ import {
   Flex,
   Text,
   Button,
-  Icon,
   Input,
   InputGroup,
   InputRightElement,
   useToast,
 } from "@chakra-ui/react";
-import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { getAuth, updatePassword } from "firebase/auth";
+import { updatePassword } from "firebase/auth";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
@@ -46,10 +44,7 @@ function NewPasswordForm({
     resolver: yupResolver(passwordCheckSchema),
   });
 
-  const handleClick = () => setShow(!show);
-
   const onPasswordUpdateSubmit: SubmitHandler<IPasswordCheckForm> = () => {
-    console.log("passwordsubmitted");
     if (verified && user != null) {
       updatePassword(user, getValues("newPasswordCheck"))
         .then(() => {
