@@ -53,7 +53,6 @@ const Moviebuddy: NextPage = () => {
               <Analysis
                 userData={userData}
                 friend={selectedFriend}
-                isUser={isUser}
               />
               <Flex flexDir="column" width="100%" mt="4rem">
                 <Heading size="lg" mb="1rem">

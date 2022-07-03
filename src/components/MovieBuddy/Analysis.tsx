@@ -9,19 +9,19 @@ import {
   Text,
   Wrap,
 } from "@chakra-ui/react";
+import { DocumentData } from "firebase/firestore";
 import { FC } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { selectedFriendState } from "../../atom";
 import useFetchFriendData from "../../hooks/useFetchFriendData";
-import { IFriend, IUserDB } from "../../interfaces";
+import { IFriend } from "../../interfaces";
 
 interface AnalysisProps {
-  userData: IUserDB;
-  isUser: boolean;
+  userData: DocumentData;
   friend: IFriend;
 }
 
-const Analysis: FC<AnalysisProps> = ({ userData, isUser, friend }) => {
+const Analysis: FC<AnalysisProps> = ({ userData, friend }) => {
   const { friendData, isLoading, isError } = useFetchFriendData();
   const setSelectedFriend = useSetRecoilState(selectedFriendState);
 
