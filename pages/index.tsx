@@ -100,13 +100,7 @@ const Home: NextPage<IHomeProps> = ({
           </Link>
         </Flex>
         <Divider borderColor="gray.50" mb={10} />
-        <SwipeList
-          data={nowPlaying}
-          poster={true}
-          slidesNumber={5}
-          hover={true}
-          white={true}
-        />
+        <SwipeList data={nowPlaying} poster={true} slidesNumber={5} />
       </Box>
 
       {/* 영화 순위 */}
@@ -114,13 +108,7 @@ const Home: NextPage<IHomeProps> = ({
         <Heading size="lg" mb={10}>
           영화 순위
         </Heading>
-        <SwipeList
-          data={topRated}
-          poster={false}
-          slidesNumber={6}
-          hover={true}
-          white={false}
-        />
+        <SwipeList data={topRated} poster={false} slidesNumber={6} />
       </Box>
 
       {/* 장르별 영화 */}

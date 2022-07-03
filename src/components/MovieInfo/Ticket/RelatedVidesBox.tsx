@@ -1,7 +1,6 @@
 import {
   AspectRatio,
   Flex,
-  Text,
   Tab,
   TabList,
   TabPanel,

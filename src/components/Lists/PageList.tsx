@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Heading, Image, Link } from "@chakra-ui/react";
-import NextLink from "next/link";
 // Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";

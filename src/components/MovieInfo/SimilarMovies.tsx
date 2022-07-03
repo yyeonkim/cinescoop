@@ -1,4 +1,4 @@
-import { Flex, Heading, useColorModeValue } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 import { IMovie } from "../../interfaces";
 import SwipeList from "../Lists/SwipeList";
 
@@ -19,7 +19,7 @@ function SimilarMovies({ data }: similarMoviesProps) {
       flexDir="column"
     >
       <Heading marginBottom="1.5rem">Similar Movies</Heading>
-      <SwipeList data={data} poster={true} slidesNumber={4} hover={false} />
+      <SwipeList data={data} poster={true} slidesNumber={4} />
     </Flex>
   );
 }
