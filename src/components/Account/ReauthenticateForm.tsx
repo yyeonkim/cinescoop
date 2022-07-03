@@ -1,7 +1,6 @@
 import {
   Button,
   Flex,
-  Icon,
   Input,
   InputGroup,
   InputRightElement,
@@ -11,7 +10,6 @@ import {
 import { yupResolver } from "@hookform/resolvers/yup";
 import {
   EmailAuthProvider,
-  getAuth,
   OAuthProvider,
   reauthenticateWithCredential,
   reauthenticateWithPopup,
@@ -19,8 +17,6 @@ import {
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import {
-  AiFillEye,
-  AiFillEyeInvisible,
   AiFillCheckCircle,
 } from "react-icons/ai";
 import styled from "styled-components";
@@ -51,8 +47,6 @@ function ReauthenticateForm({
   } = useForm<IPasswordForm>({
     resolver: yupResolver(reauthenticateSchema),
   });
-
-  const clickShow = () => setShow(!show);
 
   const onVerifySubmit: SubmitHandler<IPasswordForm> = () => {
     if (user) {

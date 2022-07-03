@@ -1,8 +1,8 @@
 import { Flex, Img, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
-import styled from "styled-components";
 import "animate.css";
+
 import { movieIDState } from "../atom";
 
 interface Movie {

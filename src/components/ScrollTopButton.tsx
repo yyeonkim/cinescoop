@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, IconButton, Box } from "@chakra-ui/react";
+import { IconButton } from "@chakra-ui/react";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 
 const ScrollTopButton = () => {

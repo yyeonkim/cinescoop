@@ -6,9 +6,7 @@ import SwipeCard from "../SwipeCard";
 import SwiperCore, { Navigation } from "swiper";
 
 import { IMovie, IMovieDetails } from "../../interfaces";
-import { useSetRecoilState } from "recoil";
-import { movieIDState } from "../../atom";
-import { useRouter } from "next/router";
+
 SwiperCore.use([Navigation]);
 
 interface ISwipeProps {
@@ -19,8 +17,6 @@ interface ISwipeProps {
 
 function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
   const [isPoster, setIsPoster] = useState(poster);
-  const setMovieID = useSetRecoilState(movieIDState);
-  const router = useRouter();
 
   return (
     <>

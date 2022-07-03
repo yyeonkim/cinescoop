@@ -36,8 +36,6 @@ function AddBuddyLink() {
     await navigator.clipboard.writeText(createLink());
   };
 
-  console.log(currTime);
-
   return (
     <Popover
       initialFocusRef={initialFocusRef}

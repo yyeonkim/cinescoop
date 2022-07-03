@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, Heading, Image, Link } from "@chakra-ui/react";
-// Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
