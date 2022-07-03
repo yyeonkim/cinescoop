@@ -1,3 +1,4 @@
+import { DocumentData } from "firebase/firestore";
 import { atom, selector } from "recoil";
 import { IFriend, IUserDB } from "./interfaces";
 
@@ -153,7 +154,7 @@ export const friendListState = atom({
   ],
 });
 
-export const userState = atom<IUserDB>({
+export const userState = atom<DocumentData>({
   key: "userState",
   default: {
     friends: [
@@ -194,5 +195,3 @@ export const selectedFriendSelector = selector<string>({
     return selectedFriend.friendId;
   },
 });
-
-// export const

@@ -2,7 +2,7 @@ import StarRatings from "react-star-ratings";
 import { useColorModeValue } from "@chakra-ui/react";
 
 interface RatingProps {
-  voteAverage: number;
+  voteAverage?: number;
   starSize: string;
 }
 

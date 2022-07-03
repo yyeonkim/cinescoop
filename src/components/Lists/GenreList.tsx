@@ -1,4 +1,3 @@
-// Import Chakra
 import {
   Heading,
   Image,
@@ -10,9 +9,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
-// import Next
 import NextLink from "next/link";
-// Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";

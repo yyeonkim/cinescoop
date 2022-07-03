@@ -105,12 +105,7 @@ const Home: NextPage<IHomeProps> = ({
           </Link>
         </Flex>
         <Divider borderColor="gray.50" mb={10} />
-        <SwipeList
-          data={nowPlaying}
-          poster={true}
-          slidesNumber={5}
-          white={true}
-        />
+        <SwipeList data={nowPlaying} poster={true} slidesNumber={5} />
       </Box>
 
       {/* 영화 순위 */}
@@ -118,12 +113,7 @@ const Home: NextPage<IHomeProps> = ({
         <Heading size="lg" mb={10}>
           영화 순위
         </Heading>
-        <SwipeList
-          data={topRated}
-          poster={false}
-          slidesNumber={6}
-          white={false}
-        />
+        <SwipeList data={topRated} poster={false} slidesNumber={6} />
       </Box>
 
       {/* 장르별 영화 */}
@@ -132,13 +122,14 @@ const Home: NextPage<IHomeProps> = ({
   );
 };
 
+// Pre-render home page at build time using movie data
 export async function getStaticProps() {
-  //Trending movies
+  // Trending movies
   const { results: trending } = await (
     await fetch(`${BASE_URL}/trending/movie/day?${BASE_QUERY}`)
   ).json();
 
-  //Now playing movies
+  // Now playing movies
   let nowPlaying = [];
   for (let i = 1; i <= 3; i++) {
     const { results } = await (

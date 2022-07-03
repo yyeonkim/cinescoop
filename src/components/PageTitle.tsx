@@ -1,5 +1,6 @@
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import { FC } from "react";
+
 import { IPageTitle } from "../interfaces";
 
 const PageTitle: FC<IPageTitle> = ({ title, subtitle }) => {
@@ -10,7 +11,7 @@ const PageTitle: FC<IPageTitle> = ({ title, subtitle }) => {
         w="100%"
         position="absolute"
         h="10rem"
-        zIndex="-1"
+        zIndex="-5"
         top="0"
       />
       <Flex
@@ -21,10 +22,10 @@ const PageTitle: FC<IPageTitle> = ({ title, subtitle }) => {
         w="100%"
         mb="1rem"
       >
-        <Heading as="h1" size="3xl">
+        <Heading as="h1" size="3xl" color="white">
           {title}
         </Heading>
-        <Heading as="h2" size="sm" mt="0.5rem">
+        <Heading as="h2" size="sm" mt="0.5rem" color="white">
           {subtitle}
         </Heading>
       </Flex>

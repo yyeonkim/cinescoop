@@ -1,12 +1,10 @@
 import type { NextPage } from "next";
 import { Text, Heading, Flex, Button } from "@chakra-ui/react";
 import LocalLogin from "../src/components/LoginSignup/LocalLogin";
-import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 
 const Login: NextPage = () => {
   const router = useRouter();
-
   return (
     <Flex
       w="55vw"
@@ -17,18 +15,15 @@ const Login: NextPage = () => {
       zIndex={0}
     >
       <Flex
-        as={motion.div}
-        initial={false}
         flexDir="column"
-        width="40%"
-        borderRadius="0.3rem"
-        align="center"
-        justify="center"
+        width="25vw"
+        h="100%"
         p="5rem 3rem"
         m="0 auto"
-        backgroundColor="pink"
-        position="relative"
-        zIndex={2}
+        position="absolute"
+        zIndex={3}
+        align="center"
+        justify="center"
       >
         <Heading size="xl" mb="2rem">
           환영합니다!
@@ -50,6 +45,15 @@ const Login: NextPage = () => {
           회원가입
         </Button>
       </Flex>
+      <Flex
+        initial={false}
+        width="25vw"
+        borderRadius="0.3rem"
+        p="5rem 3rem"
+        m="0 auto"
+        backgroundColor="pink"
+        zIndex={2}
+      />
       <Flex
         flexDir="column"
         justify="center"

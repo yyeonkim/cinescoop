@@ -21,9 +21,10 @@ function useFetchUserData() {
           const userRef = doc(db, "users", user.uid);
           const dbUser = await getDoc(userRef);
           const dbUserData = await dbUser.data();
-          //   console.log(dbUserData);
 
-          dbUserData != undefined && setUserData(dbUserData as any);
+          if (dbUserData != undefined) {
+            setUserData(dbUserData);
+          }
           setIsLoading(false);
         } catch (e) {
           setIsError(true);

@@ -1,13 +1,8 @@
 import type { NextPage } from "next";
-import { Box, Button, Divider, Flex, Heading } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 
 import { BASE_URL } from "../src/hooks/fetching";
-import { IMovie, ITrending, IGenre } from "../src/interfaces";
-import PageList from "../src/components/Lists/PageList";
-import SwipeList from "../src/components/Lists/SwipeList";
-import GenreList from "../src/components/Lists/GenreList";
-import Navigation from "../src/components/Navigation/Navigation";
-import HomeText from "../src/components/HomeText";
+import { IGenre } from "../src/interfaces";
 import GenrePlusList from "../src/components/Lists/GenrePlusList";
 import ScrollTopButton from "../src/components/ScrollTopButton";
 

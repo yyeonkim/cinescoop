@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
+import { Flex, Box, Heading } from "@chakra-ui/react";
+
 import AccountBox from "../src/components/Account/AccountBox";
-import Navigation from "../src/components/Navigation/Navigation";
-import { Flex, Text, Box, Heading } from "@chakra-ui/react";
 
 const MyPage: NextPage = () => {
   return (

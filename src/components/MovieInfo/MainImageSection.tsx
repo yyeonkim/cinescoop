@@ -1,5 +1,4 @@
 import { Flex, Image } from "@chakra-ui/react";
-
 import { IMAGE_URL } from "../../hooks/fetching";
 
 interface MainImageSectionProps {

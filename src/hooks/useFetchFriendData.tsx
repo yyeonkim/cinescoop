@@ -20,7 +20,6 @@ function useFetchFriendData() {
         const friendRef = doc(db, "users", friendId);
         const dbFriend = await getDoc(friendRef);
         const dbFriendData = await dbFriend.data();
-        //   console.log(dbUserData);
 
         dbFriendData != undefined && setFriendData(dbFriendData as any);
         setIsLoading(false);

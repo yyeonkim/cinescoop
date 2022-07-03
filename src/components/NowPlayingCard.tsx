@@ -6,15 +6,16 @@ import {
   Box,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import WatchButton from "./Buttons/WatchButton";
-import useNowDetail from "../hooks/useNowDetail";
 import { useSetRecoilState } from "recoil";
+import { useRouter } from "next/router";
+
 import { movieIDState } from "../atom";
+import WatchButton from "./Buttons/WatchButton";
+import ReserveButton from "./Buttons/ReserveButton";
+import useNowDetail from "../hooks/useNowDetail";
 import { IMovieDetails, ICast } from "../interfaces";
 import { Movie } from "./VerCard";
 import StarRating from "./StarRatings";
-import ReserveButton from "./Buttons/ReserveButton";
 import { IMAGE_URL } from "../hooks/fetching";
 
 interface CardProps {

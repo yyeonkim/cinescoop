@@ -1,6 +1,4 @@
 import { useState } from "react";
-// Import Chakra
-// Import Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -14,10 +12,9 @@ interface ISwipeProps {
   data: IMovie[] | IMovieDetails[];
   poster: boolean;
   slidesNumber: number;
-  white: boolean;
 }
 
-function SwipeList({ data, poster, slidesNumber, white }: ISwipeProps) {
+function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
   const [isPoster, setIsPoster] = useState(poster);
 
   return (
@@ -50,12 +47,7 @@ function SwipeList({ data, poster, slidesNumber, white }: ISwipeProps) {
           (movie) =>
             movie.poster_path && (
               <SwiperSlide key={movie.id} className="wrapper__navigation">
-                <SwipeCard
-                  isPoster={isPoster}
-                  movie={movie}
-                  hover={false}
-                  isWhite={white}
-                />
+                <SwipeCard isPoster={isPoster} movie={movie} />
               </SwiperSlide>
             )
         )}

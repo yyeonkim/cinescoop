@@ -1,6 +1,5 @@
 import React from "react";
-import { useState } from "react";
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import {
   Modal,
   ModalOverlay,
@@ -10,11 +9,8 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import NewIdForm from "./NewNickNameForm";
-import { auth } from "../../../firebase";
 
 function ChangeNickNameModal({ isOpen, onClose }: any) {
-  const user = auth.currentUser;
-
   return (
     <Modal
       size="xl"
