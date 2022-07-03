@@ -50,10 +50,7 @@ const Moviebuddy: NextPage = () => {
           <>
             <Flex flexDir="column" px="10rem">
               <FriendList friends={userData.friends} />
-              <Analysis
-                userData={userData}
-                friend={selectedFriend}
-              />
+              <Analysis userData={userData} friend={selectedFriend} />
               <Flex flexDir="column" width="100%" mt="4rem">
                 <Heading size="lg" mb="1rem">
                   좋아하는 영화
@@ -65,7 +62,6 @@ const Moviebuddy: NextPage = () => {
                     data={friendGoodData}
                     poster={false}
                     slidesNumber={6}
-                    white={false}
                   />
                 )}
               </Flex>
