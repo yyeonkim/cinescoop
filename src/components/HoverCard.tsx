@@ -1,13 +1,12 @@
 import { Flex, Text, Box } from "@chakra-ui/react";
 import axios from "axios";
-import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { useState, useEffect } from "react";
 
 import DetailButton from "./Buttons/DetailButton";
 import useNowDetail from "../hooks/useNowDetail";
 import { movieIDState } from "../atom";
-import { IGenre, IMovie, IMovieDetails } from "../interfaces";
+import { IGenre, IMovie } from "../interfaces";
 import GoodBadButton from "./Buttons/GoodBadButton";
 import WatchButton from "./Buttons/WatchButton";
 
@@ -16,10 +15,9 @@ interface HoverProps {
 }
 
 function HoverCard({ info }: HoverProps) {
-  const router = useRouter();
-  const [movieID, setMovieID] = useRecoilState(movieIDState);
+  const movieID = useRecoilValue(movieIDState);
   const { movieDetail } = useNowDetail(info.id);
-  const [video, setVideo] = useState([]);
+  const [video, setVideo] = useState<any>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -44,11 +42,6 @@ function HoverCard({ info }: HoverProps) {
 
     getMovieVideos();
   }, [info.id]);
-
-  const seeMovieInfo = (id: number) => {
-    setMovieID(id);
-    router.push(`/movieinfo/${id}`);
-  };
 
   return (
     <>
@@ -78,7 +71,7 @@ function HoverCard({ info }: HoverProps) {
             <Text textColor="white">{movieDetail.runtime} 분</Text>
             <Flex>
               {movieDetail.genres &&
-                movieDetail.genres.map((genre) => (
+                movieDetail.genres.map((genre: IGenre) => (
                   <Text textColor="white" mr={1} key={genre.id}>
                     {genre.name}
                   </Text>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { ICast } from "../../src/interfaces";
 
 function useNowDetail(id: number) {
-  const [movieDetail, setMovieDetail] = useState([]);
+  const [movieDetail, setMovieDetail] = useState<any>([]);
   const [cast, setCast] = useState<ICast[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
