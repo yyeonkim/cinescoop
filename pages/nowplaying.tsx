@@ -1,5 +1,6 @@
 import { Flex } from "@chakra-ui/react";
 import type { NextPage } from "next";
+
 import NowPlayingList from "../src/components/Lists/NowPlayingList";
 import PageTitle from "../src/components/PageTitle";
 

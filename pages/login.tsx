@@ -1,14 +1,10 @@
 import type { NextPage } from "next";
-import styled, { css } from "styled-components";
 import { Text, Heading, Flex, Button, Divider } from "@chakra-ui/react";
-import ThirdPartyLogin from "../src/components/LoginSignup/ThirdPartyLogin";
-import LocalLogin from "../src/components/LoginSignup/LocalLogin";
 import { motion } from "framer-motion";
 import { useRouter } from "next/router";
 
-interface LoginProps {
-  slideDir: string;
-}
+import ThirdPartyLogin from "../src/components/LoginSignup/ThirdPartyLogin";
+import LocalLogin from "../src/components/LoginSignup/LocalLogin";
 
 const Login: NextPage = () => {
   const router = useRouter();
@@ -25,9 +21,6 @@ const Login: NextPage = () => {
       <Flex
         as={motion.div}
         initial={false}
-        // animation={
-        //   slideDir === "left" ? slideLeftAnimation : slideRightAnimation
-        // }
         flexDir="column"
         width="40%"
         borderRadius="0.3rem"
@@ -77,38 +70,3 @@ const Login: NextPage = () => {
 };
 
 export default Login;
-
-const AnimatedFlex = styled.button<LoginProps>`
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-  border-radius: 0.3rem;
-  align-items: center;
-  justify-content: center;
-  padding: 5rem 3rem;
-  background-color: pink;
-  margin: 0 auto;
-
-  animation: ${
-      (props) => (props.slideDir === "left" ? "slide-left" : "slide-right")
-      // if (props.slideDir === "left") {
-      //   return "slide-left";
-      // } else {
-      //   return "slide-right";
-      // }
-    }
-    infinite;
-
-  /* ${(props) =>
-    props.slideDir === "left"
-      ? css`
-          animation: slide-left 5s 1;
-        `
-      : css`
-          animation: slide-right;
-        `}; */
-
-  /* &:active {
-    animation: slide-right 1s 1;
-  } */
-`;
