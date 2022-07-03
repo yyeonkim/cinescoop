@@ -15,6 +15,7 @@ import { movieIDState } from "../atom";
 import { ICast, IMovieDetails } from "../interfaces";
 import WatchButton from "./Buttons/WatchButton";
 import GoodBadButton from "./Buttons/GoodBadButton";
+import StarRating from "./StarRatings";
 
 interface IDetailProps {
   detailData?: IMovieDetails;
@@ -33,7 +34,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
     <Flex mt={10} maxW="1200px">
       <Image src={`${IMAGE_URL}/w300/${detailData?.poster_path}`} />
       <Flex direction="column" justifyContent="space-between" ml="2rem">
-        <Stack>
+        <Stack spacing={4}>
           <Flex alignItems="center">
             <Heading mr={5}>{detailData?.title}</Heading>
           </Flex>
@@ -41,6 +42,11 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
             <Text fontWeight="normal" fontSize="lg">
               평점 &nbsp;
             </Text>
+            <StarRating
+              voteAverage={detailData?.vote_average}
+              starSize="1.3rem"
+            />
+            &nbsp;&nbsp;
             {detailData?.vote_average}
           </Text>
           <Text display="flex" alignItems="center" fontWeight="light">
