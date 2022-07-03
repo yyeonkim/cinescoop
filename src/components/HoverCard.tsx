@@ -1,16 +1,15 @@
-import { Flex, Img, Text, Box, Button } from "@chakra-ui/react";
+import { Flex, Text, Box } from "@chakra-ui/react";
 import axios from "axios";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
+import { useState, useEffect } from "react";
+
 import BadButton from "./Buttons/BadButton";
 import GoodButton from "./Buttons/GoodButton";
 import WatchButton from "./Buttons/WatchButton";
-import GoodBadButton from "./Buttons/GoodBadButton";
-import { useRouter } from "next/router";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { movieIDState } from "../atom";
-import useNowDetail from "../hooks/useNowDetail";
-import ReserveButton from "./Buttons/ReserveButton";
-import { useState, useEffect } from "react";
 import DetailButton from "./Buttons/DetailButton";
+import useNowDetail from "../hooks/useNowDetail";
+import { movieIDState } from "../atom";
 import { IMovie } from "../interfaces";
 
 interface HoverProps {
@@ -51,8 +50,6 @@ function HoverCard({ info }: HoverProps) {
     setMovieID(id);
     router.push(`/movieinfo/${id}`);
   };
-
-  console.log(movieDetail);
 
   return (
     <>
