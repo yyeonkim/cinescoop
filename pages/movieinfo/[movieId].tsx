@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useRecoilValue, useSetRecoilState } from "recoil";
-import { Flex } from "@chakra-ui/react";
+import { Center, Flex } from "@chakra-ui/react";
 
 import useFetchMovieDetails from "../../src/hooks/useFetchMovieInfo";
 import MainImageSection from "../../src/components/MovieInfo/MainImageSection";
@@ -9,6 +9,7 @@ import { movieIDState, movieInfoState } from "../../src/atom";
 import Ticket from "../../src/components/MovieInfo/Ticket";
 import { NextPage } from "next";
 import { useEffect } from "react";
+import LoadingAnimation from "../../src/components/LoadingAnimation";
 
 const MovieInfoPage: NextPage = () => {
   const {
@@ -28,7 +29,9 @@ const MovieInfoPage: NextPage = () => {
   return (
     <>
       {isLoading ? (
-        <div>loading</div>
+        <Center h="30rem">
+          <LoadingAnimation />
+        </Center>
       ) : (
         <Flex flexDirection="column" alignItems="center" w="100%">
           <MainImageSection filePath={movieInfo.details.backdrop_path} />
