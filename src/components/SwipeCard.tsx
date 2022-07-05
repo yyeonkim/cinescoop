@@ -38,7 +38,8 @@ function SwipeCard({ movie, isPoster }: CardProps) {
             <Image
               src={`${IMAGE_URL}/w300/${movie.poster_path}`}
               alt={movie.title}
-              objectFit="contain"
+              objectFit="cover"
+              w={["200px", "200px", "230px", "200px", "300px"]}
               h={["300px", "300px", "350px", "300px", "450px"]}
             />
           ) : (
