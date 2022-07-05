@@ -26,10 +26,10 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
   return (
     <Flex padding="2rem 5rem 5rem 5rem" flexDir="column">
       <Heading size="2xl" textAlign="center">
-        {details.title}
+        {details?.title}
       </Heading>
       <Box mt={2} textAlign="center">
-        <StarRating voteAverage={details.vote_average} starSize={"1.5rem"} />
+        <StarRating voteAverage={details?.vote_average} starSize={"1.5rem"} />
       </Box>
       <Flex
         w="100%"
@@ -39,21 +39,21 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
       >
         <Flex flexDir="column" w="45%">
           <Image
-            src={`https://www.themoviedb.org/t/p/w1280/${details.poster_path} `}
+            src={`https://www.themoviedb.org/t/p/w1280/${details?.poster_path} `}
             w="100%"
             h="s"
           />
           <HStack maxW="min-content" spacing="0.5rem" mt="1rem">
-            <WatchButton movieId={details.id} />
+            <WatchButton movieId={details?.id} />
             <GoodBadButton
               type="good"
-              movieId={details.id}
-              genres={details.genres}
+              movieId={details?.id}
+              genres={details?.genres}
             />
             <GoodBadButton
               type="bad"
-              movieId={details.id}
-              genres={details.genres}
+              movieId={details?.id}
+              genres={details?.genres}
             />
           </HStack>
         </Flex>
@@ -69,12 +69,12 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
         >
           <GridItem>Release Date</GridItem>
           <GridItem textAlign="right" fontWeight="normal">
-            {details.release_date}
+            {details?.release_date}
           </GridItem>
           <GridItem>Genres</GridItem>
           <GridItem textAlign="right" fontWeight="normal">
             <List textAlign="right">
-              {details.genres.map((genre) => (
+              {details?.genres.map((genre) => (
                 <ListItem key={genre.id}>{genre.name}</ListItem>
               ))}
             </List>
@@ -108,7 +108,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
         </Grid>
       </Flex>
       <Text textAlign="justify" fontSize="1rem">
-        {details.overview}
+        {details?.overview}
       </Text>
     </Flex>
   );
