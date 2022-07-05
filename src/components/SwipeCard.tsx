@@ -1,4 +1,4 @@
-import { Flex, Text, Box, useColorModeValue } from "@chakra-ui/react";
+import { Text, Box, useColorModeValue } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
@@ -38,9 +38,15 @@ function SwipeCard({ movie, isPoster }: CardProps) {
             <Image
               src={`${IMAGE_URL}/w300/${movie.poster_path}`}
               alt={movie.title}
-              objectFit="cover"
-              h="450px"
-              maxH="450px"
+              objectFit="contain"
+              breakpoints={{
+                // when window width is >= 480px
+                480: { h: "300px" },
+                // when window width is >= 770px
+                770: { h: "400px" },
+                // when window width is >= 1025px
+                1025: { h: "450px" },
+              }}
             />
           ) : (
             <Image
