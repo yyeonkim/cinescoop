@@ -33,7 +33,10 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
   return (
     <Flex mt={10} maxW="1200px">
       {/* 영화 포스터 */}
-      <Image h="450px" src={`${IMAGE_URL}/w300/${detailData?.poster_path}`} />
+      <Image
+        src={`${IMAGE_URL}/w300/${detailData?.poster_path}`}
+        objectFit="contain"
+      />
 
       {/* 영화 정보 */}
       <Flex direction="column" justifyContent="space-between" ml={10}>
