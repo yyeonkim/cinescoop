@@ -1,4 +1,5 @@
-import { Icon, useColorMode, Switch } from "@chakra-ui/react";
+import { Icon, useColorMode, Switch, Box } from "@chakra-ui/react";
+
 import { WiDaySunny } from "react-icons/wi";
 import { MdModeNight } from "react-icons/md";
 
@@ -9,7 +10,7 @@ function SwitchMode() {
   };
 
   return (
-    <>
+    <Box mr={10}>
       <Switch size="lg" onChange={switchColor} defaultChecked={false}>
         <Icon
           as={WiDaySunny}
@@ -32,7 +33,7 @@ function SwitchMode() {
           fill="yellow"
         />
       </Switch>
-    </>
+    </Box>
   );
 }
 

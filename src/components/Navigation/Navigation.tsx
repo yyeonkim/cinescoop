@@ -1,4 +1,4 @@
-import { Flex, Spacer, Image } from "@chakra-ui/react";
+import { Flex, Spacer, Image, Center } from "@chakra-ui/react";
 import logo from "../../../public/logo.png";
 import Link from "next/link";
 
@@ -23,24 +23,31 @@ interface navigationProps {
 }
 function Navigation({ search }: navigationProps) {
   return (
-    <Flex gap={35} paddingX={100} m={0} alignItems="center">
-      <Link href="/">
-        <Image
-          src={logo.src}
-          boxSize="10rem"
-          h="8rem"
-          objectFit="contain"
-          mr={2}
-          cursor="pointer"
-        />
-      </Link>
-      <PageLink path="/moviebuddy" name="Movie Buddy" />
-      <PageLink path="/nowplaying" name="In Theaters" />
-      <Spacer />
-      {search && <Search version="short" />}
-      <SwitchMode />
-      <Profile />
-    </Flex>
+    <Center px={10}>
+      <Flex
+        justifyContent="space-between"
+        alignItems="center"
+        maxW="1200px"
+        w="100%"
+      >
+        <Link href="/">
+          <Image
+            src={logo.src}
+            boxSize="10rem"
+            h="8rem"
+            objectFit="contain"
+            mr={10}
+            cursor="pointer"
+          />
+        </Link>
+        <PageLink path="/moviebuddy" name="Movie Buddy" />
+        <PageLink path="/nowplaying" name="In Theaters" />
+        <Spacer />
+        {search && <Search version="short" />}
+        <SwitchMode />
+        <Profile />
+      </Flex>
+    </Center>
   );
 }
 

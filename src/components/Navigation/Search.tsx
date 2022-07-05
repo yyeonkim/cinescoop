@@ -31,7 +31,7 @@ function Search({ version }: SearchProps) {
   };
 
   return (
-    <Flex w="40%" justifyContent="right">
+    <Flex w="40%" justifyContent="right" mr={10}>
       <SlideFade in={visible} offsetX={5} unmountOnExit={true} reverse={true}>
         <Input
           onKeyPress={onKeyPress}

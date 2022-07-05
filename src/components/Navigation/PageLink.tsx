@@ -14,6 +14,7 @@ function PageLink({ path, name }: PageLinkProps) {
         textDecoration="none"
         transitionDuration="0.2s"
         _focus={{ outline: 0 }}
+        mr={10}
       >
         {name}
       </Link>
