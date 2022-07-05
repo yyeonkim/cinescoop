@@ -39,14 +39,7 @@ function SwipeCard({ movie, isPoster }: CardProps) {
               src={`${IMAGE_URL}/w300/${movie.poster_path}`}
               alt={movie.title}
               objectFit="contain"
-              breakpoints={{
-                // when window width is >= 480px
-                480: { h: "300px" },
-                // when window width is >= 770px
-                770: { h: "400px" },
-                // when window width is >= 1025px
-                1025: { h: "450px" },
-              }}
+              h={["300px", "400px", "450px"]}
             />
           ) : (
             <Image
