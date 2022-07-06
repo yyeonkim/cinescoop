@@ -11,6 +11,7 @@ import {
 } from "@chakra-ui/react";
 import { DocumentData } from "firebase/firestore";
 import { FC } from "react";
+
 import { useSetRecoilState } from "recoil";
 import { selectedFriendState } from "../../atom";
 import useFetchFriendData from "../../hooks/useFetchFriendData";
@@ -77,7 +78,7 @@ const Analysis: FC<AnalysisProps> = ({ userData, friend }) => {
           _active={{ background: "none", color: "lightBlue" }}
           onClick={showUserGenres}
         >
-          내 영화 취향&gt;
+          내 영화 취향 &gt;
         </Button>
       </Flex>
       <Flex
