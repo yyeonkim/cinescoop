@@ -8,7 +8,7 @@ function Footer() {
   const color = useColorModeValue("white", "white");
   return (
     <Center backgroundColor="brightBlue" h="30%" pt="1rem" mt="10rem" px={10}>
-      <Flex w="100%" maxW="1200px" justifyContent="space-between" color={color}>
+      <Flex w="100%" maxW="1280px" justifyContent="space-between" color={color}>
         <Flex flexDir="column" boxSize="12rem">
           <Image src={logo} objectFit="contain" />
         </Flex>

@@ -82,7 +82,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
       ) : (
         <Flex direction="column" alignItems="center" w="100%" px={10}>
           {/* 상영관 정보 */}
-          <Flex w="100%" mt={10} flexDir="column" maxW="1200px">
+          <Flex w="100%" mt={10} flexDir="column" maxW="1280px">
             <Heading mb={10} mr={10} size="lg" textAlign="center">
               상영관을 선택하세요
             </Heading>

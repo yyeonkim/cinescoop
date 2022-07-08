@@ -10,12 +10,12 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
-import { onAuthStateChanged, signOut, User } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useRouter } from "next/router";
 import { useRecoilState } from "recoil";
 
-import { loginState } from "../../atom";
-import { auth } from "../../../firebase";
+import { loginState } from "../../../atom";
+import { auth } from "../../../../firebase";
 import { useEffect } from "react";
 
 function Profile() {

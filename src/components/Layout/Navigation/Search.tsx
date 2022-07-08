@@ -1,10 +1,10 @@
 import { Flex, Input, IconButton, SlideFade } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-import Link from "next/link";
 import Router from "next/router";
-import { inputState } from "../../atom";
-import { RecoilState, useRecoilState } from "recoil";
+
+import { inputState } from "../../../atom";
+import { useRecoilState } from "recoil";
 
 import { SearchProps } from "./Navigation";
 
