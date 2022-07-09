@@ -1,28 +1,14 @@
 import { Flex, HStack, Text } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { HiHome } from "react-icons/hi";
 import { FaUserFriends } from "react-icons/fa";
 import { MdMovie } from "react-icons/md";
 import { IoPersonCircle } from "react-icons/io5";
 
-import logo from "../../../public/logo.png";
-import Profile from "./Profile";
-import Search from "./Search";
-import PageLink from "./PageLink";
-import SwitchMode from "./SwitchMode";
-
-export interface SearchProps {
-  version: string;
-}
-export interface AccountBoxProps {
-  login: boolean;
-  name: string;
-}
-export interface IsSearch {
-  search: boolean;
-}
-
 export default function MobileNavigation() {
+  const { pathname } = useRouter();
+
   return (
     <HStack
       w="100%"
@@ -37,26 +23,43 @@ export default function MobileNavigation() {
     >
       <Link href="/">
         <Flex direction="column" alignItems="center">
-          <HiHome size="1.5rem" />
-          <Text fontSize="sm">홈</Text>
+          <HiHome size="1.5rem" color={pathname === "/" ? "white" : "grey"} />
+          <Text color={pathname === "/" ? "white" : "grey"} fontSize="sm">
+            홈
+          </Text>
         </Flex>
       </Link>
       <Link href="/moviebuddy">
         <Flex direction="column" alignItems="center">
-          <FaUserFriends size="1.5rem" />
-          <Text fontSize="sm">무비버디</Text>
+          <FaUserFriends
+            size="1.5rem"
+            color={pathname === "/moviebuddy" ? "white" : "grey"}
+          />
+          <Text color={pathname === "/" ? "white" : "grey"} fontSize="sm">
+            무비버디
+          </Text>
         </Flex>
       </Link>
       <Link href="/nowplaying">
         <Flex direction="column" alignItems="center">
-          <MdMovie size="1.5rem" />
-          <Text fontSize="sm">상영중</Text>
+          <MdMovie
+            size="1.5rem"
+            color={pathname === "/nowplaying" ? "white" : "grey"}
+          />
+          <Text color={pathname === "/" ? "white" : "grey"} fontSize="sm">
+            상영중
+          </Text>
         </Flex>
       </Link>
       <Link href="/mypage">
         <Flex direction="column" alignItems="center">
-          <IoPersonCircle size="1.5rem" />
-          <Text fontSize="sm">마이페이지</Text>
+          <IoPersonCircle
+            size="1.5rem"
+            color={pathname === "/mypage" ? "white" : "grey"}
+          />
+          <Text color={pathname === "/" ? "white" : "grey"} fontSize="sm">
+            마이페이지
+          </Text>
         </Flex>
       </Link>
     </HStack>
