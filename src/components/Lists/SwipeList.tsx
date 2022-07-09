@@ -20,23 +20,18 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
   return (
     <>
       <Swiper
-        slidesPerView={slidesNumber}
+        slidesPerView={slidesNumber - 3}
         spaceBetween={10}
-        slidesPerGroup={slidesNumber}
+        slidesPerGroup={slidesNumber - 3}
         navigation={true}
         breakpoints={{
-          // when window width is >= 480px
-          480: {
-            slidesPerView: slidesNumber - 3,
-            slidesPerGroup: slidesNumber - 3,
-          },
-          // when window width is >= 770px
-          770: {
+          // when window width is >= 641px
+          641: {
             slidesPerView: slidesNumber - 2,
             slidesPerGroup: slidesNumber - 2,
           },
-          // when window width is >= 1025px
-          1025: {
+          // when window width is >= 1008px
+          1008: {
             slidesPerView: slidesNumber,
             slidesPerGroup: slidesNumber,
           },

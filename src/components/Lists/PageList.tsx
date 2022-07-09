@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Heading, Image, Link } from "@chakra-ui/react";
+import { Box, Heading, Image, Link, useMediaQuery } from "@chakra-ui/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -27,6 +27,8 @@ function PageList({ data }: IPageProps) {
     router.push(`/movieinfo/${id}`);
   };
 
+  const [isSmallerThan1007] = useMediaQuery("(max-width: 1007px)");
+
   return (
     <Box mb={10}>
       <Swiper
@@ -37,19 +39,16 @@ function PageList({ data }: IPageProps) {
         pagination={{
           clickable: true,
         }}
+        slidesPerView={1}
+        spaceBetween={20}
         breakpoints={{
-          // when window width is >= 480px
-          480: {
-            slidesPerView: 1,
-            spaceBetween: 20,
-          },
-          // when window width is >= 770px
-          770: {
+          // when window width is >= 641px
+          641: {
             slidesPerView: 1.5,
             spaceBetween: 30,
           },
-          // when window width is >= 1025px
-          1025: {
+          // when window width is >= 1008px
+          1008: {
             slidesPerView: 2,
             spaceBetween: 40,
           },
@@ -68,7 +67,7 @@ function PageList({ data }: IPageProps) {
                   <Image src={`${IMAGE_URL}/w780/${movie.backdrop_path}`} />
                   <Heading
                     color="white"
-                    size="md"
+                    size={isSmallerThan1007 ? "sm" : "md"}
                     pos="absolute"
                     bottom={5}
                     className="title"

@@ -81,24 +81,19 @@ function GenreList({ genres, windowWidth }: IGenreProps) {
         </Flex>
       ) : (
         <Swiper
-          slidesPerView={6}
+          slidesPerView={3}
           spaceBetween={10}
           slidesPerGroup={6}
           loop={false}
           navigation={true}
           breakpoints={{
-            // when window width is >= 480px
-            480: {
-              slidesPerView: 3,
-              spaceBetween: 10,
-            },
-            // when window width is >= 770px
-            770: {
+            // when window width is >= 641px
+            641: {
               slidesPerView: 4,
               spaceBetween: 10,
             },
-            // when window width is >= 1025px
-            1025: {
+            // when window width is >= 1008px
+            1008: {
               slidesPerView: 6,
               spaceBetween: 10,
             },
