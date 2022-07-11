@@ -1,5 +1,5 @@
 import React from "react";
-import { useMediaQuery } from "@chakra-ui/react";
+import { useMediaQuery, Box } from "@chakra-ui/react";
 
 import Navigation from "./Navigation/Navigation";
 import Footer from "./Footer";
@@ -17,7 +17,7 @@ const Layout = ({ children }: layoutProps) => {
       <Navigation search={true} />
       {isSmallerThan640 && <MobileNavigation />}
       {children}
-      <Footer />
+      {isSmallerThan640 ? <Box mt="10rem"></Box> : <Footer />}
     </>
   );
 };

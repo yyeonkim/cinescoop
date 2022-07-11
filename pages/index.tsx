@@ -71,8 +71,8 @@ const Home: NextPage<IHomeProps> = ({
 
       {/* 사용자가 찜한 영화 */}
       {user && (
-        <Box my={20} px={10}>
-          <Heading size="lg" mb={10} mr={8}>
+        <Box my="2rem" px="2rem">
+          <Heading size="lg" mb="2rem">
             찜한 영화
           </Heading>
           {isLoading ? (
@@ -88,31 +88,31 @@ const Home: NextPage<IHomeProps> = ({
       )}
 
       {/* 상영 중인 영화 */}
-      <Box bgColor="brightBlue" p={10} py={20}>
+      <Box bgColor="brightBlue" px="2rem" py="4rem">
         <Flex>
-          <Heading color={color} size="lg" mb={10} mr={8}>
+          <Heading color={color} size="lg" mr="2rem">
             상영 중인 영화
           </Heading>
           <Link href="./nowplaying">
-            <Button bg="pink" color="darkBlue" px={5}>
+            <Button bg="pink" color="darkBlue" px="1rem">
               예매하기
             </Button>
           </Link>
         </Flex>
-        <Divider borderColor="gray.50" mb={10} />
+        <Divider borderColor="gray.50" my="2rem" />
         <SwipeList data={nowPlaying} poster={true} slidesNumber={5} />
       </Box>
 
       {/* 영화 순위 */}
-      <Box my={20} px={10}>
-        <Heading size="lg" mb={10}>
+      <Box my="4rem" px="2rem">
+        <Heading size="lg" mb="2rem">
           영화 순위
         </Heading>
         <SwipeList data={topRated} poster={false} slidesNumber={6} />
       </Box>
 
       {/* 장르별 영화 */}
-      <GenreList genres={genres} windowWidth={windowWidth} />
+      <GenreList genres={genres} />
     </>
   );
 };

@@ -1,4 +1,4 @@
-import { Text, Box, useColorModeValue } from "@chakra-ui/react";
+import { Text, Box, useColorModeValue, useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
@@ -18,6 +18,7 @@ function SwipeCard({ movie, isPoster }: CardProps) {
   const color = useColorModeValue("white", "white");
   const [isHover, setIsHover] = useState(0);
   const setMovieID = useSetRecoilState(movieIDState);
+  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
 
   const seeMovieInfo = (id: number) => {
     setMovieID(id);
@@ -49,7 +50,7 @@ function SwipeCard({ movie, isPoster }: CardProps) {
               objectFit="cover"
             />
           )}
-          <Text fontSize="md" align="center" mt={1}>
+          <Text fontSize={isLargerThan641 ? "md" : "sm"} align="center" mt={1}>
             {movie.title}
           </Text>
         </Box>

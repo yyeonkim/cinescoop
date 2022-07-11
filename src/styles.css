@@ -42,3 +42,10 @@
 .swiper-pagination-bullet-active {
   background-color: #3843cd !important;
 }
+
+@media screen and (max-width: 640px) {
+  .swiper-button-prev,
+  .swiper-button-next {
+    display: none !important;
+  }
+}

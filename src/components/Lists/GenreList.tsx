@@ -7,6 +7,7 @@ import {
   Box,
   Spacer,
   Link,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import NextLink from "next/link";
@@ -27,13 +28,13 @@ SwiperCore.use([Navigation]);
 
 export interface IGenreProps {
   genres: IGenre[];
-  windowWidth: number | null;
 }
 
-function GenreList({ genres, windowWidth }: IGenreProps) {
+function GenreList({ genres }: IGenreProps) {
   const [genre, setGenre] = useRecoilState(genreState);
   const setMovieID = useSetRecoilState(movieIDState);
   const router = useRouter();
+  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
 
   const seeMovieInfo = (id: number) => {
     setMovieID(id);
@@ -58,15 +59,17 @@ function GenreList({ genres, windowWidth }: IGenreProps) {
     <Box px={10}>
       <Flex alignItems="center" mb={10}>
         <Heading size="lg" mr={10}>
-          장르별 영화
+          {isLargerThan641 ? "장르별 영화" : "장르별"}
         </Heading>
-        <Select size="sm" w="7rem" value={genre.id} onChange={selectGenre}>
-          {genres.map((genre) => (
-            <option key={genre.id} value={genre.id}>
-              {genre.name}
-            </option>
-          ))}
-        </Select>
+        {isLargerThan641 && (
+          <Select size="sm" w="7rem" value={genre.id} onChange={selectGenre}>
+            {genres.map((genre) => (
+              <option key={genre.id} value={genre.id}>
+                {genre.name}
+              </option>
+            ))}
+          </Select>
+        )}
         <Spacer />
         <NextLink href={`/genre`} passHref>
           <Link align="right">
@@ -81,7 +84,7 @@ function GenreList({ genres, windowWidth }: IGenreProps) {
         </Flex>
       ) : (
         <Swiper
-          slidesPerView={3}
+          slidesPerView={2}
           spaceBetween={10}
           slidesPerGroup={6}
           loop={false}
@@ -111,14 +114,14 @@ function GenreList({ genres, windowWidth }: IGenreProps) {
                   <NextLink href={`movieinfo/${movie.id}`} passHref>
                     <Link>
                       <Image
-                        src={`${IMAGE_URL}/w300/${
-                          windowWidth && windowWidth > 480
-                            ? movie.backdrop_path
-                            : movie.poster_path
-                        }`}
+                        src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
                         alt={movie.title}
                       />
-                      <Text fontSize="md" align="center" mt={1}>
+                      <Text
+                        fontSize={isLargerThan641 ? "md" : "sm"}
+                        align="center"
+                        mt={1}
+                      >
                         {movie.title}
                       </Text>
                     </Link>
