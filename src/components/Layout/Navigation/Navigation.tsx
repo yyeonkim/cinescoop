@@ -25,7 +25,7 @@ function Navigation({ search }: navigationProps) {
   const [isLargerThan640] = useMediaQuery("(min-width: 640px)");
 
   return (
-    <Center px={5} py={isLargerThan640 ? 10 : 5}>
+    <Center p="2rem">
       <Flex
         justifyContent="space-between"
         alignItems="center"
@@ -37,8 +37,8 @@ function Navigation({ search }: navigationProps) {
             src={logo.src}
             w="8rem"
             objectFit="contain"
-            mr={10}
             cursor="pointer"
+            mr="2rem"
           />
         </Link>
         {isLargerThan640 && (
@@ -46,11 +46,15 @@ function Navigation({ search }: navigationProps) {
             <PageLink path="/moviebuddy" name="Movie Buddy" />
             <PageLink path="/nowplaying" name="In Theaters" />
             <Spacer />
-            {search && <Search version="short" />}
-            <SwitchMode />
           </>
         )}
-        <Profile />
+        {search && <Search />}
+        {isLargerThan640 && (
+          <>
+            <SwitchMode />
+            <Profile />
+          </>
+        )}
       </Flex>
     </Center>
   );

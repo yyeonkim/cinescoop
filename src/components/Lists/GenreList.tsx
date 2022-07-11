@@ -56,27 +56,30 @@ function GenreList({ genres }: IGenreProps) {
   };
 
   return (
-    <Box px={10}>
-      <Flex alignItems="center" mb={10}>
-        <Heading size="lg" mr={10}>
+    <Box px="2rem">
+      <Flex alignItems="center" mb="2rem">
+        <Heading size="lg" mr="2rem">
           {isLargerThan641 ? "장르별 영화" : "장르별"}
         </Heading>
+        <Select size="sm" w="9rem" value={genre.id} onChange={selectGenre}>
+          {genres.map((genre) => (
+            <option key={genre.id} value={genre.id}>
+              {genre.name}
+            </option>
+          ))}
+        </Select>
+
         {isLargerThan641 && (
-          <Select size="sm" w="7rem" value={genre.id} onChange={selectGenre}>
-            {genres.map((genre) => (
-              <option key={genre.id} value={genre.id}>
-                {genre.name}
-              </option>
-            ))}
-          </Select>
+          <>
+            <Spacer />
+            <NextLink href={`/genre`} passHref>
+              <Link align="right">
+                더보기
+                <ChevronRightIcon />
+              </Link>
+            </NextLink>
+          </>
         )}
-        <Spacer />
-        <NextLink href={`/genre`} passHref>
-          <Link align="right">
-            더보기
-            <ChevronRightIcon />
-          </Link>
-        </NextLink>
       </Flex>
       {isLoading ? (
         <Flex justifyContent="center" h="10rem" alignItems="center">
@@ -120,7 +123,6 @@ function GenreList({ genres }: IGenreProps) {
                       <Text
                         fontSize={isLargerThan641 ? "md" : "sm"}
                         align="center"
-                        mt={1}
                       >
                         {movie.title}
                       </Text>

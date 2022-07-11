@@ -1,16 +1,21 @@
-import { Flex, Input, IconButton, SlideFade } from "@chakra-ui/react";
+import {
+  Flex,
+  Input,
+  IconButton,
+  SlideFade,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import Router from "next/router";
-
-import { inputState } from "../../../atom";
 import { useRecoilState } from "recoil";
 
-import { SearchProps } from "./Navigation";
+import { inputState } from "../../../atom";
 
-function Search({ version }: SearchProps) {
+function Search() {
   const [visible, setVisible] = useState(false);
   const [inputText, setInputText] = useRecoilState(inputState);
+  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -31,15 +36,20 @@ function Search({ version }: SearchProps) {
   };
 
   return (
-    <Flex w="40%" justifyContent="right" mr={10}>
+    <Flex w="40%" justifyContent="right">
       <SlideFade in={visible} offsetX={5} unmountOnExit={true} reverse={true}>
         <Input
           onKeyPress={onKeyPress}
           onChange={handleChange}
           variant="flushed"
-          placeholder="영화 제목, 감독 등을 입력해주세요"
+          fontSize={isLargerThan641 ? "md" : "sm"}
+          placeholder={
+            isLargerThan641
+              ? "영화 제목, 감독 등을 입력해주세요"
+              : "검색어를 입력하세요"
+          }
           focusBorderColor="pink"
-          w="30vw"
+          w={isLargerThan641 ? "30vw" : "40vw"}
         />
       </SlideFade>
       <IconButton
