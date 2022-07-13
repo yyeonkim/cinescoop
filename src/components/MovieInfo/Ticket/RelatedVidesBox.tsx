@@ -6,8 +6,8 @@ import {
   TabPanel,
   TabPanels,
   Tabs,
-  useColorModeValue,
   Heading,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
 import { IVideo } from "../../../interfaces";
@@ -17,18 +17,21 @@ interface relatedVideosBoxProps {
 }
 
 function RelatedVideosBox({ videos }: relatedVideosBoxProps) {
-  const color = useColorModeValue("white", "black");
+  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
 
   return (
     <Flex
-      padding="1rem 5rem 5rem"
+      padding={isLargerThan641 ? "1rem 5rem 5rem" : "1rem 2rem 2rem"}
       flexDir="column"
       w="100%"
       alignItems="center"
     >
-      <Heading>Related Videos</Heading>
+      <Heading fontSize={isLargerThan641 ? "4xl" : "2xl"}>
+        Related Videos
+      </Heading>
       <Tabs variant="soft-rounded" align="center" w="100%">
         <TabList
+          my="1rem"
           overflowY="hidden"
           sx={{
             scrollbarWidth: "none",
@@ -39,6 +42,7 @@ function RelatedVideosBox({ videos }: relatedVideosBoxProps) {
         >
           {videos.map((video, index) => (
             <Tab
+              fontSize={isLargerThan641 ? "md" : "sm"}
               key={index}
               flexShrink={0}
               _hover={{ color: "pink" }}
@@ -54,7 +58,7 @@ function RelatedVideosBox({ videos }: relatedVideosBoxProps) {
           ))}
         </TabList>
         <TabPanels>
-          {videos.map((video, index) => (
+          {videos.map((video) => (
             <TabPanel padding="1" marginTop="1">
               <AspectRatio w="100%" ratio={1.7}>
                 <iframe

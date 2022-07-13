@@ -2,8 +2,8 @@ import { Text, Box, useColorModeValue, useMediaQuery } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useSetRecoilState } from "recoil";
-import "animate.css";
 import { Image, Link } from "@chakra-ui/react";
+
 import { IMovie, IMovieDetails } from "../interfaces";
 import { IMAGE_URL } from "../hooks/fetching";
 import { movieIDState } from "../atom";
@@ -40,17 +40,20 @@ function SwipeCard({ movie, isPoster }: CardProps) {
               src={`${IMAGE_URL}/w300/${movie.poster_path}`}
               alt={movie.title}
               objectFit="cover"
-              w={["200px", "200px", "230px", "200px", "300px"]}
-              h={["300px", "300px", "350px", "300px", "450px"]}
+              w={["150px", "200px", "230px", "200px", "300px"]}
+              h={["225px", "300px", "350px", "300px", "450px"]}
             />
           ) : (
             <Image
               src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
               alt={movie.title}
-              objectFit="cover"
             />
           )}
-          <Text fontSize={isLargerThan641 ? "md" : "sm"} align="center" mt={1}>
+          <Text
+            fontSize={isLargerThan641 ? "md" : "sm"}
+            textAlign="center"
+            mt={1}
+          >
             {movie.title}
           </Text>
         </Box>

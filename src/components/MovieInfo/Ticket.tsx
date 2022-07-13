@@ -19,9 +19,10 @@ function Ticket({ details, cast, crew, videos }: ticketProps) {
 
   return (
     <>
-      <Image src={ticketTopArt.src} w="55vw" marginTop="1rem" />
+      <Image src={ticketTopArt.src} maxW="1280px" w="90%" marginTop="1rem" />
       <Flex
-        w="55vw"
+        maxW="1280px"
+        w="90%"
         flexDir="column"
         alignItems="center"
         bgColor="white"
@@ -33,7 +34,8 @@ function Ticket({ details, cast, crew, videos }: ticketProps) {
         <InfoBox details={details} cast={cast} crew={crew} />
         <Image
           src={ticketMiddleArt.src}
-          w="55vw"
+          maxW="1280px"
+          w="100%"
           marginTop="1rem"
           position="relative"
         />
@@ -42,7 +44,8 @@ function Ticket({ details, cast, crew, videos }: ticketProps) {
       </Flex>
       <Image
         src={ticketBottomArt.src}
-        w="55vw"
+        maxW="1280px"
+        w="90%"
         position="relative"
         zIndex={2}
       />

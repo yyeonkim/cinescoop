@@ -9,6 +9,7 @@ import {
   List,
   ListItem,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 
 import StarRating from "../../StarRatings";
@@ -23,9 +24,14 @@ interface infoBoxprops {
 }
 
 function InfoBox({ details, cast, crew }: infoBoxprops) {
+  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
+
   return (
-    <Flex padding="2rem 5rem 5rem 5rem" flexDir="column">
-      <Heading size="2xl" textAlign="center">
+    <Flex
+      padding={isLargerThan641 ? "2rem 5rem 5rem 5rem" : "1rem 2rem 2rem 2rem"}
+      flexDir="column"
+    >
+      <Heading size={isLargerThan641 ? "2xl" : "lg"} textAlign="center">
         {details?.title}
       </Heading>
       <Box mt={2} textAlign="center">
@@ -36,12 +42,17 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
         minH="min-content"
         maxH="min-content"
         padding="2rem 0 3rem 0"
+        direction={isLargerThan641 ? "row" : "column"}
       >
-        <Flex flexDir="column" w="45%">
+        <Flex
+          flexDir="column"
+          w={isLargerThan641 ? "45%" : "100%"}
+          alignItems="center"
+          mb="1rem"
+        >
           <Image
             src={`https://www.themoviedb.org/t/p/w1280/${details?.poster_path} `}
             w="100%"
-            h="s"
           />
           <HStack maxW="min-content" spacing="0.5rem" mt="1rem">
             <WatchButton movieId={details?.id} />
@@ -60,7 +71,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
 
         <Grid
           templateColumns="1fr 2fr"
-          marginLeft="2rem"
+          marginLeft={isLargerThan641 ? "2rem" : 0}
           w="100%"
           h="100%"
           fontWeight="semibold"
@@ -107,7 +118,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
           </GridItem>
         </Grid>
       </Flex>
-      <Text textAlign="justify" fontSize="1rem">
+      <Text textAlign="justify" fontSize={isLargerThan641 ? "md" : "sm"}>
         {details?.overview}
       </Text>
     </Flex>
