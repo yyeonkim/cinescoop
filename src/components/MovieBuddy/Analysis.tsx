@@ -67,7 +67,7 @@ const Analysis: FC<AnalysisProps> = ({ userData, friend }) => {
   return (
     <Flex flexDir="column" width="100%" mt="4rem">
       <Flex align="baseline">
-        <Heading size="lg" flexGrow={1}>
+        <Heading fontSize={["2xl", "2xl", "3xl"]} flexGrow={1}>
           {friend.friendUsername}님의 영화
         </Heading>
         <Button
@@ -87,6 +87,8 @@ const Analysis: FC<AnalysisProps> = ({ userData, friend }) => {
         w="100%"
         p="2rem 3rem"
         h="fit-content"
+        alignItems={["center", "center", "center", "start"]}
+        direction={["column", "column", "column", "row"]}
       >
         {friend.friendId === userData.id ? (
           <></>
@@ -96,10 +98,11 @@ const Analysis: FC<AnalysisProps> = ({ userData, friend }) => {
             size="3xs"
             mr="3rem"
             color="pink"
+            mb="2rem"
           >
             <CircularProgressLabel fontSize="5xl" fontWeight="bold">
               {cosineSimilarity}%
-              <Text fontSize="lg" fontWeight="light" m="0">
+              <Text fontSize="lg" fontWeight="light">
                 유사율
               </Text>
             </CircularProgressLabel>
@@ -107,10 +110,10 @@ const Analysis: FC<AnalysisProps> = ({ userData, friend }) => {
         )}
 
         <Flex flexDir="column" flexGrow="1">
-          <Text fontSize="xl">좋아하는 영화 장르</Text>
+          <Text fontSize="xl">좋아하는 장르</Text>
           <Divider orientation="horizontal" m="0.5rem 0 1rem" />
           {genreSum === 0 ? (
-            <Text>아직 좋아요를 누른 영화가 없습니다. </Text>
+            <Text>아직 좋아하는 영화가 없습니다.</Text>
           ) : (
             <Wrap spacing={4}>
               {sortedGenres.map((genre) => {
@@ -124,6 +127,7 @@ const Analysis: FC<AnalysisProps> = ({ userData, friend }) => {
                     py="0.5rem"
                     bgColor="rgb(255, 255, 255, 0.2)"
                     borderRadius="2rem"
+                    fontSize={["sm", "sm", "md"]}
                   >
                     {name} {percentage}%
                   </Box>

@@ -1,4 +1,12 @@
-import { Avatar, Button, Flex, Heading, HStack, Text } from "@chakra-ui/react";
+import {
+  Avatar,
+  Button,
+  Flex,
+  Heading,
+  HStack,
+  Text,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { FC } from "react";
 import { useSetRecoilState } from "recoil";
 
@@ -8,17 +16,17 @@ import AddBuddyLink from "./AddBuddyLink";
 
 const FriendList: FC<IFriendList> = ({ friends }) => {
   const setSelectedFriend = useSetRecoilState(selectedFriendState);
+  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
 
   return (
     <Flex flexDir="column" width="100%" mt="2rem">
-      <Flex mb="1rem" align="baseline">
-        <Heading size="lg" mr="1rem" flexGrow={1}>
+      <Flex mb="2rem" align="baseline">
+        <Heading fontSize={["2xl", "2xl", "3xl"]} flexGrow={1}>
           내 무비버디
         </Heading>
         <AddBuddyLink />
       </Flex>
       <HStack
-        spacing="2rem"
         w="100%"
         overflow="scroll"
         scrollbarColor="white"
@@ -60,7 +68,7 @@ const FriendList: FC<IFriendList> = ({ friends }) => {
             <Avatar
               name={friend.friendUsername}
               src="https://bit.ly/broken-link"
-              size="2xl"
+              size={isLargerThan641 ? "2xl" : "lg"}
             />
             <Text width="fit-content" mt="0.5rem" mb="1.5rem">
               {friend.friendUsername}

@@ -22,6 +22,7 @@ const PageTitle: FC<IPageTitle> = ({ title, subtitle }) => {
         align="center"
         w="100%"
         mb="1rem"
+        px="1rem"
       >
         <Heading as="h1" fontSize={["3xl", "5xl", "5xl"]} color="white">
           {title}

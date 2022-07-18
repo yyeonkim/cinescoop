@@ -1,7 +1,7 @@
-import { Flex, Heading } from "@chakra-ui/react";
+import { Center, Flex, Heading, Link } from "@chakra-ui/react";
 import { onAuthStateChanged } from "firebase/auth";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
 import { auth } from "../firebase";
@@ -20,7 +20,6 @@ const Moviebuddy: NextPage = () => {
   const { userData, isLoading, isError } = useFetchUserData();
   const [selectedFriend, setSelectedFriend] =
     useRecoilState(selectedFriendState);
-  const [isUser, setIsUser] = useState(true);
   const { isLoading: listIsLoading, friendGoodData } = useFetchListData(); // 친구가 좋아요 한 영화 목록
 
   useEffect(() => {
@@ -45,14 +44,16 @@ const Moviebuddy: NextPage = () => {
       />
       {user ? (
         isLoading ? (
-          <>isloading</>
+          <Center h="50vh">
+            <LoadingAnimation />
+          </Center>
         ) : (
-          <>
-            <Flex flexDir="column" px="10rem">
+          <Center>
+            <Flex flexDir="column" maxW="1280px" w="90%">
               <FriendList friends={userData.friends} />
               <Analysis userData={userData} friend={selectedFriend} />
               <Flex flexDir="column" width="100%" mt="4rem">
-                <Heading size="lg" mb="1rem">
+                <Heading fontSize={["2xl", "2xl", "3xl"]} mb="1rem">
                   좋아하는 영화
                 </Heading>
                 {listIsLoading ? (
@@ -66,10 +67,12 @@ const Moviebuddy: NextPage = () => {
                 )}
               </Flex>
             </Flex>
-          </>
+          </Center>
         )
       ) : (
-        <>not logged in </>
+        <Center h="50vh">
+          <Link href="/login">로그인하고 내 취향 확인하기 &#x3e;</Link>
+        </Center>
       )}
     </Flex>
   );
