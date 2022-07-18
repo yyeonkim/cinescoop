@@ -80,19 +80,19 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
           <LoadingAnimation />
         </Flex>
       ) : (
-        <Flex direction="column" alignItems="center" w="100%" px={10}>
+        <Flex direction="column" alignItems="center" w="100%" px="2rem">
           {/* 상영관 정보 */}
-          <Flex w="100%" mt={10} flexDir="column" maxW="1280px">
-            <Heading mb={10} mr={10} size="lg" textAlign="center">
+          <Flex w="100%" mt="2rem" flexDir="column" maxW="1280px">
+            <Heading mb="2rem" size="lg" textAlign="center">
               상영관을 선택하세요
             </Heading>
             {isPlaying ? (
-              <Flex flexWrap="wrap" justifyContent="space-between" mb={5}>
+              <Flex justifyContent="space-between" mb="1rem">
                 {cinemas.map((cinema) => (
                   <Link
-                    flexWrap="wrap"
                     href={cinema.href}
                     display="flex"
+                    flexDir={["column", "column", "row"]}
                     w="30%"
                     alignItems="center"
                     justifyContent="center"
@@ -101,14 +101,16 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
                     isExternal
                     color={color}
                     key={cinema.logo}
+                    py={["1rem", "1rem", 0]}
                   >
                     <Img
                       src={cinema.logo}
-                      boxSize="5rem"
+                      boxSize={["4rem", "5rem"]}
                       objectFit="contain"
-                      mr={5}
+                      mr={[0, 0, "1rem"]}
+                      mb={["1rem", "1rem", 0]}
                     />
-                    <Heading fontSize="lg" color={color}>
+                    <Heading fontSize={["md", "md", "lg"]} color={color}>
                       {cinema.name}
                     </Heading>
                   </Link>

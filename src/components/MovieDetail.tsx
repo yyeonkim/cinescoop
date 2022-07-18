@@ -31,18 +31,29 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
   };
 
   return (
-    <Flex mt={10} maxW="1200px">
+    <Flex
+      mt="2rem"
+      maxW="1280px"
+      alignItems={["center", "center", "start"]}
+      direction={["column", "column", "row"]}
+    >
       {/* 영화 포스터 */}
       <Image
         src={`${IMAGE_URL}/w300/${detailData?.poster_path}`}
         objectFit="contain"
+        w={["15rem", "15rem", "30rem"]}
+        mb={["2rem", "2rem", 0]}
       />
 
       {/* 영화 정보 */}
-      <Flex direction="column" justifyContent="space-between" ml={10}>
-        <Stack spacing={4}>
+      <Flex
+        direction="column"
+        justifyContent="space-between"
+        ml={[0, 0, "2rem"]}
+      >
+        <Stack spacing="1rem">
           <Flex alignItems="center">
-            <Heading mr={5}>{detailData?.title}</Heading>
+            <Heading>{detailData?.title}</Heading>
           </Flex>
           <Text display="flex" alignItems="center" fontWeight="light">
             <Text fontWeight="normal" fontSize="lg">
@@ -79,7 +90,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
         </Stack>
 
         {/* 버튼 */}
-        <HStack spacing={5} mt={5}>
+        <HStack spacing={5} mt="1rem">
           <Button
             color="white"
             onClick={clickInfo}
