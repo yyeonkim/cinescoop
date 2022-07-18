@@ -8,6 +8,7 @@ import {
   useColorModeValue,
   Button,
   useToast,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -19,7 +20,6 @@ import PageList from "../src/components/Lists/PageList";
 import SwipeList from "../src/components/Lists/SwipeList";
 import GenreList from "../src/components/Lists/GenreList";
 import HomeText from "../src/components/HomeText";
-import useWindowDimensions from "../src/hooks/useWindowDimensions";
 import { auth } from "../firebase";
 import useFetchListData from "../src/hooks/useFetchListData";
 import LoadingAnimation from "../src/components/LoadingAnimation";
@@ -42,7 +42,7 @@ const Home: NextPage<IHomeProps> = ({
   const toast = useToast();
 
   const { isLoading, watchData } = useFetchListData(); // 찜한 영화 목록
-  const { width: windowWidth } = useWindowDimensions();
+  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
 
   // 인증된 메일인지 확인
   useEffect(() => {
@@ -71,7 +71,7 @@ const Home: NextPage<IHomeProps> = ({
 
       {/* 사용자가 찜한 영화 */}
       {user && (
-        <Box my="2rem" px="2rem">
+        <Box my="2rem" pl="2rem" pr={isLargerThan641 ? "2rem" : 0}>
           <Heading size="lg" mb="2rem">
             찜한 영화
           </Heading>
@@ -88,7 +88,12 @@ const Home: NextPage<IHomeProps> = ({
       )}
 
       {/* 상영 중인 영화 */}
-      <Box bgColor="brightBlue" px="2rem" py="4rem">
+      <Box
+        bgColor="brightBlue"
+        pl="2rem"
+        pr={isLargerThan641 ? "2rem" : 0}
+        py="4rem"
+      >
         <Flex>
           <Heading color={color} size="lg" mr="2rem">
             상영 중인 영화
@@ -104,7 +109,7 @@ const Home: NextPage<IHomeProps> = ({
       </Box>
 
       {/* 영화 순위 */}
-      <Box my="4rem" px="2rem">
+      <Box my="4rem" pl="2rem" pr={isLargerThan641 ? "2rem" : 0}>
         <Heading size="lg" mb="2rem">
           영화 순위
         </Heading>

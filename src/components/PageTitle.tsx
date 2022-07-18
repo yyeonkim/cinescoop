@@ -17,15 +17,21 @@ const PageTitle: FC<IPageTitle> = ({ title, subtitle }) => {
       <Flex
         flexDirection="column"
         bgColor="blue"
-        p="5rem 6rem 3rem"
+        pb="3rem"
+        pt={["2rem", "5rem", "5rem"]}
         align="center"
         w="100%"
         mb="1rem"
       >
-        <Heading as="h1" size="3xl" color="white">
+        <Heading as="h1" fontSize={["3xl", "5xl", "5xl"]} color="white">
           {title}
         </Heading>
-        <Heading as="h2" size="sm" mt="0.5rem" color="white">
+        <Heading
+          as="h2"
+          fontSize={["sm", "md", "md"]}
+          mt="1.5rem"
+          color="white"
+        >
           {subtitle}
         </Heading>
       </Flex>

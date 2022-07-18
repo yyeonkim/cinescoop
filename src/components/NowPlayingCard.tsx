@@ -3,8 +3,9 @@ import {
   Img,
   Text,
   Button,
-  Box,
   useColorModeValue,
+  Stack,
+  HStack,
 } from "@chakra-ui/react";
 import { useSetRecoilState } from "recoil";
 import { useRouter } from "next/router";
@@ -13,26 +14,26 @@ import { movieIDState } from "../atom";
 import WatchButton from "./Buttons/WatchButton";
 import ReserveButton from "./Buttons/ReserveButton";
 import useNowDetail from "../hooks/useNowDetail";
-import { IMovieDetails, ICast } from "../interfaces";
 import { Movie } from "./VerCard";
 import StarRating from "./StarRatings";
 import { IMAGE_URL } from "../hooks/fetching";
 
 interface CardProps {
   info: Movie;
-  page: any;
   key: any;
 }
 
-function NowPlayingCard({ info, page, key }: CardProps) {
+function NowPlayingCard({ info }: CardProps) {
   const color = useColorModeValue("#FF5AF1", "#FF5AF1");
 
   const router = useRouter();
   const setMovieID = useSetRecoilState(movieIDState);
-  const { movieDetail, cast, isLoading, isError } = useNowDetail(info.id);
-
-  const detail = movieDetail as unknown as IMovieDetails;
-  const cast1 = cast as unknown as unknown as ICast;
+  const {
+    movieDetail: detail,
+    cast,
+    isLoading,
+    isError,
+  } = useNowDetail(info.id);
 
   const onClick = (id: number, path: string) => {
     setMovieID(id);
@@ -40,54 +41,65 @@ function NowPlayingCard({ info, page, key }: CardProps) {
   };
 
   return (
-    <Box mr={10} ml={10}>
-      <Flex mb={10}>
-        <Flex w="15rem" cursor="pointer" direction="column" alignItems="center">
-          <Img
-            src={`${IMAGE_URL}/w1280/${info.poster_path}`}
-            borderRadius={5}
-          />
-        </Flex>
-        <Flex direction="column" ml={10}>
-          <Text fontSize="1.2rem" mb={1}>
-            {detail.title}
-          </Text>
-          <Flex fontSize="0.9rem" mb={1}>
-            <Text mr={1}>평점</Text>
-            {detail.vote_average ? (
-              <StarRating voteAverage={detail.vote_average} starSize={"15px"} />
-            ) : (
-              <StarRating voteAverage={0} starSize={"15px"} />
-            )}
-            <Text ml={1}>{detail.vote_average}</Text>
-          </Flex>
-          <Flex>
-            <Text fontSize="0.9rem" mr={1}>
-              개요
+    <>
+      <Flex
+        my="2rem"
+        alignItems={["center", "center", "stretch"]}
+        direction={["column", "column", "row"]}
+      >
+        {/* 영화 포스터 */}
+        <Img
+          src={`${IMAGE_URL}/w1280/${info.poster_path}`}
+          borderRadius={5}
+          cursor="pointer"
+          w="15rem"
+          mr={[0, 0, "2rem"]}
+          mb={["1rem", "1rem", 0]}
+        />
+        <Flex direction="column" justifyContent="space-between">
+          {/* 영화 정보 */}
+          <Stack>
+            <Text fontSize={["xl", "xl", "2xl"]} mb="1rem">
+              {detail.title}
             </Text>
-            {detail.genres &&
-              detail.genres.map((genre) => (
-                <Text mr={1} key={genre.id}>
-                  {genre.name}
-                </Text>
-              ))}
-            |
-            <Text ml={1} mr={1}>
-              {detail.runtime}분
-            </Text>
-            |<Text ml={1}>{info.release_date}</Text>
-          </Flex>
-          <Flex>
-            <Text fontSize="0.9rem" mr={1}>
-              출연
-            </Text>{" "}
-            <Flex direction="column">
-              <Text>{cast[0]?.name}</Text>
-              <Text>{cast[1]?.name}</Text>
-              <Text>{cast[2]?.name}</Text>
+            <Flex>
+              <Text fontSize={["md", "md", "lg"]}>평점 &nbsp;</Text>
+              {detail.vote_average ? (
+                <StarRating voteAverage={detail.vote_average} starSize="1rem" />
+              ) : (
+                <StarRating voteAverage={0} starSize="1rem" />
+              )}
+              <Text ml=".5rem">{detail.vote_average}</Text>
             </Flex>
-          </Flex>
-          <Flex mt="9rem">
+
+            <Flex>
+              <Text fontSize={["md", "md", "lg"]}>개요 &nbsp;</Text>
+              <Text>
+                {detail.genres?.map((genre, index) => {
+                  if (index <= 1) {
+                    if (index === 1 || index + 1 === detail.genres.length) {
+                      return genre.name;
+                    } else {
+                      return genre.name + "·";
+                    }
+                  }
+                })}
+                &nbsp;| {detail.runtime}분 | {info.release_date}
+              </Text>
+            </Flex>
+
+            <Flex>
+              <Text fontSize={["md", "md", "lg"]}>출연 &nbsp;</Text>
+              <Flex direction="column">
+                <Text>{cast[0]?.name}</Text>
+                <Text>{cast[1]?.name}</Text>
+                <Text>{cast[2]?.name}</Text>
+              </Flex>
+            </Flex>
+          </Stack>
+
+          {/* 버튼 */}
+          <HStack spacing="1rem" mt="2rem">
             <ReserveButton id={info.id} path={"reserve"} />
             <Button
               mx="1rem"
@@ -99,12 +111,12 @@ function NowPlayingCard({ info, page, key }: CardProps) {
               관련 정보
             </Button>
             <WatchButton movieId={info.id} />
-          </Flex>
+          </HStack>
         </Flex>
       </Flex>
 
       <hr color={color} />
-    </Box>
+    </>
   );
 }
 

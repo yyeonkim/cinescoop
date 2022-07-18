@@ -1,4 +1,5 @@
 import { Flex, Image, useMediaQuery } from "@chakra-ui/react";
+import { useEffect } from "react";
 
 import { IMAGE_URL } from "../../hooks/fetching";
 

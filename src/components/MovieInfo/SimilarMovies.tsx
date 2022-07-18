@@ -19,7 +19,9 @@ function SimilarMovies({ data }: similarMoviesProps) {
       position="relative"
       zIndex={1}
       top="-8rem"
-      padding={isLargerThan641 ? "13rem 5rem" : "10rem 1rem 0"}
+      padding={isLargerThan641 ? "13rem 5rem" : "10rem 0"}
+      pl="2rem"
+      pr={isLargerThan641 ? "2rem" : 0}
       flexDir="column"
     >
       <Heading fontSize={isLargerThan641 ? "4xl" : "2xl"} marginBottom="1.5rem">

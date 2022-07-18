@@ -100,6 +100,7 @@ const Reserve: NextPage<IReserveProps> = ({ isPlaying }) => {
                     borderRadius="1rem"
                     isExternal
                     color={color}
+                    key={cinema.logo}
                   >
                     <Img
                       src={cinema.logo}

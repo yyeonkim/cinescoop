@@ -56,7 +56,7 @@ function GenreList({ genres }: IGenreProps) {
   };
 
   return (
-    <Box px="2rem">
+    <Box pl="2rem" pr={isLargerThan641 ? "2rem" : 0}>
       <Flex alignItems="center" mb="2rem">
         <Heading size="lg" mr="2rem">
           {isLargerThan641 ? "장르별 영화" : "장르별"}
@@ -87,7 +87,7 @@ function GenreList({ genres }: IGenreProps) {
         </Flex>
       ) : (
         <Swiper
-          slidesPerView={2}
+          slidesPerView={2.2}
           spaceBetween={10}
           slidesPerGroup={6}
           loop={false}

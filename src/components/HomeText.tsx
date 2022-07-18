@@ -11,7 +11,7 @@ function HomeText() {
   const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
 
   return (
-    <VStack mt="3rem">
+    <VStack my="3rem">
       <Heading
         whiteSpace="pre-line"
         size={isLargerThan641 ? "xl" : "lg"}

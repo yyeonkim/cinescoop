@@ -1,6 +1,5 @@
 import axios from "axios";
 import { useState, useEffect, useCallback } from "react";
-const API_KEY = process.env.NEXT_PUBLIC_API_KEY;
 
 import { BASE_URL, BASE_QUERY } from "./fetching";
 

@@ -1,31 +1,22 @@
+import { Flex, Box } from "@chakra-ui/react";
+
 import useFetchNow from "../../hooks/useFetchNow";
-import { Grid, Flex, Box } from "@chakra-ui/react";
 import LoadingAnimation from "../LoadingAnimation";
 import NowPlayingCard from "../NowPlayingCard";
 import type { Movie } from "../VerCard";
 
 function NowPlayingList() {
-  const { items, isLoading, page } = useFetchNow();
+  const { items, isLoading } = useFetchNow();
 
   return (
     <Flex justifyContent="center" mt="3rem">
-      <Box p={10} borderWidth="0.1rem" borderColor="pink" minW="60%">
-        <Grid gap={10} marginX={"auto"}>
-          {items &&
-            items.map((item: Movie) => (
-              <>
-                <NowPlayingCard key={item.id} info={item} page={page} />
-              </>
-            ))}
-        </Grid>
-        <Flex justifyContent="center">
-          {isLoading ? (
-            <Box mb={10}>
-              <LoadingAnimation />
-            </Box>
-          ) : (
-            <></>
-          )}
+      <Box px="4rem" borderWidth={1} borderColor="pink" maxW="1280px" w="90%">
+        {items?.map((item: Movie) => {
+          if (item.poster_path)
+            return <NowPlayingCard key={item.id} info={item} />;
+        })}
+        <Flex justifyContent="center" mb={10}>
+          {isLoading && <LoadingAnimation />}
         </Flex>
       </Box>
     </Flex>

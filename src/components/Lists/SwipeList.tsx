@@ -20,7 +20,7 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
   return (
     <>
       <Swiper
-        slidesPerView={2}
+        slidesPerView={2.2}
         spaceBetween={10}
         slidesPerGroup={2}
         navigation={true}
