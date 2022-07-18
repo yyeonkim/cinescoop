@@ -2,9 +2,9 @@ import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import SwipeCard from "../SwipeCard";
 import SwiperCore, { Navigation } from "swiper";
 
+import SwipeCard from "../SwipeCard";
 import { IMovie, IMovieDetails } from "../../interfaces";
 SwiperCore.use([Navigation]);
 
@@ -12,9 +12,10 @@ interface ISwipeProps {
   data: IMovie[] | IMovieDetails[];
   poster: boolean;
   slidesNumber: number;
+  isInfoPage: boolean;
 }
 
-function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
+function SwipeList({ data, poster, slidesNumber, isInfoPage }: ISwipeProps) {
   const [isPoster, setIsPoster] = useState(poster);
 
   return (
@@ -27,6 +28,13 @@ function SwipeList({ data, poster, slidesNumber }: ISwipeProps) {
         breakpoints={{
           // when window width is >= 641px
           641: {
+            slidesPerView: isInfoPage ? slidesNumber - 1.5 : slidesNumber - 2.5,
+            slidesPerGroup: isInfoPage
+              ? slidesNumber - 1.5
+              : slidesNumber - 2.5,
+          },
+          // when window width is >= 770px
+          770: {
             slidesPerView: slidesNumber - 2,
             slidesPerGroup: slidesNumber - 2,
           },

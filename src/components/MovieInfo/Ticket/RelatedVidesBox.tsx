@@ -7,7 +7,6 @@ import {
   TabPanels,
   Tabs,
   Heading,
-  useMediaQuery,
 } from "@chakra-ui/react";
 
 import { IVideo } from "../../../interfaces";
@@ -17,18 +16,14 @@ interface relatedVideosBoxProps {
 }
 
 function RelatedVideosBox({ videos }: relatedVideosBoxProps) {
-  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
-
   return (
     <Flex
-      padding={isLargerThan641 ? "1rem 5rem 5rem" : "1rem 2rem 2rem"}
+      p={["1rem 2rem 2rem", "1rem 2rem 2rem", "1rem 5rem 5rem"]}
       flexDir="column"
       w="100%"
       alignItems="center"
     >
-      <Heading fontSize={isLargerThan641 ? "4xl" : "2xl"}>
-        Related Videos
-      </Heading>
+      <Heading fontSize={["2xl", "2xl", "4xl"]}>Related Videos</Heading>
       <Tabs variant="soft-rounded" align="center" w="100%">
         <TabList
           my="1rem"
@@ -42,7 +37,7 @@ function RelatedVideosBox({ videos }: relatedVideosBoxProps) {
         >
           {videos.map((video, index) => (
             <Tab
-              fontSize={isLargerThan641 ? "md" : "sm"}
+              fontSize={["sm", "sm", "md"]}
               key={index}
               flexShrink={0}
               _hover={{ color: "pink" }}

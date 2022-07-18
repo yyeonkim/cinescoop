@@ -14,7 +14,7 @@ function HomeText() {
     <VStack my="3rem">
       <Heading
         whiteSpace="pre-line"
-        size={isLargerThan641 ? "xl" : "lg"}
+        fontSize={["xl", "xl", "3xl"]}
         color="pink"
         textAlign="center"
       >
@@ -25,15 +25,15 @@ function HomeText() {
       <Box>
         <Center
           whiteSpace="pre-line"
-          fontSize={isLargerThan641 ? "xl" : "sm"}
+          fontSize={["sm", "sm", "xl"]}
           mt="2%"
           textAlign="center"
         >
-          {isLargerThan641
-            ? "친구가 좋아하는 영화를 확인하고\n서로의 취향을 장르별로 분석해보세요"
-            : "친구가 좋아하는 영화를 확인하고\n서로의 취향을 장르별로 분석해보세요"}
+          {
+            "친구가 좋아하는 영화를 확인하고\n서로의 취향을 장르별로 분석해보세요"
+          }
         </Center>
-        <Center fontSize={isLargerThan641 ? "md" : "sm"} mt="4%" opacity={0.8}>
+        <Center fontSize={["sm", "sm", "md"]} mt="4%" opacity={0.8}>
           <Link href="/moviebuddy">MovieBuddy에서 확인하기 &#x3e;</Link>
         </Center>
       </Box>

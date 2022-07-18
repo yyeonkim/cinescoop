@@ -49,11 +49,7 @@ function SwipeCard({ movie, isPoster }: CardProps) {
               alt={movie.title}
             />
           )}
-          <Text
-            fontSize={isLargerThan641 ? "md" : "sm"}
-            textAlign="center"
-            mt={1}
-          >
+          <Text fontSize={["sm", "sm", "md"]} textAlign="center" mt={1}>
             {movie.title}
           </Text>
         </Box>

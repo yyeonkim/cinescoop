@@ -56,7 +56,7 @@ function GenreList({ genres }: IGenreProps) {
   };
 
   return (
-    <Box pl="2rem" pr={isLargerThan641 ? "2rem" : 0}>
+    <Box pl="2rem" pr={[0, 0, "2rem", "2rem", "2rem"]}>
       <Flex alignItems="center" mb="2rem">
         <Heading size="lg" mr="2rem">
           {isLargerThan641 ? "장르별 영화" : "장르별"}
@@ -95,13 +95,15 @@ function GenreList({ genres }: IGenreProps) {
           breakpoints={{
             // when window width is >= 641px
             641: {
+              slidesPerView: 3.5,
+            },
+            // when window width is >= 770px
+            770: {
               slidesPerView: 4,
-              spaceBetween: 10,
             },
             // when window width is >= 1008px
             1008: {
               slidesPerView: 6,
-              spaceBetween: 10,
             },
           }}
           className="swiper__navigation"
@@ -120,10 +122,7 @@ function GenreList({ genres }: IGenreProps) {
                         src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
                         alt={movie.title}
                       />
-                      <Text
-                        fontSize={isLargerThan641 ? "md" : "sm"}
-                        align="center"
-                      >
+                      <Text fontSize={["sm", "sm", "md"]} align="center" mt={1}>
                         {movie.title}
                       </Text>
                     </Link>

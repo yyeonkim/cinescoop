@@ -35,7 +35,7 @@ function Navigation({ search }: navigationProps) {
         <Link href="/">
           <Image
             src={logo.src}
-            w="8rem"
+            w={["6rem", "6rem", "8rem"]}
             objectFit="contain"
             cursor="pointer"
             mr="2rem"
@@ -43,8 +43,8 @@ function Navigation({ search }: navigationProps) {
         </Link>
         {isLargerThan640 && (
           <>
-            <PageLink path="/moviebuddy" name="Movie Buddy" />
-            <PageLink path="/nowplaying" name="In Theaters" />
+            <PageLink path="/moviebuddy" name="MovieBuddy" />
+            <PageLink path="/nowplaying" name="InTheaters" />
             <Spacer />
           </>
         )}

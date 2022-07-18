@@ -15,7 +15,7 @@ import { inputState } from "../../../atom";
 function Search() {
   const [visible, setVisible] = useState(false);
   const [inputText, setInputText] = useRecoilState(inputState);
-  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
+  const [isLargerThan770] = useMediaQuery("(min-width: 770px)");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputText(e.target.value);
@@ -37,19 +37,24 @@ function Search() {
 
   return (
     <Flex w="40%" justifyContent="right">
-      <SlideFade in={visible} offsetX={5} unmountOnExit={true} reverse={true}>
+      <SlideFade
+        in={visible}
+        offsetX="1rem"
+        unmountOnExit={true}
+        reverse={true}
+      >
         <Input
           onKeyPress={onKeyPress}
           onChange={handleChange}
           variant="flushed"
-          fontSize={isLargerThan641 ? "md" : "sm"}
+          fontSize={["sm", "sm", "md"]}
           placeholder={
-            isLargerThan641
+            isLargerThan770
               ? "영화 제목, 감독 등을 입력해주세요"
-              : "검색어를 입력하세요"
+              : "영화 제목, 감독 등"
           }
           focusBorderColor="pink"
-          w={isLargerThan641 ? "30vw" : "40vw"}
+          w={["8rem", "8rem", "18rem"]}
         />
       </SlideFade>
       <IconButton

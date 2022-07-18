@@ -8,7 +8,6 @@ import {
   useColorModeValue,
   Button,
   useToast,
-  useMediaQuery,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -42,7 +41,6 @@ const Home: NextPage<IHomeProps> = ({
   const toast = useToast();
 
   const { isLoading, watchData } = useFetchListData(); // 찜한 영화 목록
-  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
 
   // 인증된 메일인지 확인
   useEffect(() => {
@@ -71,7 +69,7 @@ const Home: NextPage<IHomeProps> = ({
 
       {/* 사용자가 찜한 영화 */}
       {user && (
-        <Box my="2rem" pl="2rem" pr={isLargerThan641 ? "2rem" : 0}>
+        <Box my="2rem" pl="2rem" pr={[0, 0, "2rem", "2rem", "2rem"]}>
           <Heading size="lg" mb="2rem">
             찜한 영화
           </Heading>
@@ -82,7 +80,12 @@ const Home: NextPage<IHomeProps> = ({
           ) : watchData.length === 0 ? (
             <Center>아직 찜한 영화가 없습니다</Center>
           ) : (
-            <SwipeList data={watchData} poster={false} slidesNumber={6} />
+            <SwipeList
+              data={watchData}
+              poster={false}
+              slidesNumber={6}
+              isInfoPage={false}
+            />
           )}
         </Box>
       )}
@@ -91,7 +94,7 @@ const Home: NextPage<IHomeProps> = ({
       <Box
         bgColor="brightBlue"
         pl="2rem"
-        pr={isLargerThan641 ? "2rem" : 0}
+        pr={[0, 0, "2rem", "2rem", "2rem"]}
         py="4rem"
       >
         <Flex>
@@ -105,15 +108,25 @@ const Home: NextPage<IHomeProps> = ({
           </Link>
         </Flex>
         <Divider borderColor="gray.50" my="2rem" />
-        <SwipeList data={nowPlaying} poster={true} slidesNumber={5} />
+        <SwipeList
+          data={nowPlaying}
+          poster={true}
+          slidesNumber={5}
+          isInfoPage={false}
+        />
       </Box>
 
       {/* 영화 순위 */}
-      <Box my="4rem" pl="2rem" pr={isLargerThan641 ? "2rem" : 0}>
+      <Box my="4rem" pl="2rem" pr={[0, 0, "2rem", "2rem", "2rem"]}>
         <Heading size="lg" mb="2rem">
           영화 순위
         </Heading>
-        <SwipeList data={topRated} poster={false} slidesNumber={6} />
+        <SwipeList
+          data={topRated}
+          poster={false}
+          slidesNumber={6}
+          isInfoPage={false}
+        />
       </Box>
 
       {/* 장르별 영화 */}

@@ -1,4 +1,4 @@
-import { Flex, Heading, useMediaQuery } from "@chakra-ui/react";
+import { Flex, Heading } from "@chakra-ui/react";
 
 import { IMovie } from "../../interfaces";
 import SwipeList from "../Lists/SwipeList";
@@ -8,8 +8,6 @@ interface similarMoviesProps {
 }
 
 function SimilarMovies({ data }: similarMoviesProps) {
-  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
-
   return (
     <Flex
       bgColor="brightBlue"
@@ -19,15 +17,14 @@ function SimilarMovies({ data }: similarMoviesProps) {
       position="relative"
       zIndex={1}
       top="-8rem"
-      padding={isLargerThan641 ? "13rem 5rem" : "10rem 0"}
-      pl="2rem"
-      pr={isLargerThan641 ? "2rem" : 0}
+      p={["10rem 2rem", "10rem 2rem", "13rem 5rem"]}
+      pr={[0, 0, "5rem"]}
       flexDir="column"
     >
-      <Heading fontSize={isLargerThan641 ? "4xl" : "2xl"} marginBottom="1.5rem">
+      <Heading fontSize={["2xl", "2xl", "4xl"]} marginBottom="1.5rem">
         Similar Movies
       </Heading>
-      <SwipeList data={data} poster={true} slidesNumber={4} />
+      <SwipeList data={data} poster={true} slidesNumber={4} isInfoPage={true} />
     </Flex>
   );
 }

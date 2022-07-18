@@ -24,14 +24,12 @@ interface infoBoxprops {
 }
 
 function InfoBox({ details, cast, crew }: infoBoxprops) {
-  const [isLargerThan641] = useMediaQuery("(min-width: 641px)");
-
   return (
     <Flex
-      padding={isLargerThan641 ? "2rem 5rem 5rem 5rem" : "1rem 2rem 2rem 2rem"}
+      p={["1rem 2rem 2rem 2rem", "1rem 2rem 2rem 2rem", "2rem 5rem 5rem 5rem"]}
       flexDir="column"
     >
-      <Heading size={isLargerThan641 ? "2xl" : "lg"} textAlign="center">
+      <Heading fontSize={["2xl", "2xl", "4xl"]} textAlign="center">
         {details?.title}
       </Heading>
       <Box mt={2} textAlign="center">
@@ -42,17 +40,17 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
         minH="min-content"
         maxH="min-content"
         padding="2rem 0 3rem 0"
-        direction={isLargerThan641 ? "row" : "column"}
+        direction={["column", "column", "row", "row"]}
       >
         <Flex
           flexDir="column"
-          w={isLargerThan641 ? "45%" : "100%"}
+          w={["100%", "100%", "45%"]}
           alignItems="center"
           mb="1rem"
         >
           <Image
             src={`https://www.themoviedb.org/t/p/w1280/${details?.poster_path} `}
-            w="100%"
+            w={["80%", "80%", "100%", "100%"]}
           />
           <HStack maxW="min-content" spacing="0.5rem" mt="1rem">
             <WatchButton movieId={details?.id} />
@@ -71,7 +69,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
 
         <Grid
           templateColumns="1fr 2fr"
-          marginLeft={isLargerThan641 ? "2rem" : 0}
+          marginLeft={[0, 0, "2rem"]}
           w="100%"
           h="100%"
           fontWeight="semibold"
@@ -109,7 +107,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
               {cast.map((castMember) => (
                 <Flex flexDir="column" alignItems="right" key={castMember.id}>
                   {castMember.original_name}
-                  <Text as="i" color="lightPurple" marginBottom="1">
+                  <Text as="i" color="lightPurple" mb={1}>
                     {castMember.character}
                   </Text>
                 </Flex>
@@ -118,7 +116,7 @@ function InfoBox({ details, cast, crew }: infoBoxprops) {
           </GridItem>
         </Grid>
       </Flex>
-      <Text textAlign="justify" fontSize={isLargerThan641 ? "md" : "sm"}>
+      <Text textAlign="justify" fontSize={["sm", "sm", "md"]}>
         {details?.overview}
       </Text>
     </Flex>

@@ -1,9 +1,9 @@
 import { Flex } from "@chakra-ui/react";
+import { NextPage } from "next";
 
 import MainImageSection from "../../src/components/MovieInfo/MainImageSection";
 import SimilarMovies from "../../src/components/MovieInfo/SimilarMovies";
 import Ticket from "../../src/components/MovieInfo/Ticket";
-import { NextPage } from "next";
 import { BASE_QUERY, BASE_URL } from "../../src/hooks/fetching";
 import {
   IMovieCredits,

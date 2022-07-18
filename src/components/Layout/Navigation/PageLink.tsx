@@ -10,11 +10,11 @@ function PageLink({ path, name }: PageLinkProps) {
   return (
     <NextLink href={path} passHref>
       <Link
+        mr="2rem"
         _hover={{ color: "pink" }}
         textDecoration="none"
         transitionDuration="0.2s"
         _focus={{ outline: 0 }}
-        mr="2rem"
       >
         {name}
       </Link>

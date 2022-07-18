@@ -35,7 +35,7 @@ export default function MobileNavigation() {
             size="1.5rem"
             color={pathname === "/moviebuddy" ? "white" : "grey"}
           />
-          <Text color={pathname === "/" ? "white" : "grey"} fontSize="sm">
+          <Text color={pathname === "/" ? "white" : "grey"} fontSize="xs">
             무비버디
           </Text>
         </Flex>
@@ -46,7 +46,7 @@ export default function MobileNavigation() {
             size="1.5rem"
             color={pathname === "/nowplaying" ? "white" : "grey"}
           />
-          <Text color={pathname === "/" ? "white" : "grey"} fontSize="sm">
+          <Text color={pathname === "/" ? "white" : "grey"} fontSize="xs">
             상영중
           </Text>
         </Flex>
@@ -57,7 +57,7 @@ export default function MobileNavigation() {
             size="1.5rem"
             color={pathname === "/mypage" ? "white" : "grey"}
           />
-          <Text color={pathname === "/" ? "white" : "grey"} fontSize="sm">
+          <Text color={pathname === "/" ? "white" : "grey"} fontSize="xs">
             마이페이지
           </Text>
         </Flex>

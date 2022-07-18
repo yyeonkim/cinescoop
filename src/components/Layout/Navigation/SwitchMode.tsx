@@ -9,7 +9,7 @@ function SwitchMode() {
   };
 
   return (
-    <Box mx="2rem">
+    <Box mx="2rem" h="2rem">
       <Switch size="lg" onChange={switchColor} defaultChecked={false}>
         <Icon
           as={WiDaySunny}
