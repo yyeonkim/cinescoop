@@ -6,18 +6,20 @@ import {
   Avatar,
   Button,
   Circle,
+  Link,
 } from "@chakra-ui/react";
 import { AiOutlineUser } from "react-icons/ai";
+import { useRouter } from "next/router";
+import { CheckIcon } from "@chakra-ui/icons";
+import { useRecoilState } from "recoil";
+import { onAuthStateChanged } from "firebase/auth";
+
 import { auth } from "../../../firebase";
 import ChangeNicknameModal from "./ChangeNicknameModal";
 import WithdrawalModal from "./WithdrawalModal";
 import ChangePasswordModal from "./ChangePasswordModal";
-import { useRecoilState } from "recoil";
 import { loginState } from "../../atom";
-import { onAuthStateChanged } from "firebase/auth";
 import useFetchUserData from "../../hooks/useFetchUserData";
-import { useRouter } from "next/router";
-import { CheckIcon } from "@chakra-ui/icons";
 
 function AccountBox() {
   const router = useRouter();
@@ -39,23 +41,24 @@ function AccountBox() {
   }, [user, login]);
 
   const verifyEmail = () => {
-    router.push("/"); 
+    router.push("/");
   };
 
   return (
     <Flex
-      bgColor="#3843CD"
-      h="15rem"
-      w="50rem"
+      bgColor="brightBlue"
       p="3rem"
       mt="1rem"
       color="white"
       borderRadius="0.5rem"
+      alignItems="center"
+      direction={["column", "row", "row"]}
     >
       {login && user ? (
-        <Flex alignItems="center">
+        <>
           <Avatar
             size="2xl"
+            mb="1rem"
             name={
               user.displayName
                 ? user.displayName
@@ -70,8 +73,10 @@ function AccountBox() {
             }
             icon={<AiOutlineUser fontSize="1.5rem" />}
           />
-          <Flex flexDir="column" ml="2rem">
-            <Text fontSize="1.5rem">{userData.username}</Text>
+          <Flex flexDir="column" ml={[0, "2rem", "2rem"]}>
+            <Text textAlign={["center", "unset", "unset"]} fontSize="1.5rem">
+              {userData.username}
+            </Text>
             {user.email ? (
               <Flex alignItems="center">
                 <Text opacity="0.5" mr=".5rem">
@@ -96,30 +101,35 @@ function AccountBox() {
               mt="2rem"
               onClick={disclosure3.onOpen}
             >
-              닉네임 변경하기 {">"}
+              닉네임 변경하기 &gt;
               <ChangeNicknameModal
                 isOpen={disclosure3.isOpen}
                 onClose={disclosure3.onClose}
               />
             </Text>
             <Text cursor="pointer" color="pink" onClick={disclosure1.onOpen}>
-              비밀번호 변경하기 {">"}
+              비밀번호 변경하기 &gt;
               <ChangePasswordModal
                 isOpen={disclosure1.isOpen}
                 onClose={disclosure1.onClose}
               />
             </Text>
             <Text cursor="pointer" color="pink" onClick={disclosure2.onOpen}>
-              탈퇴하기 {">"}
+              탈퇴하기 &gt;
               <WithdrawalModal
                 isOpen={disclosure2.isOpen}
                 onClose={disclosure2.onClose}
               />
             </Text>
           </Flex>
-        </Flex>
+        </>
       ) : (
-        <>not logged in</>
+        <>
+          <Text>로그인이 필요합니다 &nbsp;</Text>
+          <Link href="/login" fontSize="sm" color="pink">
+            로그인하기 &gt;
+          </Link>
+        </>
       )}
     </Flex>
   );

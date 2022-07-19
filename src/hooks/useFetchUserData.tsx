@@ -1,6 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+
 import { auth, db } from "../../firebase";
 import { userState } from "../atom";
 
@@ -34,7 +35,6 @@ function useFetchUserData() {
     };
 
     getUserData();
-    console.log("userData", userData);
   }, [user]);
 
   return { userData, isLoading, isError };
