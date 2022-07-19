@@ -79,7 +79,12 @@ const Join: NextPage = () => {
 
   return (
     <>
-      <Flex direction="column" justify="center" alignItems="center">
+      <Flex
+        direction="column"
+        justify="center"
+        alignItems="center"
+        h={["fit-content", "50vh", "50vh"]}
+      >
         <Heading size="2xl" mb="1.5rem">
           회원가입
         </Heading>

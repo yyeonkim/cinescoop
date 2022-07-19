@@ -1,42 +1,46 @@
 import type { NextPage } from "next";
 import { Text, Heading, Flex, Button } from "@chakra-ui/react";
-import LocalLogin from "../src/components/LoginSignup/LocalLogin";
 import { useRouter } from "next/router";
+
+import LocalLogin from "../src/components/LoginSignup/LocalLogin";
 
 const Login: NextPage = () => {
   const router = useRouter();
+
   return (
     <Flex
-      w="55vw"
-      backgroundColor="brightBlue"
+      w="90%"
+      maxW="1280px"
       mx="auto"
-      position="relative"
-      borderRadius="0.3rem"
-      zIndex={0}
+      direction={["column", "column", "column", "row"]}
+      alignItems={["center", "center", "center", "stretch"]}
     >
       <Flex
         flexDir="column"
-        width="25vw"
-        h="100%"
         p="5rem 3rem"
-        m="0 auto"
-        position="absolute"
-        zIndex={3}
         align="center"
         justify="center"
+        backgroundColor="pink"
+        w={["100%", "100%", "100%", "50%"]}
       >
         <Heading size="xl" mb="2rem">
           환영합니다!
         </Heading>
-        <Text textAlign="center" mb="3rem">
-          간단한 계정 정보를 입력하시고 Cinescoop의 여러 서비스들을 즐겨보세요
+        <Text
+          textAlign="center"
+          mb="3rem"
+          whiteSpace="pre-line"
+          fontSize={["sm", "sm", "sm", "md"]}
+        >
+          {
+            "간단한 계정 정보를 입력하시고\nCinescoop의 여러 서비스들을 즐겨보세요"
+          }
         </Text>
         <Button
           outlineColor="white"
           outline="1px solid"
           bgColor="pink"
           p="1.5rem 4rem"
-          borderRadius="1.5rem"
           fontWeight="normal"
           onClick={() => {
             router.push("/join");
@@ -45,23 +49,19 @@ const Login: NextPage = () => {
           회원가입
         </Button>
       </Flex>
-      <Flex
-        initial={false}
-        width="25vw"
-        borderRadius="0.3rem"
-        p="5rem 3rem"
-        m="0 auto"
-        backgroundColor="pink"
-        zIndex={2}
-      />
+
       <Flex
         flexDir="column"
         justify="center"
         align="center"
-        flexGrow="1"
-        p="7rem 7rem 5rem"
-        position="relative"
-        zIndex={1}
+        p={[
+          "5rem 5rem 3rem",
+          "5rem 5rem 3rem",
+          "5rem 5rem 3rem",
+          "7rem 7rem 5rem",
+        ]}
+        backgroundColor="brightBlue"
+        w={["100%", "100%", "100%", "50%"]}
       >
         <LocalLogin />
       </Flex>

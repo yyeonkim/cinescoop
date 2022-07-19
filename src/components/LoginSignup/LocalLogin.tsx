@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import styled from "styled-components";
+
 import { auth, db } from "../../../firebase";
 import { IForm } from "../../interfaces";
 import ErrorMessage from "../Account/ErrorMessage";
@@ -57,7 +58,7 @@ function LocalLogin() {
   };
 
   return (
-    <Flex flexDir="column" w="100%" align="center">
+    <Flex flexDir="column" align="center">
       <Heading size="xl">로그인</Heading>
       <StyledForm method="post" onSubmit={handleSubmit(loginSubmit)}>
         <FormControl>
