@@ -1,6 +1,6 @@
 import { Flex, Img, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 import "animate.css";
 
 import { movieIDState } from "../atom";
@@ -27,7 +27,7 @@ interface CardProps {
 function VerCard({ info }: CardProps) {
   const router = useRouter();
 
-  const [movieID, setMovieID] = useRecoilState(movieIDState);
+  const setMovieID = useSetRecoilState(movieIDState);
 
   const seeMovieInfo = (id: number) => {
     setMovieID(id);
@@ -35,19 +35,22 @@ function VerCard({ info }: CardProps) {
   };
 
   return (
-    <Flex flexDir="column" onClick={() => seeMovieInfo(info.id)}>
+    <Flex
+      w={["6rem", "8rem", "10rem"]}
+      mb="1rem"
+      mr="1rem"
+      direction="column"
+      onClick={() => seeMovieInfo(info.id)}
+    >
       <Img
         cursor="pointer"
         _hover={{ backgroundColor: "pink" }}
-        objectFit="cover"
-        src={`https:www.themoviedb.org/t/p/w1280${info.poster_path}`}
-        maxW="100%"
-        minH="75%"
-        maxH="75%"
-        borderRadius={5}
+        src={`https:www.themoviedb.org/t/p/w300${info.poster_path}`}
+        w={["6rem", "8rem", "10rem"]}
+        h={["9rem", "12rem", "15rem"]}
       />
 
-      <Text textAlign="center" mb="0" fontSize="0.9rem">
+      <Text textAlign="center" fontSize="sm">
         {info.title}
       </Text>
     </Flex>

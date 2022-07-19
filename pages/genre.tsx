@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { Box } from "@chakra-ui/react";
+import { Box, Center } from "@chakra-ui/react";
 
 import { BASE_URL } from "../src/hooks/fetching";
 import { IGenre } from "../src/interfaces";
@@ -12,12 +12,12 @@ interface IProps {
 
 const Genre: NextPage<IProps> = ({ genres }) => {
   return (
-    <>
+    <Center px="2rem">
       <GenrePlusList genres={genres} />
       <Box position="fixed" bottom="2rem" right="2rem">
         <ScrollTopButton />
       </Box>
-    </>
+    </Center>
   );
 };
 

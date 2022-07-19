@@ -5,18 +5,26 @@ import {
   FormControl,
   InputGroup,
   InputRightElement,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
+
 import { SearchingProps } from "../hooks/useFetchMovie";
 
 function SearchBar({ handleChange }: SearchingProps) {
+  const [isLargerThan480] = useMediaQuery("(min-width: 480px)");
+
   return (
     <FormControl>
-      <InputGroup width="30rem">
+      <InputGroup width={["15rem", "20rem", "30rem"]}>
         <Input
           onChange={handleChange}
           variant="flushed"
-          placeholder="영화 제목, 감독 등을 입력해주세요"
+          placeholder={
+            isLargerThan480
+              ? "영화 제목, 감독 등을 입력해주세요"
+              : "영화 제목, 감독 등"
+          }
           focusBorderColor="pink"
         />
         <InputRightElement>

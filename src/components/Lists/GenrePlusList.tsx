@@ -2,6 +2,7 @@ import axios from "axios";
 import { useRecoilState } from "recoil";
 import { useState, useEffect, useCallback } from "react";
 import { Heading, Select, Flex, Box, Spinner } from "@chakra-ui/react";
+
 import { genreState } from "../../atom";
 import { BASE_URL, BASE_QUERY } from "../../hooks/fetching";
 import GridList from "./GridList";
@@ -72,6 +73,7 @@ function GenrePlusList({ genres }: GenreProps) {
       useFetchMoreData(genre.id);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll, true);
     return () => {
@@ -81,13 +83,13 @@ function GenrePlusList({ genres }: GenreProps) {
   }, [handleScroll]);
 
   return (
-    <Flex justifyContent="center">
+    <Flex justifyContent="center" w="100%" maxW="1280px">
       <Box>
         <Flex mb={10} direction="column">
-          <Heading size="lg" mb={5}>
+          <Heading size="lg" my={5}>
             장르별 영화
           </Heading>
-          <Select size="sm" w="7rem" value={genre.id} onChange={selectGenre}>
+          <Select size="sm" w="8rem" value={genre.id} onChange={selectGenre}>
             {genres.map((item) => (
               <option key={item.id} value={item.id}>
                 {item.name}
@@ -95,7 +97,7 @@ function GenrePlusList({ genres }: GenreProps) {
             ))}
           </Select>
         </Flex>
-        <GridList data={genreItems} columnNum={4} rowNum={4} width={"65rem"} />
+        <GridList data={genreItems} />
         <Flex justifyContent="center">{isLoading ? <Spinner /> : ""}</Flex>
       </Box>
     </Flex>
