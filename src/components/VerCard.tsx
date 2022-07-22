@@ -1,9 +1,10 @@
-import { Flex, Img, Text } from "@chakra-ui/react";
+import { Flex, Image, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useSetRecoilState } from "recoil";
 import "animate.css";
 
 import { movieIDState } from "../atom";
+import { IMAGE_URL } from "../hooks/fetching";
 
 interface Movie {
   adult: boolean;
@@ -42,10 +43,10 @@ function VerCard({ info }: CardProps) {
       direction="column"
       onClick={() => seeMovieInfo(info.id)}
     >
-      <Img
+      <Image
         cursor="pointer"
         _hover={{ backgroundColor: "pink" }}
-        src={`https:www.themoviedb.org/t/p/w300/${info.poster_path}`}
+        src={`${IMAGE_URL}/w300/${info.poster_path}`}
         w={["6rem", "8rem", "10rem"]}
         h={["9rem", "12rem", "15rem"]}
       />
