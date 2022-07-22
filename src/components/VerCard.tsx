@@ -45,7 +45,7 @@ function VerCard({ info }: CardProps) {
       <Img
         cursor="pointer"
         _hover={{ backgroundColor: "pink" }}
-        src={`https:www.themoviedb.org/t/p/w300${info.poster_path}`}
+        src={`https:www.themoviedb.org/t/p/w300/${info.poster_path}`}
         w={["6rem", "8rem", "10rem"]}
         h={["9rem", "12rem", "15rem"]}
       />
