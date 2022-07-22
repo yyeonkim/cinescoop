@@ -63,6 +63,7 @@ const Moviebuddy: NextPage = () => {
                     data={friendGoodData}
                     poster={false}
                     slidesNumber={6}
+                    isInfoPage={false}
                   />
                 )}
               </Flex>
