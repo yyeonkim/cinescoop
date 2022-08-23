@@ -22,6 +22,7 @@ function MainImageSection({ filePath }: MainImageSectionProps) {
       />
       <Image
         src={`${IMAGE_URL}/w1280/${filePath} `}
+        ignoreFallback
         w={["10vw", "10vw", "25vw"]}
         filter="blur(3px)"
         objectFit="none"

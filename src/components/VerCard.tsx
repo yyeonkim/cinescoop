@@ -47,6 +47,7 @@ function VerCard({ info }: CardProps) {
         cursor="pointer"
         _hover={{ backgroundColor: "pink" }}
         src={`${IMAGE_URL}/w300/${info.poster_path}`}
+        ignoreFallback
         w={["6rem", "8rem", "10rem"]}
         h={["9rem", "12rem", "15rem"]}
       />

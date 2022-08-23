@@ -40,6 +40,7 @@ const MovieDetail = ({ detailData, creditData }: IDetailProps) => {
       {/* 영화 포스터 */}
       <Image
         src={`${IMAGE_URL}/w300/${detailData?.poster_path}`}
+        ignoreFallback
         objectFit="contain"
         w={["15rem", "15rem", "30rem"]}
         mb={["2rem", "2rem", 0]}

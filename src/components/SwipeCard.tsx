@@ -38,6 +38,7 @@ function SwipeCard({ movie, isPoster }: CardProps) {
           {isPoster ? (
             <Image
               src={`${IMAGE_URL}/w300/${movie.poster_path}`}
+              ignoreFallback
               alt={movie.title}
               objectFit="cover"
               w={["150px", "200px", "230px", "200px", "300px"]}
@@ -46,6 +47,7 @@ function SwipeCard({ movie, isPoster }: CardProps) {
           ) : (
             <Image
               src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
+              ignoreFallback
               alt={movie.title}
             />
           )}

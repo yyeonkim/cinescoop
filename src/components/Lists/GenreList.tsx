@@ -121,6 +121,7 @@ function GenreList({ genres }: IGenreProps) {
                       <Image
                         src={`${IMAGE_URL}/w300/${movie.backdrop_path}`}
                         alt={movie.title}
+                        ignoreFallback
                       />
                       <Text fontSize={["sm", "sm", "md"]} align="center" mt={1}>
                         {movie.title}
